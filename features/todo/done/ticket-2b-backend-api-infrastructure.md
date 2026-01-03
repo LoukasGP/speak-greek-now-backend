@@ -236,7 +236,7 @@ export class UserApiStack extends cdk.Stack {
       deployOptions: {
         stageName: 'prod',
         loggingLevel: apigateway.MethodLoggingLevel.INFO,
-        dataTraceEnabled: true,
+        dataTraceEnabled: false, // Disable full request/response logging in production to avoid exposing API keys and PII
       },
       defaultCorsPreflightOptions: {
         allowOrigins: [
