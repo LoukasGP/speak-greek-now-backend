@@ -160,6 +160,36 @@ export class BackEndStack extends cdk.Stack {
               'method.response.header.Access-Control-Allow-Origin': "'*'",
             },
           },
+          {
+            statusCode: '400',
+            selectionPattern: '.*ConditionalCheckFailedException.*',
+            responseTemplates: {
+              'application/json': '{ "error": "ConditionalCheckFailed", "message": "The conditional check failed" }',
+            },
+            responseParameters: {
+              'method.response.header.Access-Control-Allow-Origin': "'*'",
+            },
+          },
+          {
+            statusCode: '429',
+            selectionPattern: '.*ProvisionedThroughputExceededException.*',
+            responseTemplates: {
+              'application/json': '{ "error": "ThroughputExceeded", "message": "Request rate exceeded. Please try again later" }',
+            },
+            responseParameters: {
+              'method.response.header.Access-Control-Allow-Origin': "'*'",
+            },
+          },
+          {
+            statusCode: '500',
+            selectionPattern: '.*ServiceUnavailable.*|.*InternalServerError.*',
+            responseTemplates: {
+              'application/json': '{ "error": "ServiceError", "message": "An internal service error occurred" }',
+            },
+            responseParameters: {
+              'method.response.header.Access-Control-Allow-Origin': "'*'",
+            },
+          },
         ],
       },
     });
@@ -169,6 +199,24 @@ export class BackEndStack extends cdk.Stack {
       methodResponses: [
         {
           statusCode: '200',
+          responseParameters: {
+            'method.response.header.Access-Control-Allow-Origin': true,
+          },
+        },
+        {
+          statusCode: '400',
+          responseParameters: {
+            'method.response.header.Access-Control-Allow-Origin': true,
+          },
+        },
+        {
+          statusCode: '429',
+          responseParameters: {
+            'method.response.header.Access-Control-Allow-Origin': true,
+          },
+        },
+        {
+          statusCode: '500',
           responseParameters: {
             'method.response.header.Access-Control-Allow-Origin': true,
           },
