@@ -11,17 +11,17 @@ export class BackEndStack extends cdk.Stack {
       bucketName: `speak-greek-now-bucket-${this.account}`,
       versioned: true,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
-      cors: [
-        {
-          allowedMethods: [
-            s3.HttpMethods.GET,
-            s3.HttpMethods.HEAD,
-          ],
-          allowedOrigins: ['http://localhost:3000', 'https://speakhellenic.com/', 'https://www.speakhellenic.com/'],
-          allowedHeaders: ['Authorization', 'Content-Type', 'x-amz-date', 'x-amz-user-agent'],
-          maxAge: 3000,
-        },
-      ],
+cors: [
+  {
+    allowedMethods: [
+      s3.HttpMethods.GET,
+      s3.HttpMethods.HEAD,
+    ],
+    allowedOrigins: ['http://localhost:3000', 'https://speakhellenic.com', 'https://www.speakhellenic.com', 'https://development.d3g3kuqi6663zw.amplifyapp.com'],
+    allowedHeaders: ['Authorization', 'Content-Type', 'x-amz-date', 'x-amz-user-agent'],
+    maxAge: 3000,
+  },
+],
       publicReadAccess: true, // Enable public read access
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ACLS, // Only block ACLs, allow bucket policies
     });
