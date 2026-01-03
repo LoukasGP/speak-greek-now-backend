@@ -131,6 +131,10 @@ export class BackEndStack extends cdk.Stack {
         requestTemplates: {
           'application/json': `#set($userId = $input.path('$.userId'))
 #set($email = $input.path('$.email'))
+#set($name = $input.path('$.name'))
+#set($picture = $input.path('$.picture'))
+#set($createdAt = $input.path('$.createdAt'))
+#set($lastLoginAt = $input.path('$.lastLoginAt'))
 #if(!$userId || $userId == '' || !$email || $email == '')
   #set($context.responseOverride.status = 400)
   {
@@ -142,12 +146,14 @@ export class BackEndStack extends cdk.Stack {
   "TableName": "${usersTable.tableName}",
   "Item": {
     "userId": { "S": "$util.escapeJavaScript($userId)" },
-    "email": { "S": "$util.escapeJavaScript($email)" },
-    "name": { "S": "$util.escapeJavaScript($input.path('$.name'))" },
-    "picture": { "S": "$util.escapeJavaScript($input.path('$.picture'))" },
-    "createdAt": { "S": "$util.escapeJavaScript($input.path('$.createdAt'))" },
-    "lastLoginAt": { "S": "$util.escapeJavaScript($input.path('$.lastLoginAt'))" }
-  }
+    "email": { "S": "$util.escapeJavaScript($email)" }#if($name && $name != ''),
+    "name": { "S": "$util.escapeJavaScript($name)" }#end#if($picture && $picture != ''),
+    "picture": { "S": "$util.escapeJavaScript($picture)" }#end#if($createdAt && $createdAt != ''),
+    "createdAt": { "S": "$util.escapeJavaScript($createdAt)" }#end#if($lastLoginAt && $lastLoginAt != ''),
+    "lastLoginAt": { "S": "$util.escapeJavaScript($lastLoginAt)" }#end
+  },
+  "ConditionExpression": "attribute_not_exists(userId)",
+  "ReturnValues": "ALL_OLD"
 }
 #end`,
         },
@@ -155,32 +161,28 @@ export class BackEndStack extends cdk.Stack {
           {
             statusCode: '200',
             responseTemplates: {
-              'application/json': `{
-  "status": "success"
+              'application/json': `#set($body = $util.parseJson($input.body))
+{
+  "userId": "$util.escapeJavaScript($body.userId)",
+  "email": "$util.escapeJavaScript($body.email)"#if($body.name && $body.name != ''),
+  "name": "$util.escapeJavaScript($body.name)"#end#if($body.picture && $body.picture != ''),
+  "picture": "$util.escapeJavaScript($body.picture)"#end#if($body.createdAt && $body.createdAt != ''),
+  "createdAt": "$util.escapeJavaScript($body.createdAt)"#end#if($body.lastLoginAt && $body.lastLoginAt != ''),
+  "lastLoginAt": "$util.escapeJavaScript($body.lastLoginAt)"#end
 }`,
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "method.request.header.Origin",
+              'method.response.header.Access-Control-Allow-Origin': "'method.request.header.Origin'",
             },
           },
           {
             statusCode: '400',
             selectionPattern: '.*ConditionalCheckFailedException.*',
             responseTemplates: {
-              'application/json': '{ "error": "ConditionalCheckFailed", "message": "The conditional check failed" }',
+              'application/json': '{ "error": "UserAlreadyExists", "message": "A user with this userId already exists" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "method.request.header.Origin",
-            },
-          },
-          {
-            statusCode: '429',
-            selectionPattern: '.*ProvisionedThroughputExceededException.*',
-            responseTemplates: {
-              'application/json': '{ "error": "ThroughputExceeded", "message": "Request rate exceeded. Please try again later" }',
-            },
-            responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "method.request.header.Origin",
+              'method.response.header.Access-Control-Allow-Origin': "'method.request.header.Origin'",
             },
           },
           {
@@ -190,7 +192,7 @@ export class BackEndStack extends cdk.Stack {
               'application/json': '{ "error": "ServiceError", "message": "An internal service error occurred" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "method.request.header.Origin",
+              'method.response.header.Access-Control-Allow-Origin': "'method.request.header.Origin'",
             },
           },
         ],
@@ -208,12 +210,6 @@ export class BackEndStack extends cdk.Stack {
         },
         {
           statusCode: '400',
-          responseParameters: {
-            'method.response.header.Access-Control-Allow-Origin': true,
-          },
-        },
-        {
-          statusCode: '429',
           responseParameters: {
             'method.response.header.Access-Control-Allow-Origin': true,
           },
@@ -260,7 +256,7 @@ export class BackEndStack extends cdk.Stack {
 #end`,
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': 'method.request.header.Origin',
+              'method.response.header.Access-Control-Allow-Origin': "'method.request.header.Origin'",
             },
           },
         ],
@@ -311,35 +307,25 @@ export class BackEndStack extends cdk.Stack {
               'application/json': `#set($attrs = $input.path('$.Attributes'))
 {
   "userId": "$attrs.userId.S",
-  "email": "$attrs.email.S",
-  "name": "$attrs.name.S",
-  "picture": "$attrs.picture.S",
-  "createdAt": "$attrs.createdAt.S",
-  "lastLoginAt": "$attrs.lastLoginAt.S"
+  "email": "$attrs.email.S"#if($attrs.name),
+  "name": "$attrs.name.S"#end#if($attrs.picture),
+  "picture": "$attrs.picture.S"#end#if($attrs.createdAt),
+  "createdAt": "$attrs.createdAt.S"#end#if($attrs.lastLoginAt),
+  "lastLoginAt": "$attrs.lastLoginAt.S"#end
 }`,
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "method.request.header.Origin",
+              'method.response.header.Access-Control-Allow-Origin': "'method.request.header.Origin'",
             },
           },
           {
             statusCode: '404',
             selectionPattern: '.*ConditionalCheckFailedException.*',
             responseTemplates: {
-              'application/json': '{ "error": "UserNotFound", "message": "User does not exist" }',
+              'application/json': '{ "error": "ConditionFailed", "message": "The update condition was not met" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "method.request.header.Origin",
-            },
-          },
-          {
-            statusCode: '429',
-            selectionPattern: '.*ProvisionedThroughputExceededException.*',
-            responseTemplates: {
-              'application/json': '{ "error": "ThroughputExceeded", "message": "Request rate exceeded. Please try again later" }',
-            },
-            responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "method.request.header.Origin",
+              'method.response.header.Access-Control-Allow-Origin': "'method.request.header.Origin'",
             },
           },
           {
@@ -349,7 +335,7 @@ export class BackEndStack extends cdk.Stack {
               'application/json': '{ "error": "ServiceError", "message": "An internal service error occurred" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "method.request.header.Origin",
+              'method.response.header.Access-Control-Allow-Origin': "'method.request.header.Origin'",
             },
           },
         ],
@@ -367,12 +353,6 @@ export class BackEndStack extends cdk.Stack {
         },
         {
           statusCode: '404',
-          responseParameters: {
-            'method.response.header.Access-Control-Allow-Origin': true,
-          },
-        },
-        {
-          statusCode: '429',
           responseParameters: {
             'method.response.header.Access-Control-Allow-Origin': true,
           },
