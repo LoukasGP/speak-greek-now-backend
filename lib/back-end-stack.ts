@@ -260,7 +260,7 @@ export class BackEndStack extends cdk.Stack {
 #end`,
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'*'",
+              'method.response.header.Access-Control-Allow-Origin': 'method.request.header.Origin',
             },
           },
         ],
