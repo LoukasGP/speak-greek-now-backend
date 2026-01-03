@@ -68,7 +68,7 @@ export class BackEndStack extends cdk.Stack {
       deployOptions: {
         stageName: 'prod',
         loggingLevel: apigateway.MethodLoggingLevel.INFO,
-        dataTraceEnabled: true,
+        dataTraceEnabled: false,
         metricsEnabled: true,
       },
       defaultCorsPreflightOptions: {
