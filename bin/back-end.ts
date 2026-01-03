@@ -6,7 +6,7 @@ import { UserLoginServiceStack } from '../lib/user-login-service';
 const app = new cdk.App();
 
 // S3 Storage Stack for MP3 lesson files
-new S3StorageStack(app, 'SpeakGreekNow-S3StorageStack', {
+new S3StorageStack(app, 'SpeakHellenic-S3StorageStack', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */
@@ -20,7 +20,7 @@ new S3StorageStack(app, 'SpeakGreekNow-S3StorageStack', {
 });
 
 // User Login Service Stack for authentication
-new UserLoginServiceStack(app, 'SpeakGreekNow-UserLoginServiceStack', {
+new UserLoginServiceStack(app, 'SpeakHellenic-UserLoginServiceStack', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */

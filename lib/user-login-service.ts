@@ -7,6 +7,7 @@ import * as logs from 'aws-cdk-lib/aws-logs';
 import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 
 export class UserLoginServiceStack extends cdk.Stack {
+  public readonly apiErrorAlarm: cloudwatch.Alarm;
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
@@ -24,7 +25,7 @@ export class UserLoginServiceStack extends cdk.Stack {
     });
 
     // Add resource tags for cost tracking
-    cdk.Tags.of(usersTable).add('Project', 'SpeakGreekNow');
+    cdk.Tags.of(usersTable).add('Project', 'SpeakHellenic');
     cdk.Tags.of(usersTable).add('Environment', 'Production');
     cdk.Tags.of(usersTable).add('Component', 'UserAuthentication');
 
@@ -77,7 +78,7 @@ export class UserLoginServiceStack extends cdk.Stack {
     });
 
     // Add resource tags to API Gateway
-    cdk.Tags.of(api).add('Project', 'SpeakGreekNow');
+    cdk.Tags.of(api).add('Project', 'SpeakHellenic');
     cdk.Tags.of(api).add('Environment', 'Production');
     cdk.Tags.of(api).add('Component', 'UserAuthentication');
 
@@ -389,8 +390,8 @@ export class UserLoginServiceStack extends cdk.Stack {
     });
 
     // CloudWatch Alarm for API errors (4xx and 5xx)
-    const apiErrorAlarm = new cloudwatch.Alarm(this, 'UserApiErrorAlarm', {
-      alarmName: 'SpeakGreekNow-UserApi-HighErrorRate',
+    this.apiErrorAlarm = new cloudwatch.Alarm(this, 'UserApiErrorAlarm', {
+      alarmName: 'SpeakHellenic-UserApi-HighErrorRate',
       alarmDescription: 'Alert when User API has high error rate (4xx/5xx)',
       metric: api.metricClientError({
         statistic: 'Sum',

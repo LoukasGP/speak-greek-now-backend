@@ -6,7 +6,7 @@ export class S3StorageStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const bucket = new s3.Bucket(this, 'SpeakGreekNowBucket', {
+    const bucket = new s3.Bucket(this, 'SpeakHellenicBucket', {
       bucketName: `speak-greek-now-bucket-${this.account}`,
       versioned: true,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
@@ -28,7 +28,7 @@ export class S3StorageStack extends cdk.Stack {
     });
 
     // Add resource tags for cost tracking
-    cdk.Tags.of(bucket).add('Project', 'SpeakGreekNow');
+    cdk.Tags.of(bucket).add('Project', 'SpeakHellenic');
     cdk.Tags.of(bucket).add('Environment', 'Production');
     cdk.Tags.of(bucket).add('Component', 'LessonStorage');
 
