@@ -130,17 +130,27 @@ export class BackEndStack extends cdk.Stack {
       options: {
         credentialsRole: apiRole,
         requestTemplates: {
-          'application/json': `{
+          'application/json': `#set($userId = $input.path('$.userId'))
+#set($email = $input.path('$.email'))
+#if(!$userId || $userId == '' || !$email || $email == '')
+  #set($context.responseOverride.status = 400)
+  {
+    "TableName": "${usersTable.tableName}",
+    "Item": {}
+  }
+#else
+{
   "TableName": "${usersTable.tableName}",
   "Item": {
-    "userId": { "S": "$input.path('$.userId')" },
-    "email": { "S": "$input.path('$.email')" },
-    "name": { "S": "$input.path('$.name')" },
-    "picture": { "S": "$input.path('$.picture')" },
-    "createdAt": { "S": "$input.path('$.createdAt')" },
-    "lastLoginAt": { "S": "$input.path('$.lastLoginAt')" }
+    "userId": { "S": "$util.escapeJavaScript($userId)" },
+    "email": { "S": "$util.escapeJavaScript($email)" },
+    "name": { "S": "$util.escapeJavaScript($input.path('$.name'))" },
+    "picture": { "S": "$util.escapeJavaScript($input.path('$.picture'))" },
+    "createdAt": { "S": "$util.escapeJavaScript($input.path('$.createdAt'))" },
+    "lastLoginAt": { "S": "$util.escapeJavaScript($input.path('$.lastLoginAt'))" }
   }
-}`,
+}
+#end`,
         },
         integrationResponses: [
           {
