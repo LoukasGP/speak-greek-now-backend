@@ -12,6 +12,7 @@
 ### Knowledge Base Structure
 
 The `knowledge/` directory contains:
+
 - Best practices for specific AWS services (e.g., API Gateway, DynamoDB)
 - CDK implementation guidelines
 - Architecture patterns and standards
@@ -30,6 +31,7 @@ When asked to implement a feature:
 ### Example
 
 If implementing an API endpoint:
+
 - First check `knowledge/api-gateway.md` for API Gateway best practices
 - Review any related infrastructure documentation
 - Then implement following those specific guidelines

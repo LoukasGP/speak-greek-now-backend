@@ -4,8 +4,7 @@ For a list of reference variables for access logging, see [Variables for access 
 
 Context variables for data transformations
 
-
---------------------------------------------
+---
 
 You can use the following case-sensitive `$context` variables for data transformations.
 
@@ -171,7 +170,7 @@ The [`User-Agent`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Use
 
 `$context.identity.userArn`
 
-The Amazon Resource Name (ARN) of the effective user identified after authentication. For more information, see [https://docs.aws.amazon.com/IAM/latest/UserGuide/id\_users.html](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html).
+The Amazon Resource Name (ARN) of the effective user identified after authentication. For more information, see [https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html).
 
 `$context.isCanaryRequest`
 
@@ -243,8 +242,7 @@ The complete ARN of the web ACL that is used to decide whether to allow or block
 
 Input variables
 
-
------------------
+---
 
 You can use the following case-sensitive `$input` variables to refer to the method request payload and method request parameters. The following functions are available:
 
@@ -286,8 +284,7 @@ For more information about JSONPath, see [JSONPath](https://goessner.net/article
 
 Stage variables
 
-
------------------
+---
 
 You can use the following stage variables as placeholders for ARNs and URLs in method integrations. For more information, see [Use stage variables for a REST API in API Gateway](./stage-variables.html).
 
@@ -301,8 +298,7 @@ Description
 
 Util variables
 
-
-----------------
+---
 
 You can use the following case-sensitive `$util` variables to use utility functions for mapping templates. Unless otherwise specified, the default character set is UTF-8.
 
@@ -318,7 +314,7 @@ Escapes the characters in a string using JavaScript string rules.
 
 This function will turn any regular single quotes (`'`) into escaped ones (`\'`). However, the escaped single quotes are not valid in JSON. Thus, when the output from this function is used in a JSON property, you must turn any escaped single quotes (`\'`) back to regular single quotes (`'`). This is shown in the following example:
 
- ``"input" : "$util.escapeJavaScript(`data`).replaceAll("\\'","'")"``
+``"input" : "$util.escapeJavaScript(`data`).replaceAll("\\'","'")"``
 
 `$util.parseJson()`
 
