@@ -172,27 +172,32 @@ export class BackEndStack extends cdk.Stack {
 }`,
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'method.request.header.Origin'",
+              'method.response.header.Access-Control-Allow-Origin':
+                "'method.request.header.Origin'",
             },
           },
           {
             statusCode: '400',
             selectionPattern: '.*ConditionalCheckFailedException.*',
             responseTemplates: {
-              'application/json': '{ "error": "UserAlreadyExists", "message": "A user with this userId already exists" }',
+              'application/json':
+                '{ "error": "UserAlreadyExists", "message": "A user with this userId already exists" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'method.request.header.Origin'",
+              'method.response.header.Access-Control-Allow-Origin':
+                "'method.request.header.Origin'",
             },
           },
           {
             statusCode: '500',
             selectionPattern: '.*ServiceUnavailable.*|.*InternalServerError.*',
             responseTemplates: {
-              'application/json': '{ "error": "ServiceError", "message": "An internal service error occurred" }',
+              'application/json':
+                '{ "error": "ServiceError", "message": "An internal service error occurred" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'method.request.header.Origin'",
+              'method.response.header.Access-Control-Allow-Origin':
+                "'method.request.header.Origin'",
             },
           },
         ],
@@ -244,11 +249,11 @@ export class BackEndStack extends cdk.Stack {
 #if($item.userId)
 {
   "userId": "$item.userId.S",
-  "email": "$item.email.S",
-  "name": "$item.name.S",
-  "picture": "$item.picture.S",
-  "createdAt": "$item.createdAt.S",
-  "lastLoginAt": "$item.lastLoginAt.S"
+  "email": "$item.email.S"#if($item.name),
+  "name": "$item.name.S"#end#if($item.picture),
+  "picture": "$item.picture.S"#end#if($item.createdAt),
+  "createdAt": "$item.createdAt.S"#end#if($item.lastLoginAt),
+  "lastLoginAt": "$item.lastLoginAt.S"#end
 }
 #else
 #set($context.responseOverride.status = 404)
@@ -256,7 +261,8 @@ export class BackEndStack extends cdk.Stack {
 #end`,
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'method.request.header.Origin'",
+              'method.response.header.Access-Control-Allow-Origin':
+                "'method.request.header.Origin'",
             },
           },
         ],
@@ -315,27 +321,32 @@ export class BackEndStack extends cdk.Stack {
 }`,
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'method.request.header.Origin'",
+              'method.response.header.Access-Control-Allow-Origin':
+                "'method.request.header.Origin'",
             },
           },
           {
             statusCode: '404',
             selectionPattern: '.*ConditionalCheckFailedException.*',
             responseTemplates: {
-              'application/json': '{ "error": "ConditionFailed", "message": "The update condition was not met" }',
+              'application/json':
+                '{ "error": "ConditionFailed", "message": "The update condition was not met" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'method.request.header.Origin'",
+              'method.response.header.Access-Control-Allow-Origin':
+                "'method.request.header.Origin'",
             },
           },
           {
             statusCode: '500',
             selectionPattern: '.*ServiceUnavailable.*|.*InternalServerError.*',
             responseTemplates: {
-              'application/json': '{ "error": "ServiceError", "message": "An internal service error occurred" }',
+              'application/json':
+                '{ "error": "ServiceError", "message": "An internal service error occurred" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'method.request.header.Origin'",
+              'method.response.header.Access-Control-Allow-Origin':
+                "'method.request.header.Origin'",
             },
           },
         ],
