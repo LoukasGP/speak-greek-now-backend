@@ -170,7 +170,7 @@ export class BackEndStack extends cdk.Stack {
               'application/json': '{ "error": "ConditionalCheckFailed", "message": "The conditional check failed" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'*'",
+              'method.response.header.Access-Control-Allow-Origin': "method.request.header.Origin",
             },
           },
           {
@@ -180,7 +180,7 @@ export class BackEndStack extends cdk.Stack {
               'application/json': '{ "error": "ThroughputExceeded", "message": "Request rate exceeded. Please try again later" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'*'",
+              'method.response.header.Access-Control-Allow-Origin': "method.request.header.Origin",
             },
           },
           {
@@ -190,7 +190,7 @@ export class BackEndStack extends cdk.Stack {
               'application/json': '{ "error": "ServiceError", "message": "An internal service error occurred" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'*'",
+              'method.response.header.Access-Control-Allow-Origin': "method.request.header.Origin",
             },
           },
         ],
@@ -319,7 +319,7 @@ export class BackEndStack extends cdk.Stack {
 }`,
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'*'",
+              'method.response.header.Access-Control-Allow-Origin': "method.request.header.Origin",
             },
           },
           {
@@ -329,7 +329,7 @@ export class BackEndStack extends cdk.Stack {
               'application/json': '{ "error": "UserNotFound", "message": "User does not exist" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'*'",
+              'method.response.header.Access-Control-Allow-Origin': "method.request.header.Origin",
             },
           },
           {
@@ -339,7 +339,7 @@ export class BackEndStack extends cdk.Stack {
               'application/json': '{ "error": "ThroughputExceeded", "message": "Request rate exceeded. Please try again later" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'*'",
+              'method.response.header.Access-Control-Allow-Origin': "method.request.header.Origin",
             },
           },
           {
@@ -349,7 +349,7 @@ export class BackEndStack extends cdk.Stack {
               'application/json': '{ "error": "ServiceError", "message": "An internal service error occurred" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'*'",
+              'method.response.header.Access-Control-Allow-Origin': "method.request.header.Origin",
             },
           },
         ],
