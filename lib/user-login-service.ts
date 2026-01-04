@@ -147,31 +147,26 @@ export class UserLoginServiceStack extends cdk.Stack {
     "lastLoginAt": { "S": "$util.escapeJavaScript($lastLoginAt)" }#end
   },
   "ConditionExpression": "attribute_not_exists(userId)",
-  "ReturnValues": "NONE"
+  "ReturnValues": "ALL_NEW"
 }`,
         },
         integrationResponses: [
           {
             statusCode: '200',
             responseTemplates: {
-              'application/json': `#set($userId = $input.path('$.userId'))
-#set($email = $input.path('$.email'))
-#set($name = $input.path('$.name'))
-#set($picture = $input.path('$.picture'))
-#set($createdAt = $input.path('$.createdAt'))
-#set($lastLoginAt = $input.path('$.lastLoginAt'))
+              'application/json': `#set($attrs = $input.path('$.Attributes'))
 {
-  "userId": "$util.escapeJavaScript($userId)",
-  "email": "$util.escapeJavaScript($email)"#if($name && $name != ''),
-  "name": "$util.escapeJavaScript($name)"#end#if($picture && $picture != ''),
-  "picture": "$util.escapeJavaScript($picture)"#end#if($createdAt && $createdAt != ''),
-  "createdAt": "$util.escapeJavaScript($createdAt)"#end#if($lastLoginAt && $lastLoginAt != ''),
-  "lastLoginAt": "$util.escapeJavaScript($lastLoginAt)"#end
+  "userId": "$attrs.userId.S",
+  "email": "$attrs.email.S"#if($attrs.name),
+  "name": "$attrs.name.S"#end#if($attrs.picture),
+  "picture": "$attrs.picture.S"#end#if($attrs.createdAt),
+  "createdAt": "$attrs.createdAt.S"#end#if($attrs.lastLoginAt),
+  "lastLoginAt": "$attrs.lastLoginAt.S"#end
 }`,
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin':
-                "'method.request.header.Origin'",
+                'method.request.header.Origin',
             },
           },
           {
@@ -183,7 +178,7 @@ export class UserLoginServiceStack extends cdk.Stack {
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin':
-                "'method.request.header.Origin'",
+                'method.request.header.Origin',
             },
           },
           {
@@ -195,7 +190,7 @@ export class UserLoginServiceStack extends cdk.Stack {
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin':
-                "'method.request.header.Origin'",
+                'method.request.header.Origin',
             },
           },
           {
@@ -207,7 +202,7 @@ export class UserLoginServiceStack extends cdk.Stack {
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin':
-                "'method.request.header.Origin'",
+                'method.request.header.Origin',
             },
           },
         ],
@@ -273,7 +268,7 @@ export class UserLoginServiceStack extends cdk.Stack {
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin':
-                "'method.request.header.Origin'",
+                'method.request.header.Origin',
             },
           },
         ],
@@ -334,7 +329,7 @@ export class UserLoginServiceStack extends cdk.Stack {
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin':
-                "'method.request.header.Origin'",
+                'method.request.header.Origin',
             },
           },
           {
@@ -346,7 +341,7 @@ export class UserLoginServiceStack extends cdk.Stack {
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin':
-                "'method.request.header.Origin'",
+                'method.request.header.Origin',
             },
           },
           {
@@ -358,7 +353,7 @@ export class UserLoginServiceStack extends cdk.Stack {
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin':
-                "'method.request.header.Origin'",
+                'method.request.header.Origin',
             },
           },
         ],
@@ -393,8 +388,18 @@ export class UserLoginServiceStack extends cdk.Stack {
     this.apiErrorAlarm = new cloudwatch.Alarm(this, 'UserApiErrorAlarm', {
       alarmName: 'SpeakHellenic-UserApi-HighErrorRate',
       alarmDescription: 'Alert when User API has high error rate (4xx/5xx)',
-      metric: api.metricClientError({
-        statistic: 'Sum',
+      metric: new cloudwatch.MathExpression({
+        expression: 'clientErrors + serverErrors',
+        usingMetrics: {
+          clientErrors: api.metricClientError({
+            statistic: 'Sum',
+            period: cdk.Duration.minutes(5),
+          }),
+          serverErrors: api.metricServerError({
+            statistic: 'Sum',
+            period: cdk.Duration.minutes(5),
+          }),
+        },
         period: cdk.Duration.minutes(5),
       }),
       threshold: 10,
