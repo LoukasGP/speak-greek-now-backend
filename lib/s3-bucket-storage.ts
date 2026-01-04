@@ -7,7 +7,7 @@ export class S3StorageStack extends cdk.Stack {
     super(scope, id, props);
 
     const bucket = new s3.Bucket(this, 'SpeakHellenicBucket', {
-      bucketName: `speak-greek-now-bucket-${this.account}`,
+      bucketName: `speak-greek-now-lessons-${this.account}`,
       versioned: true,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       cors: [

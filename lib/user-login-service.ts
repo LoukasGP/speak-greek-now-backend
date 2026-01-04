@@ -166,7 +166,7 @@ export class UserLoginServiceStack extends cdk.Stack {
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin':
-                'method.request.header.Origin',
+                '*',
             },
           },
           {
@@ -178,7 +178,7 @@ export class UserLoginServiceStack extends cdk.Stack {
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin':
-                'method.request.header.Origin',
+                '*',
             },
           },
           {
@@ -190,7 +190,7 @@ export class UserLoginServiceStack extends cdk.Stack {
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin':
-                'method.request.header.Origin',
+                '*',
             },
           },
           {
@@ -202,7 +202,7 @@ export class UserLoginServiceStack extends cdk.Stack {
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin':
-                'method.request.header.Origin',
+                '*',
             },
           },
         ],
@@ -268,7 +268,7 @@ export class UserLoginServiceStack extends cdk.Stack {
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin':
-                'method.request.header.Origin',
+                '*',
             },
           },
         ],
@@ -329,7 +329,7 @@ export class UserLoginServiceStack extends cdk.Stack {
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin':
-                'method.request.header.Origin',
+                '*',
             },
           },
           {
@@ -341,7 +341,7 @@ export class UserLoginServiceStack extends cdk.Stack {
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin':
-                'method.request.header.Origin',
+                '*',
             },
           },
           {
@@ -353,7 +353,7 @@ export class UserLoginServiceStack extends cdk.Stack {
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin':
-                'method.request.header.Origin',
+                '*',
             },
           },
         ],
