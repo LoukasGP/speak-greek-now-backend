@@ -165,8 +165,7 @@ export class UserLoginServiceStack extends cdk.Stack {
 }`,
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin':
-                '*',
+              'method.response.header.Access-Control-Allow-Origin': "'*'",
             },
           },
           {
@@ -177,8 +176,7 @@ export class UserLoginServiceStack extends cdk.Stack {
                 '{ "error": "ValidationError", "message": "Missing required fields: userId and email are required" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin':
-                '*',
+              'method.response.header.Access-Control-Allow-Origin': "'*'",
             },
           },
           {
@@ -189,8 +187,7 @@ export class UserLoginServiceStack extends cdk.Stack {
                 '{ "error": "UserAlreadyExists", "message": "A user with this userId already exists" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin':
-                '*',
+              'method.response.header.Access-Control-Allow-Origin': "'*'",
             },
           },
           {
@@ -201,8 +198,7 @@ export class UserLoginServiceStack extends cdk.Stack {
                 '{ "error": "ServiceError", "message": "An internal service error occurred" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin':
-                '*',
+              'method.response.header.Access-Control-Allow-Origin': "'*'",
             },
           },
         ],
@@ -267,8 +263,7 @@ export class UserLoginServiceStack extends cdk.Stack {
 #end`,
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin':
-                '*',
+              'method.response.header.Access-Control-Allow-Origin': "'*'",
             },
           },
         ],
@@ -328,8 +323,7 @@ export class UserLoginServiceStack extends cdk.Stack {
 }`,
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin':
-                '*',
+              'method.response.header.Access-Control-Allow-Origin': "'*'",
             },
           },
           {
@@ -340,8 +334,7 @@ export class UserLoginServiceStack extends cdk.Stack {
                 '{ "error": "ConditionFailed", "message": "The update condition was not met" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin':
-                '*',
+              'method.response.header.Access-Control-Allow-Origin': "'*'",
             },
           },
           {
@@ -352,8 +345,7 @@ export class UserLoginServiceStack extends cdk.Stack {
                 '{ "error": "ServiceError", "message": "An internal service error occurred" }',
             },
             responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin':
-                '*',
+              'method.response.header.Access-Control-Allow-Origin': "'*'",
             },
           },
         ],
