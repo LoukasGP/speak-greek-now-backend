@@ -132,37 +132,25 @@ export class UserLoginServiceStack extends cdk.Stack {
 #set($picture = $input.path('$.picture'))
 #set($createdAt = $input.path('$.createdAt'))
 #set($lastLoginAt = $input.path('$.lastLoginAt'))
-#if(!$userId || $userId == '' || !$email || $email == '')
-#set($context.requestOverride.header.X-Amz-Target = "")
-#set($context.requestOverride.path = "/error")
-#end
 {
   "TableName": "${usersTable.tableName}",
   "Item": {
-    "userId": { "S": "$util.escapeJavaScript($userId)" },
-    "email": { "S": "$util.escapeJavaScript($email)" }#if($name && $name != ''),
-    "name": { "S": "$util.escapeJavaScript($name)" }#end#if($picture && $picture != ''),
-    "picture": { "S": "$util.escapeJavaScript($picture)" }#end#if($createdAt && $createdAt != ''),
-    "createdAt": { "S": "$util.escapeJavaScript($createdAt)" }#end#if($lastLoginAt && $lastLoginAt != ''),
-    "lastLoginAt": { "S": "$util.escapeJavaScript($lastLoginAt)" }#end
+    "userId": { "S": "$userId" },
+    "email": { "S": "$email" },
+    "name": { "S": "$name" },
+    "picture": { "S": "$picture" },
+    "createdAt": { "S": "$createdAt" },
+    "lastLoginAt": { "S": "$lastLoginAt" }
   },
   "ConditionExpression": "attribute_not_exists(userId)",
-  "ReturnValues": "ALL_NEW"
+  "ReturnValues": "NONE"
 }`,
         },
         integrationResponses: [
           {
             statusCode: '200',
             responseTemplates: {
-              'application/json': `#set($attrs = $input.path('$.Attributes'))
-{
-  "userId": "$attrs.userId.S",
-  "email": "$attrs.email.S"#if($attrs.name),
-  "name": "$attrs.name.S"#end#if($attrs.picture),
-  "picture": "$attrs.picture.S"#end#if($attrs.createdAt),
-  "createdAt": "$attrs.createdAt.S"#end#if($attrs.lastLoginAt),
-  "lastLoginAt": "$attrs.lastLoginAt.S"#end
-}`,
+              'application/json': `$context.request.body`,
             },
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin': "'*'",
@@ -239,7 +227,7 @@ export class UserLoginServiceStack extends cdk.Stack {
           'application/json': `{
   "TableName": "${usersTable.tableName}",
   "Key": {
-    "userId": { "S": "$input.params('userId')" }
+    "userId": { "S": "$util.urlDecode($input.params('userId'))" }
   }
 }`,
         },
@@ -248,18 +236,18 @@ export class UserLoginServiceStack extends cdk.Stack {
             statusCode: '200',
             responseTemplates: {
               'application/json': `#set($item = $input.path('$.Item'))
-#if($item.userId)
+#if($item && $item.userId)
 {
   "userId": "$item.userId.S",
-  "email": "$item.email.S"#if($item.name),
-  "name": "$item.name.S"#end#if($item.picture),
-  "picture": "$item.picture.S"#end#if($item.createdAt),
-  "createdAt": "$item.createdAt.S"#end#if($item.lastLoginAt),
-  "lastLoginAt": "$item.lastLoginAt.S"#end
+  "email": "$item.email.S",
+  "name": "$item.name.S",
+  "picture": "$item.picture.S",
+  "createdAt": "$item.createdAt.S",
+  "lastLoginAt": "$item.lastLoginAt.S"
 }
 #else
 #set($context.responseOverride.status = 404)
-{ "message": "User not found" }
+{"message": "User not found"}
 #end`,
             },
             responseParameters: {
@@ -295,15 +283,16 @@ export class UserLoginServiceStack extends cdk.Stack {
       options: {
         credentialsRole: apiRole,
         requestTemplates: {
-          'application/json': `{
+          'application/json': `#set($lastLogin = $input.path('$.lastLoginAt'))
+{
   "TableName": "${usersTable.tableName}",
   "Key": {
-    "userId": { "S": "$input.params('userId')" }
+    "userId": { "S": "$util.urlDecode($input.params('userId'))" }
   },
   "UpdateExpression": "SET lastLoginAt = :lastLoginAt",
   "ConditionExpression": "attribute_exists(userId)",
   "ExpressionAttributeValues": {
-    ":lastLoginAt": { "S": "$input.path('$.lastLoginAt')" }
+    ":lastLoginAt": { "S": "$lastLogin" }
   },
   "ReturnValues": "ALL_NEW"
 }`,
@@ -315,11 +304,11 @@ export class UserLoginServiceStack extends cdk.Stack {
               'application/json': `#set($attrs = $input.path('$.Attributes'))
 {
   "userId": "$attrs.userId.S",
-  "email": "$attrs.email.S"#if($attrs.name),
-  "name": "$attrs.name.S"#end#if($attrs.picture),
-  "picture": "$attrs.picture.S"#end#if($attrs.createdAt),
-  "createdAt": "$attrs.createdAt.S"#end#if($attrs.lastLoginAt),
-  "lastLoginAt": "$attrs.lastLoginAt.S"#end
+  "email": "$attrs.email.S",
+  "name": "$attrs.name.S",
+  "picture": "$attrs.picture.S",
+  "createdAt": "$attrs.createdAt.S",
+  "lastLoginAt": "$attrs.lastLoginAt.S"
 }`,
             },
             responseParameters: {
