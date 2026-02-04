@@ -7,12 +7,11 @@ const app = new cdk.App();
 
 // Get environment from context (defaults to 'prod' to maintain existing production stack)
 const environment = app.node.tryGetContext('environment') || 'prod';
-const isProduction = environment === 'prod';
 
 // Environment-specific configuration
 const envConfig = {
   dev: {
-    stackSuffix: '-Dev', // Dev gets a suffix to create new stacks
+    stackSuffix: '-dev', // Dev gets a suffix to create new stacks
     apiUsagePlanName: 'Development Usage Plan',
     apiUsagePlanDescription: 'Usage plan for development environment',
     apiThrottleRate: 10, // 10 req/sec

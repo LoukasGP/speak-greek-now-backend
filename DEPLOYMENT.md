@@ -8,14 +8,14 @@ This project supports separate **dev** and **prod** environments with isolated s
 
 | Environment | Stack Suffix | DynamoDB Table | API Quota | Log Retention |
 |-------------|--------------|----------------|-----------|---------------|
-| **Dev**     | `-Dev`       | `speak-greek-now-users-dev` | 10k/month | 7 days |
+| **dev**     | `-dev`       | `speak-greek-now-users-dev` | 10k/month | 7 days |
 | **Prod**    | (none)       | `speak-greek-now-users` | 50k/month | 30 days |
 
 ### Stack Names
 
-**Development:**
-- `SpeakHellenic-S3StorageStack-Dev`
-- `SpeakHellenic-UserLoginServiceStack-Dev`
+**development:**
+- `SpeakHellenic-S3StorageStack-dev`
+- `SpeakHellenic-UserLoginServiceStack-dev`
 
 **Production:**
 - `SpeakHellenic-S3StorageStack`
@@ -23,7 +23,7 @@ This project supports separate **dev** and **prod** environments with isolated s
 
 ## Deployment Commands
 
-### Development Environment
+### development Environment
 
 ```bash
 # Synthesize CloudFormation templates
@@ -65,7 +65,7 @@ npm run destroy:prod
    cdk bootstrap aws://ACCOUNT-NUMBER/REGION
    ```
 
-### Deploy Development Environment
+### Deploy development Environment
 
 ```bash
 # Build TypeScript
@@ -130,16 +130,16 @@ aws apigateway get-api-key --api-key <KEY-ID-FROM-OUTPUT> --include-value --quer
 
 ## Common Tasks
 
-### Update Only User Login Service (Dev)
+### Update Only User Login Service (dev)
 
 ```bash
-cdk deploy SpeakHellenic-UserLoginServiceStack-Dev -c environment=dev
+cdk deploy SpeakHellenic-UserLoginServiceStack-dev -c environment=dev
 ```
 
 ### View CloudWatch Logs
 
 ```bash
-# Dev logs
+# dev logs
 aws logs tail /aws/apigateway/speak-greek-now-user-api --follow
 
 # Filter for errors
@@ -189,7 +189,7 @@ If deployment fails due to limits:
 ### CloudWatch Alarms
 
 Both environments have error rate alarms configured:
-- **Dev:** `SpeakHellenic-UserApi-HighErrorRate` (10 errors in 10 minutes)
+- **dev:** `SpeakHellenic-UserApi-HighErrorRate` (10 errors in 10 minutes)
 - **Prod:** `SpeakHellenic-UserApi-HighErrorRate` (10 errors in 10 minutes)
 
 ### Metrics to Watch
@@ -201,7 +201,7 @@ Both environments have error rate alarms configured:
 
 ## Cost Optimization
 
-### Development
+### development
 - Log retention: 7 days (vs 30 for prod)
 - Quota: 10k requests/month
 - Can be destroyed when not in use: `npm run destroy:dev`

@@ -1,0 +1,20 @@
+{
+  "version": "39.0.0",
+  "files": {
+    "42e6b4b4928885ac8178068ab086dbe9373f68254874eb740c0bf3db6ccb4db6": {
+      "source": {
+        "path": "SpeakHellenic-UserLoginServiceStack-dev.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "471112806172-eu-west-1": {
+          "bucketName": "cdk-sgn2026-assets-471112806172-eu-west-1",
+          "objectKey": "42e6b4b4928885ac8178068ab086dbe9373f68254874eb740c0bf3db6ccb4db6.json",
+          "region": "eu-west-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::471112806172:role/cdk-sgn2026-file-publishing-role-471112806172-eu-west-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

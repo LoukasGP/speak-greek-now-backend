@@ -1,0 +1,361 @@
+{
+  "version": "39.0.0",
+  "artifacts": {
+    "SpeakHellenic-S3StorageStack-dev.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SpeakHellenic-S3StorageStack-dev.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/sgn2026/version"
+      }
+    },
+    "SpeakHellenic-S3StorageStack-dev": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://471112806172/eu-west-1",
+      "properties": {
+        "templateFile": "SpeakHellenic-S3StorageStack-dev.template.json",
+        "terminationProtection": false,
+        "tags": {
+          "Environment": "dev",
+          "ManagedBy": "CDK",
+          "Project": "SpeakHellenic"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::471112806172:role/cdk-sgn2026-deploy-role-471112806172-eu-west-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::471112806172:role/cdk-sgn2026-cfn-exec-role-471112806172-eu-west-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-sgn2026-assets-471112806172-eu-west-1/c653c86c58b752cfb73dd0ac8357e61927af10fc6a9e71359db66f049143f2aa.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/sgn2026/version",
+        "additionalDependencies": [
+          "SpeakHellenic-S3StorageStack-dev.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::471112806172:role/cdk-sgn2026-lookup-role-471112806172-eu-west-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/sgn2026/version"
+        }
+      },
+      "dependencies": [
+        "SpeakHellenic-S3StorageStack-dev.assets"
+      ],
+      "metadata": {
+        "/SpeakHellenic-S3StorageStack-dev": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "Environment",
+                "Value": "dev"
+              },
+              {
+                "Key": "ManagedBy",
+                "Value": "CDK"
+              },
+              {
+                "Key": "Project",
+                "Value": "SpeakHellenic"
+              }
+            ]
+          }
+        ],
+        "/SpeakHellenic-S3StorageStack-dev/SpeakHellenicBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SpeakHellenicBucket8D85DBB2"
+          }
+        ],
+        "/SpeakHellenic-S3StorageStack-dev/SpeakHellenicBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SpeakHellenicBucketPolicy7C09CB41"
+          }
+        ],
+        "/SpeakHellenic-S3StorageStack-dev/BucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketName"
+          }
+        ],
+        "/SpeakHellenic-S3StorageStack-dev/BucketArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketArn"
+          }
+        ],
+        "/SpeakHellenic-S3StorageStack-dev/BucketUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketUrl"
+          }
+        ],
+        "/SpeakHellenic-S3StorageStack-dev/BucketRegion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketRegion"
+          }
+        ],
+        "/SpeakHellenic-S3StorageStack-dev/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/SpeakHellenic-S3StorageStack-dev/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SpeakHellenic-S3StorageStack-dev/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SpeakHellenic-S3StorageStack-dev"
+    },
+    "SpeakHellenic-UserLoginServiceStack-dev.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SpeakHellenic-UserLoginServiceStack-dev.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/sgn2026/version"
+      }
+    },
+    "SpeakHellenic-UserLoginServiceStack-dev": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://471112806172/eu-west-1",
+      "properties": {
+        "templateFile": "SpeakHellenic-UserLoginServiceStack-dev.template.json",
+        "terminationProtection": false,
+        "tags": {
+          "Environment": "dev",
+          "ManagedBy": "CDK",
+          "Project": "SpeakHellenic"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::471112806172:role/cdk-sgn2026-deploy-role-471112806172-eu-west-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::471112806172:role/cdk-sgn2026-cfn-exec-role-471112806172-eu-west-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-sgn2026-assets-471112806172-eu-west-1/42e6b4b4928885ac8178068ab086dbe9373f68254874eb740c0bf3db6ccb4db6.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/sgn2026/version",
+        "additionalDependencies": [
+          "SpeakHellenic-UserLoginServiceStack-dev.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::471112806172:role/cdk-sgn2026-lookup-role-471112806172-eu-west-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/sgn2026/version"
+        }
+      },
+      "dependencies": [
+        "SpeakHellenic-UserLoginServiceStack-dev.assets"
+      ],
+      "metadata": {
+        "/SpeakHellenic-UserLoginServiceStack-dev": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "Environment",
+                "Value": "dev"
+              },
+              {
+                "Key": "ManagedBy",
+                "Value": "CDK"
+              },
+              {
+                "Key": "Project",
+                "Value": "SpeakHellenic"
+              }
+            ]
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UsersTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "UsersTable9725E9C8"
+            }
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UsersTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UsersTable9725E9C8"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApiAccessLogs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiAccessLogs44175256"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiB6C12381"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiDeployment248398112744a713f13cb43c51e4523f5f5c23bc"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApi/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiDeploymentStageprod08A07725"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiEndpoint22DD5314"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiOPTIONSC7FF09BC"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiusers12F31A22"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiusersOPTIONS4D176E40"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/{userId}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiusersuserId490BEDC2"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/{userId}/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiusersuserIdOPTIONS6F37D8D3"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/{userId}/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiusersuserIdGETBDCA4EA2"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/{userId}/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiusersuserIdPUT2C65074B"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiusersPOST45B0BA2E"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApi/UserApiKey/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiUserApiKey302629E5"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApi/UserApiUsagePlan/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiUserApiUsagePlanAB07E32D"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApi/UserApiUsagePlan/UsagePlanKeyResource:SpeakHellenicUserLoginServiceStackdevUserApiUserApiKey791F9715": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiUserApiUsagePlanUsagePlanKeyResourceSpeakHellenicUserLoginServiceStackdevUserApiUserApiKey791F971567F8DD65"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/ApiGatewayDynamoDBRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiGatewayDynamoDBRole84FBC2AA"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/ApiGatewayDynamoDBRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiGatewayDynamoDBRoleDefaultPolicy0337A457"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApiErrorAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiErrorAlarm15DE052C"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApiUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiUrl"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UserApiKeyId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserApiKeyId"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UsersTableName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UsersTableName"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/UsersTableArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UsersTableArn"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/AccessLogGroupName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AccessLogGroupName"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SpeakHellenic-UserLoginServiceStack-dev/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SpeakHellenic-UserLoginServiceStack-dev"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

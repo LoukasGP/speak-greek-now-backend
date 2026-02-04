@@ -1,0 +1,1427 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "SpeakHellenic-S3StorageStack-dev": {
+        "id": "SpeakHellenic-S3StorageStack-dev",
+        "path": "SpeakHellenic-S3StorageStack-dev",
+        "children": {
+          "SpeakHellenicBucket": {
+            "id": "SpeakHellenicBucket",
+            "path": "SpeakHellenic-S3StorageStack-dev/SpeakHellenicBucket",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SpeakHellenic-S3StorageStack-dev/SpeakHellenicBucket/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "bucketName": "speak-greek-now-lessons-dev-471112806172",
+                    "corsConfiguration": {
+                      "corsRules": [
+                        {
+                          "maxAge": 3000,
+                          "allowedHeaders": [
+                            "Authorization",
+                            "Content-Type",
+                            "x-amz-date",
+                            "x-amz-user-agent"
+                          ],
+                          "allowedMethods": [
+                            "GET",
+                            "HEAD"
+                          ],
+                          "allowedOrigins": [
+                            "http://localhost:3000",
+                            "https://speakhellenic.com",
+                            "https://www.speakhellenic.com",
+                            "https://development.d3v5vb4u9puz3w.amplifyapp.com"
+                          ]
+                        }
+                      ]
+                    },
+                    "publicAccessBlockConfiguration": {
+                      "blockPublicAcls": true,
+                      "ignorePublicAcls": true
+                    },
+                    "tags": [
+                      {
+                        "key": "Component",
+                        "value": "LessonStorage"
+                      },
+                      {
+                        "key": "Environment",
+                        "value": "dev"
+                      },
+                      {
+                        "key": "Project",
+                        "value": "SpeakHellenic"
+                      }
+                    ],
+                    "versioningConfiguration": {
+                      "status": "Enabled"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                  "version": "2.176.0"
+                }
+              },
+              "Policy": {
+                "id": "Policy",
+                "path": "SpeakHellenic-S3StorageStack-dev/SpeakHellenicBucket/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SpeakHellenic-S3StorageStack-dev/SpeakHellenicBucket/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
+                      "aws:cdk:cloudformation:props": {
+                        "bucket": {
+                          "Ref": "SpeakHellenicBucket8D85DBB2"
+                        },
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "s3:GetObject",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "AWS": "*"
+                              },
+                              "Resource": {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "SpeakHellenicBucket8D85DBB2",
+                                        "Arn"
+                                      ]
+                                    },
+                                    "/*"
+                                  ]
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.CfnBucketPolicy",
+                      "version": "2.176.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
+                  "version": "2.176.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_s3.Bucket",
+              "version": "2.176.0"
+            }
+          },
+          "BucketName": {
+            "id": "BucketName",
+            "path": "SpeakHellenic-S3StorageStack-dev/BucketName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.176.0"
+            }
+          },
+          "BucketArn": {
+            "id": "BucketArn",
+            "path": "SpeakHellenic-S3StorageStack-dev/BucketArn",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.176.0"
+            }
+          },
+          "BucketUrl": {
+            "id": "BucketUrl",
+            "path": "SpeakHellenic-S3StorageStack-dev/BucketUrl",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.176.0"
+            }
+          },
+          "BucketRegion": {
+            "id": "BucketRegion",
+            "path": "SpeakHellenic-S3StorageStack-dev/BucketRegion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.176.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "SpeakHellenic-S3StorageStack-dev/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "SpeakHellenic-S3StorageStack-dev/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.176.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.4.4"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "SpeakHellenic-S3StorageStack-dev/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.176.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "SpeakHellenic-S3StorageStack-dev/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.176.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.176.0"
+        }
+      },
+      "SpeakHellenic-UserLoginServiceStack-dev": {
+        "id": "SpeakHellenic-UserLoginServiceStack-dev",
+        "path": "SpeakHellenic-UserLoginServiceStack-dev",
+        "children": {
+          "UsersTable": {
+            "id": "UsersTable",
+            "path": "SpeakHellenic-UserLoginServiceStack-dev/UsersTable",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SpeakHellenic-UserLoginServiceStack-dev/UsersTable/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
+                  "aws:cdk:cloudformation:props": {
+                    "attributeDefinitions": [
+                      {
+                        "attributeName": "userId",
+                        "attributeType": "S"
+                      }
+                    ],
+                    "billingMode": "PAY_PER_REQUEST",
+                    "keySchema": [
+                      {
+                        "attributeName": "userId",
+                        "keyType": "HASH"
+                      }
+                    ],
+                    "pointInTimeRecoverySpecification": {
+                      "pointInTimeRecoveryEnabled": true
+                    },
+                    "sseSpecification": {
+                      "sseEnabled": true
+                    },
+                    "tableName": "speak-greek-now-users-dev",
+                    "tags": [
+                      {
+                        "key": "Component",
+                        "value": "UserAuthentication"
+                      },
+                      {
+                        "key": "Environment",
+                        "value": "dev"
+                      },
+                      {
+                        "key": "Project",
+                        "value": "SpeakHellenic"
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
+                  "version": "2.176.0"
+                }
+              },
+              "ScalingRole": {
+                "id": "ScalingRole",
+                "path": "SpeakHellenic-UserLoginServiceStack-dev/UsersTable/ScalingRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.176.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+              "version": "2.176.0"
+            }
+          },
+          "UserApiAccessLogs": {
+            "id": "UserApiAccessLogs",
+            "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApiAccessLogs",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApiAccessLogs/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "logGroupName": "/aws/apigateway/speak-greek-now-user-api-dev",
+                    "retentionInDays": 7
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                  "version": "2.176.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+              "version": "2.176.0"
+            }
+          },
+          "UserApi": {
+            "id": "UserApi",
+            "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ApiGateway::RestApi",
+                  "aws:cdk:cloudformation:props": {
+                    "description": "User management API for Speak Greek Now authentication",
+                    "name": "Speak Greek Now User API",
+                    "tags": [
+                      {
+                        "key": "Component",
+                        "value": "UserAuthentication"
+                      },
+                      {
+                        "key": "Environment",
+                        "value": "dev"
+                      },
+                      {
+                        "key": "Project",
+                        "value": "SpeakHellenic"
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.CfnRestApi",
+                  "version": "2.176.0"
+                }
+              },
+              "Deployment": {
+                "id": "Deployment",
+                "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Deployment",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Deployment/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGateway::Deployment",
+                      "aws:cdk:cloudformation:props": {
+                        "description": "User management API for Speak Greek Now authentication",
+                        "restApiId": {
+                          "Ref": "UserApiB6C12381"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.CfnDeployment",
+                      "version": "2.176.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.Deployment",
+                  "version": "2.176.0"
+                }
+              },
+              "DeploymentStage.prod": {
+                "id": "DeploymentStage.prod",
+                "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/DeploymentStage.prod",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/DeploymentStage.prod/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGateway::Stage",
+                      "aws:cdk:cloudformation:props": {
+                        "accessLogSetting": {
+                          "destinationArn": {
+                            "Fn::GetAtt": [
+                              "UserApiAccessLogs44175256",
+                              "Arn"
+                            ]
+                          },
+                          "format": "{\"requestId\":\"$context.requestId\",\"ip\":\"$context.identity.sourceIp\",\"requestTime\":\"$context.requestTime\",\"httpMethod\":\"$context.httpMethod\",\"resourcePath\":\"$context.resourcePath\",\"status\":\"$context.status\",\"protocol\":\"$context.protocol\",\"responseLength\":\"$context.responseLength\"}"
+                        },
+                        "deploymentId": {
+                          "Ref": "UserApiDeployment248398112744a713f13cb43c51e4523f5f5c23bc"
+                        },
+                        "methodSettings": [
+                          {
+                            "httpMethod": "*",
+                            "resourcePath": "/*",
+                            "dataTraceEnabled": false,
+                            "loggingLevel": "INFO",
+                            "metricsEnabled": true
+                          }
+                        ],
+                        "restApiId": {
+                          "Ref": "UserApiB6C12381"
+                        },
+                        "stageName": "prod",
+                        "tags": [
+                          {
+                            "key": "Component",
+                            "value": "UserAuthentication"
+                          },
+                          {
+                            "key": "Environment",
+                            "value": "dev"
+                          },
+                          {
+                            "key": "Project",
+                            "value": "SpeakHellenic"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.CfnStage",
+                      "version": "2.176.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.Stage",
+                  "version": "2.176.0"
+                }
+              },
+              "Endpoint": {
+                "id": "Endpoint",
+                "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Endpoint",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.176.0"
+                }
+              },
+              "Default": {
+                "id": "Default",
+                "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default",
+                "children": {
+                  "OPTIONS": {
+                    "id": "OPTIONS",
+                    "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/OPTIONS",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/OPTIONS/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                          "aws:cdk:cloudformation:props": {
+                            "apiKeyRequired": false,
+                            "authorizationType": "NONE",
+                            "httpMethod": "OPTIONS",
+                            "integration": {
+                              "type": "MOCK",
+                              "requestTemplates": {
+                                "application/json": "{ statusCode: 200 }"
+                              },
+                              "integrationResponses": [
+                                {
+                                  "statusCode": "204",
+                                  "responseParameters": {
+                                    "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,x-api-key,X-Amz-Security-Token'",
+                                    "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                                    "method.response.header.Vary": "'Origin'",
+                                    "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,OPTIONS'",
+                                    "method.response.header.Access-Control-Allow-Credentials": "'true'"
+                                  },
+                                  "responseTemplates": {
+                                    "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://speakhellenic.com\" || $origin == \"https://www.speakhellenic.com\" || $origin == \"https://development.d3v5vb4u9puz3w.amplifyapp.com\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+                                  }
+                                }
+                              ]
+                            },
+                            "methodResponses": [
+                              {
+                                "statusCode": "204",
+                                "responseParameters": {
+                                  "method.response.header.Access-Control-Allow-Headers": true,
+                                  "method.response.header.Access-Control-Allow-Origin": true,
+                                  "method.response.header.Vary": true,
+                                  "method.response.header.Access-Control-Allow-Methods": true,
+                                  "method.response.header.Access-Control-Allow-Credentials": true
+                                }
+                              }
+                            ],
+                            "resourceId": {
+                              "Fn::GetAtt": [
+                                "UserApiB6C12381",
+                                "RootResourceId"
+                              ]
+                            },
+                            "restApiId": {
+                              "Ref": "UserApiB6C12381"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                          "version": "2.176.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                      "version": "2.176.0"
+                    }
+                  },
+                  "users": {
+                    "id": "users",
+                    "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGateway::Resource",
+                          "aws:cdk:cloudformation:props": {
+                            "parentId": {
+                              "Fn::GetAtt": [
+                                "UserApiB6C12381",
+                                "RootResourceId"
+                              ]
+                            },
+                            "pathPart": "users",
+                            "restApiId": {
+                              "Ref": "UserApiB6C12381"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.CfnResource",
+                          "version": "2.176.0"
+                        }
+                      },
+                      "OPTIONS": {
+                        "id": "OPTIONS",
+                        "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/OPTIONS",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/OPTIONS/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                              "aws:cdk:cloudformation:props": {
+                                "apiKeyRequired": false,
+                                "authorizationType": "NONE",
+                                "httpMethod": "OPTIONS",
+                                "integration": {
+                                  "type": "MOCK",
+                                  "requestTemplates": {
+                                    "application/json": "{ statusCode: 200 }"
+                                  },
+                                  "integrationResponses": [
+                                    {
+                                      "statusCode": "204",
+                                      "responseParameters": {
+                                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,x-api-key,X-Amz-Security-Token'",
+                                        "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                                        "method.response.header.Vary": "'Origin'",
+                                        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,OPTIONS'",
+                                        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+                                      },
+                                      "responseTemplates": {
+                                        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://speakhellenic.com\" || $origin == \"https://www.speakhellenic.com\" || $origin == \"https://development.d3v5vb4u9puz3w.amplifyapp.com\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+                                      }
+                                    }
+                                  ]
+                                },
+                                "methodResponses": [
+                                  {
+                                    "statusCode": "204",
+                                    "responseParameters": {
+                                      "method.response.header.Access-Control-Allow-Headers": true,
+                                      "method.response.header.Access-Control-Allow-Origin": true,
+                                      "method.response.header.Vary": true,
+                                      "method.response.header.Access-Control-Allow-Methods": true,
+                                      "method.response.header.Access-Control-Allow-Credentials": true
+                                    }
+                                  }
+                                ],
+                                "resourceId": {
+                                  "Ref": "UserApiusers12F31A22"
+                                },
+                                "restApiId": {
+                                  "Ref": "UserApiB6C12381"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                              "version": "2.176.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                          "version": "2.176.0"
+                        }
+                      },
+                      "{userId}": {
+                        "id": "{userId}",
+                        "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/{userId}",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/{userId}/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Resource",
+                              "aws:cdk:cloudformation:props": {
+                                "parentId": {
+                                  "Ref": "UserApiusers12F31A22"
+                                },
+                                "pathPart": "{userId}",
+                                "restApiId": {
+                                  "Ref": "UserApiB6C12381"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnResource",
+                              "version": "2.176.0"
+                            }
+                          },
+                          "OPTIONS": {
+                            "id": "OPTIONS",
+                            "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/{userId}/OPTIONS",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/{userId}/OPTIONS/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                                  "aws:cdk:cloudformation:props": {
+                                    "apiKeyRequired": false,
+                                    "authorizationType": "NONE",
+                                    "httpMethod": "OPTIONS",
+                                    "integration": {
+                                      "type": "MOCK",
+                                      "requestTemplates": {
+                                        "application/json": "{ statusCode: 200 }"
+                                      },
+                                      "integrationResponses": [
+                                        {
+                                          "statusCode": "204",
+                                          "responseParameters": {
+                                            "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,x-api-key,X-Amz-Security-Token'",
+                                            "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                                            "method.response.header.Vary": "'Origin'",
+                                            "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,OPTIONS'",
+                                            "method.response.header.Access-Control-Allow-Credentials": "'true'"
+                                          },
+                                          "responseTemplates": {
+                                            "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://speakhellenic.com\" || $origin == \"https://www.speakhellenic.com\" || $origin == \"https://development.d3v5vb4u9puz3w.amplifyapp.com\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "methodResponses": [
+                                      {
+                                        "statusCode": "204",
+                                        "responseParameters": {
+                                          "method.response.header.Access-Control-Allow-Headers": true,
+                                          "method.response.header.Access-Control-Allow-Origin": true,
+                                          "method.response.header.Vary": true,
+                                          "method.response.header.Access-Control-Allow-Methods": true,
+                                          "method.response.header.Access-Control-Allow-Credentials": true
+                                        }
+                                      }
+                                    ],
+                                    "resourceId": {
+                                      "Ref": "UserApiusersuserId490BEDC2"
+                                    },
+                                    "restApiId": {
+                                      "Ref": "UserApiB6C12381"
+                                    }
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                                  "version": "2.176.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                              "version": "2.176.0"
+                            }
+                          },
+                          "GET": {
+                            "id": "GET",
+                            "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/{userId}/GET",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/{userId}/GET/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                                  "aws:cdk:cloudformation:props": {
+                                    "apiKeyRequired": true,
+                                    "authorizationType": "NONE",
+                                    "httpMethod": "GET",
+                                    "integration": {
+                                      "type": "AWS",
+                                      "uri": "arn:aws:apigateway:eu-west-1:dynamodb:action/GetItem",
+                                      "integrationHttpMethod": "POST",
+                                      "requestTemplates": {
+                                        "application/json": {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              "{\n  \"TableName\": \"",
+                                              {
+                                                "Ref": "UsersTable9725E9C8"
+                                              },
+                                              "\",\n  \"Key\": {\n    \"userId\": { \"S\": \"$util.urlDecode($input.params('userId'))\" }\n  }\n}"
+                                            ]
+                                          ]
+                                        }
+                                      },
+                                      "integrationResponses": [
+                                        {
+                                          "statusCode": "200",
+                                          "responseTemplates": {
+                                            "application/json": "#set($item = $input.path('$.Item'))\n#if($item && $item.userId)\n{\n  \"userId\": \"$item.userId.S\",\n  \"email\": \"$item.email.S\",\n  \"name\": \"$item.name.S\",\n  \"picture\": \"$item.picture.S\",\n  \"createdAt\": \"$item.createdAt.S\",\n  \"lastLoginAt\": \"$item.lastLoginAt.S\"#if($item.completedLessons),\n  \"completedLessons\": [\n    #foreach($lesson in $item.completedLessons.L)\n    {\n      \"id\": \"$lesson.M.id.S\",\n      \"at\": \"$lesson.M.at.S\"\n    }#if($foreach.hasNext),#end\n    #end\n  ]#end\n}\n#else\n#set($context.responseOverride.status = 404)\n{\"message\": \"User not found\"}\n#end"
+                                          },
+                                          "responseParameters": {
+                                            "method.response.header.Access-Control-Allow-Origin": "'*'"
+                                          }
+                                        }
+                                      ],
+                                      "credentials": {
+                                        "Fn::GetAtt": [
+                                          "ApiGatewayDynamoDBRole84FBC2AA",
+                                          "Arn"
+                                        ]
+                                      }
+                                    },
+                                    "methodResponses": [
+                                      {
+                                        "statusCode": "200",
+                                        "responseParameters": {
+                                          "method.response.header.Access-Control-Allow-Origin": true
+                                        }
+                                      },
+                                      {
+                                        "statusCode": "404",
+                                        "responseParameters": {
+                                          "method.response.header.Access-Control-Allow-Origin": true
+                                        }
+                                      }
+                                    ],
+                                    "resourceId": {
+                                      "Ref": "UserApiusersuserId490BEDC2"
+                                    },
+                                    "restApiId": {
+                                      "Ref": "UserApiB6C12381"
+                                    }
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                                  "version": "2.176.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                              "version": "2.176.0"
+                            }
+                          },
+                          "PUT": {
+                            "id": "PUT",
+                            "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/{userId}/PUT",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/{userId}/PUT/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                                  "aws:cdk:cloudformation:props": {
+                                    "apiKeyRequired": true,
+                                    "authorizationType": "NONE",
+                                    "httpMethod": "PUT",
+                                    "integration": {
+                                      "type": "AWS",
+                                      "uri": "arn:aws:apigateway:eu-west-1:dynamodb:action/UpdateItem",
+                                      "integrationHttpMethod": "POST",
+                                      "requestTemplates": {
+                                        "application/json": {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              "#set($inputRoot = $input.path('$'))\n#set($lastLogin = $inputRoot.lastLoginAt)\n#set($completedLessons = $inputRoot.completedLessons)\n\n## Build update expression and attribute values dynamically\n#set($updates = [])\n#set($attrValues = \"{\")\n#set($hasValues = false)\n\n## lastLoginAt\n#if($lastLogin && $lastLogin != \"\")\n  #set($void = $updates.add(\"lastLoginAt = :lastLoginAt\"))\n  #if($hasValues)#set($attrValues = \"$attrValues,\")#end\n  #set($attrValues = \"$attrValues\"\":lastLoginAt\"\": {\"\"S\"\": \"\"$lastLogin\"\"}\")\n  #set($hasValues = true)\n#end\n\n## completedLessons (supports empty array)\n#if($completedLessons)\n  #set($void = $updates.add(\"completedLessons = :completedLessons\"))\n  #if($hasValues)#set($attrValues = \"$attrValues,\")#end\n  #set($attrValues = \"$attrValues\"\":completedLessons\"\": {\"\"L\"\": [\")\n  #set($first = true)\n  #foreach($lesson in $completedLessons)\n    #if(!$first)#set($attrValues = \"$attrValues,\")#end\n    #set($attrValues = \"$attrValues{\"\"M\"\": {\"\"id\"\": {\"\"S\"\": \"\"$lesson.id\"\"}, \"\"at\"\": {\"\"S\"\": \"\"$lesson.at\"\"}}}\")\n    #set($first = false)\n  #end\n  #set($attrValues = \"$attrValues]}\")\n  #set($hasValues = true)\n#end\n\n#set($attrValues = \"$attrValues}\")\n\n## Build final update expression\n#set($updateExpr = \"SET \")\n#foreach($update in $updates)\n$update#if($foreach.hasNext), #end\n#end\n\n{\n  \"TableName\": \"",
+                                              {
+                                                "Ref": "UsersTable9725E9C8"
+                                              },
+                                              "\",\n  \"Key\": {\n    \"userId\": { \"S\": \"$util.urlDecode($input.params('userId'))\" }\n  },\n  \"UpdateExpression\": \"$updateExpr\",\n  \"ConditionExpression\": \"attribute_exists(userId)\",\n  \"ExpressionAttributeValues\": $attrValues,\n  \"ReturnValues\": \"ALL_NEW\"\n}"
+                                            ]
+                                          ]
+                                        }
+                                      },
+                                      "integrationResponses": [
+                                        {
+                                          "statusCode": "200",
+                                          "responseTemplates": {
+                                            "application/json": "#set($attrs = $input.path('$.Attributes'))\n{\n  \"userId\": \"$attrs.userId.S\",\n  \"email\": \"$attrs.email.S\",\n  \"name\": \"$attrs.name.S\",\n  \"picture\": \"$attrs.picture.S\",\n  \"createdAt\": \"$attrs.createdAt.S\",\n  \"lastLoginAt\": \"$attrs.lastLoginAt.S\"#if($attrs.completedLessons),\n  \"completedLessons\": [\n    #foreach($lesson in $attrs.completedLessons.L)\n    {\n      \"id\": \"$lesson.M.id.S\",\n      \"at\": \"$lesson.M.at.S\"\n    }#if($foreach.hasNext),#end\n    #end\n  ]#end\n}"
+                                          },
+                                          "responseParameters": {
+                                            "method.response.header.Access-Control-Allow-Origin": "'*'"
+                                          }
+                                        },
+                                        {
+                                          "statusCode": "400",
+                                          "selectionPattern": ".*ValidationError.*",
+                                          "responseTemplates": {
+                                            "application/json": "{ \"error\": \"ValidationError\", \"message\": \"Invalid request: check completedLessons structure or ensure at least one field is provided\" }"
+                                          },
+                                          "responseParameters": {
+                                            "method.response.header.Access-Control-Allow-Origin": "'*'"
+                                          }
+                                        },
+                                        {
+                                          "statusCode": "404",
+                                          "selectionPattern": ".*ConditionalCheckFailedException.*",
+                                          "responseTemplates": {
+                                            "application/json": "{ \"error\": \"ConditionFailed\", \"message\": \"The update condition was not met\" }"
+                                          },
+                                          "responseParameters": {
+                                            "method.response.header.Access-Control-Allow-Origin": "'*'"
+                                          }
+                                        },
+                                        {
+                                          "statusCode": "500",
+                                          "selectionPattern": ".*ServiceUnavailable.*|.*InternalServerError.*",
+                                          "responseTemplates": {
+                                            "application/json": "{ \"error\": \"ServiceError\", \"message\": \"An internal service error occurred\" }"
+                                          },
+                                          "responseParameters": {
+                                            "method.response.header.Access-Control-Allow-Origin": "'*'"
+                                          }
+                                        }
+                                      ],
+                                      "credentials": {
+                                        "Fn::GetAtt": [
+                                          "ApiGatewayDynamoDBRole84FBC2AA",
+                                          "Arn"
+                                        ]
+                                      }
+                                    },
+                                    "methodResponses": [
+                                      {
+                                        "statusCode": "200",
+                                        "responseParameters": {
+                                          "method.response.header.Access-Control-Allow-Origin": true
+                                        }
+                                      },
+                                      {
+                                        "statusCode": "400",
+                                        "responseParameters": {
+                                          "method.response.header.Access-Control-Allow-Origin": true
+                                        }
+                                      },
+                                      {
+                                        "statusCode": "404",
+                                        "responseParameters": {
+                                          "method.response.header.Access-Control-Allow-Origin": true
+                                        }
+                                      },
+                                      {
+                                        "statusCode": "500",
+                                        "responseParameters": {
+                                          "method.response.header.Access-Control-Allow-Origin": true
+                                        }
+                                      }
+                                    ],
+                                    "resourceId": {
+                                      "Ref": "UserApiusersuserId490BEDC2"
+                                    },
+                                    "restApiId": {
+                                      "Ref": "UserApiB6C12381"
+                                    }
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                                  "version": "2.176.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                              "version": "2.176.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Resource",
+                          "version": "2.176.0"
+                        }
+                      },
+                      "POST": {
+                        "id": "POST",
+                        "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/POST",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/Default/users/POST/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                              "aws:cdk:cloudformation:props": {
+                                "apiKeyRequired": true,
+                                "authorizationType": "NONE",
+                                "httpMethod": "POST",
+                                "integration": {
+                                  "type": "AWS",
+                                  "uri": "arn:aws:apigateway:eu-west-1:dynamodb:action/PutItem",
+                                  "integrationHttpMethod": "POST",
+                                  "requestTemplates": {
+                                    "application/json": {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "#set($userId = $input.path('$.userId'))\n#set($email = $input.path('$.email'))\n#set($name = $input.path('$.name'))\n#set($picture = $input.path('$.picture'))\n#set($createdAt = $input.path('$.createdAt'))\n#set($lastLoginAt = $input.path('$.lastLoginAt'))\n{\n  \"TableName\": \"",
+                                          {
+                                            "Ref": "UsersTable9725E9C8"
+                                          },
+                                          "\",\n  \"Item\": {\n    \"userId\": { \"S\": \"$userId\" },\n    \"email\": { \"S\": \"$email\" },\n    \"name\": { \"S\": \"$name\" },\n    \"picture\": { \"S\": \"$picture\" },\n    \"createdAt\": { \"S\": \"$createdAt\" },\n    \"lastLoginAt\": { \"S\": \"$lastLoginAt\" }\n  },\n  \"ConditionExpression\": \"attribute_not_exists(userId)\",\n  \"ReturnValues\": \"ALL_NEW\"\n}"
+                                        ]
+                                      ]
+                                    }
+                                  },
+                                  "integrationResponses": [
+                                    {
+                                      "statusCode": "200",
+                                      "responseTemplates": {
+                                        "application/json": "#set($attrs = $input.path('$.Attributes'))\n{\n  \"userId\": \"$attrs.userId.S\",\n  \"email\": \"$attrs.email.S\",\n  \"name\": \"$attrs.name.S\",\n  \"picture\": \"$attrs.picture.S\",\n  \"createdAt\": \"$attrs.createdAt.S\",\n  \"lastLoginAt\": \"$attrs.lastLoginAt.S\"\n}"
+                                      },
+                                      "responseParameters": {
+                                        "method.response.header.Access-Control-Allow-Origin": "'*'"
+                                      }
+                                    },
+                                    {
+                                      "statusCode": "400",
+                                      "selectionPattern": ".*/error.*",
+                                      "responseTemplates": {
+                                        "application/json": "{ \"error\": \"ValidationError\", \"message\": \"Missing required fields: userId and email are required\" }"
+                                      },
+                                      "responseParameters": {
+                                        "method.response.header.Access-Control-Allow-Origin": "'*'"
+                                      }
+                                    },
+                                    {
+                                      "statusCode": "400",
+                                      "selectionPattern": ".*ConditionalCheckFailedException.*",
+                                      "responseTemplates": {
+                                        "application/json": "{ \"error\": \"UserAlreadyExists\", \"message\": \"A user with this userId already exists\" }"
+                                      },
+                                      "responseParameters": {
+                                        "method.response.header.Access-Control-Allow-Origin": "'*'"
+                                      }
+                                    },
+                                    {
+                                      "statusCode": "500",
+                                      "selectionPattern": ".*ServiceUnavailable.*|.*InternalServerError.*",
+                                      "responseTemplates": {
+                                        "application/json": "{ \"error\": \"ServiceError\", \"message\": \"An internal service error occurred\" }"
+                                      },
+                                      "responseParameters": {
+                                        "method.response.header.Access-Control-Allow-Origin": "'*'"
+                                      }
+                                    }
+                                  ],
+                                  "credentials": {
+                                    "Fn::GetAtt": [
+                                      "ApiGatewayDynamoDBRole84FBC2AA",
+                                      "Arn"
+                                    ]
+                                  }
+                                },
+                                "methodResponses": [
+                                  {
+                                    "statusCode": "200",
+                                    "responseParameters": {
+                                      "method.response.header.Access-Control-Allow-Origin": true
+                                    }
+                                  },
+                                  {
+                                    "statusCode": "400",
+                                    "responseParameters": {
+                                      "method.response.header.Access-Control-Allow-Origin": true
+                                    }
+                                  },
+                                  {
+                                    "statusCode": "500",
+                                    "responseParameters": {
+                                      "method.response.header.Access-Control-Allow-Origin": true
+                                    }
+                                  }
+                                ],
+                                "resourceId": {
+                                  "Ref": "UserApiusers12F31A22"
+                                },
+                                "restApiId": {
+                                  "Ref": "UserApiB6C12381"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                              "version": "2.176.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                          "version": "2.176.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.Resource",
+                      "version": "2.176.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.ResourceBase",
+                  "version": "2.176.0"
+                }
+              },
+              "UserApiKey": {
+                "id": "UserApiKey",
+                "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/UserApiKey",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/UserApiKey/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGateway::ApiKey",
+                      "aws:cdk:cloudformation:props": {
+                        "description": "API key for frontend authentication",
+                        "enabled": true,
+                        "name": "speak-greek-now-user-api-key",
+                        "stageKeys": [
+                          {
+                            "restApiId": {
+                              "Ref": "UserApiB6C12381"
+                            },
+                            "stageName": {
+                              "Ref": "UserApiDeploymentStageprod08A07725"
+                            }
+                          }
+                        ],
+                        "tags": [
+                          {
+                            "key": "Component",
+                            "value": "UserAuthentication"
+                          },
+                          {
+                            "key": "Environment",
+                            "value": "dev"
+                          },
+                          {
+                            "key": "Project",
+                            "value": "SpeakHellenic"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.CfnApiKey",
+                      "version": "2.176.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.ApiKey",
+                  "version": "2.176.0"
+                }
+              },
+              "UserApiUsagePlan": {
+                "id": "UserApiUsagePlan",
+                "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/UserApiUsagePlan",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/UserApiUsagePlan/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGateway::UsagePlan",
+                      "aws:cdk:cloudformation:props": {
+                        "apiStages": [
+                          {
+                            "apiId": {
+                              "Ref": "UserApiB6C12381"
+                            },
+                            "stage": {
+                              "Ref": "UserApiDeploymentStageprod08A07725"
+                            },
+                            "throttle": {}
+                          }
+                        ],
+                        "description": "Usage plan optimized for MVP scale (200 req/min target)",
+                        "quota": {
+                          "limit": 5000,
+                          "period": "MONTH"
+                        },
+                        "tags": [
+                          {
+                            "key": "Component",
+                            "value": "UserAuthentication"
+                          },
+                          {
+                            "key": "Environment",
+                            "value": "dev"
+                          },
+                          {
+                            "key": "Project",
+                            "value": "SpeakHellenic"
+                          }
+                        ],
+                        "throttle": {
+                          "burstLimit": 20,
+                          "rateLimit": 10
+                        },
+                        "usagePlanName": "MVP Usage Plan"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.CfnUsagePlan",
+                      "version": "2.176.0"
+                    }
+                  },
+                  "UsagePlanKeyResource:SpeakHellenicUserLoginServiceStackdevUserApiUserApiKey791F9715": {
+                    "id": "UsagePlanKeyResource:SpeakHellenicUserLoginServiceStackdevUserApiUserApiKey791F9715",
+                    "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApi/UserApiUsagePlan/UsagePlanKeyResource:SpeakHellenicUserLoginServiceStackdevUserApiUserApiKey791F9715",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGateway::UsagePlanKey",
+                      "aws:cdk:cloudformation:props": {
+                        "keyId": {
+                          "Ref": "UserApiUserApiKey302629E5"
+                        },
+                        "keyType": "API_KEY",
+                        "usagePlanId": {
+                          "Ref": "UserApiUserApiUsagePlanAB07E32D"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.CfnUsagePlanKey",
+                      "version": "2.176.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.UsagePlan",
+                  "version": "2.176.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_apigateway.RestApi",
+              "version": "2.176.0"
+            }
+          },
+          "ApiGatewayDynamoDBRole": {
+            "id": "ApiGatewayDynamoDBRole",
+            "path": "SpeakHellenic-UserLoginServiceStack-dev/ApiGatewayDynamoDBRole",
+            "children": {
+              "ImportApiGatewayDynamoDBRole": {
+                "id": "ImportApiGatewayDynamoDBRole",
+                "path": "SpeakHellenic-UserLoginServiceStack-dev/ApiGatewayDynamoDBRole/ImportApiGatewayDynamoDBRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.176.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "SpeakHellenic-UserLoginServiceStack-dev/ApiGatewayDynamoDBRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "apigateway.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "description": "Allows API Gateway to perform operations on DynamoDB users table"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.176.0"
+                }
+              },
+              "DefaultPolicy": {
+                "id": "DefaultPolicy",
+                "path": "SpeakHellenic-UserLoginServiceStack-dev/ApiGatewayDynamoDBRole/DefaultPolicy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SpeakHellenic-UserLoginServiceStack-dev/ApiGatewayDynamoDBRole/DefaultPolicy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "dynamodb:BatchGetItem",
+                                "dynamodb:BatchWriteItem",
+                                "dynamodb:ConditionCheckItem",
+                                "dynamodb:DeleteItem",
+                                "dynamodb:DescribeTable",
+                                "dynamodb:GetItem",
+                                "dynamodb:GetRecords",
+                                "dynamodb:GetShardIterator",
+                                "dynamodb:PutItem",
+                                "dynamodb:Query",
+                                "dynamodb:Scan",
+                                "dynamodb:UpdateItem"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "UsersTable9725E9C8",
+                                    "Arn"
+                                  ]
+                                },
+                                {
+                                  "Ref": "AWS::NoValue"
+                                }
+                              ]
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "ApiGatewayDynamoDBRoleDefaultPolicy0337A457",
+                        "roles": [
+                          {
+                            "Ref": "ApiGatewayDynamoDBRole84FBC2AA"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.176.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.176.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.176.0"
+            }
+          },
+          "UserApiErrorAlarm": {
+            "id": "UserApiErrorAlarm",
+            "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApiErrorAlarm",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApiErrorAlarm/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::CloudWatch::Alarm",
+                  "aws:cdk:cloudformation:props": {
+                    "alarmDescription": "Alert when User API has high error rate (4xx/5xx)",
+                    "alarmName": "SpeakHellenic-UserApi-HighErrorRate",
+                    "comparisonOperator": "GreaterThanOrEqualToThreshold",
+                    "evaluationPeriods": 2,
+                    "metrics": [
+                      {
+                        "expression": "clientErrors + serverErrors",
+                        "id": "expr_1"
+                      },
+                      {
+                        "metricStat": {
+                          "metric": {
+                            "metricName": "4XXError",
+                            "namespace": "AWS/ApiGateway",
+                            "dimensions": [
+                              {
+                                "name": "ApiName",
+                                "value": "Speak Greek Now User API"
+                              }
+                            ]
+                          },
+                          "period": 300,
+                          "stat": "Sum"
+                        },
+                        "id": "clientErrors",
+                        "returnData": false
+                      },
+                      {
+                        "metricStat": {
+                          "metric": {
+                            "metricName": "5XXError",
+                            "namespace": "AWS/ApiGateway",
+                            "dimensions": [
+                              {
+                                "name": "ApiName",
+                                "value": "Speak Greek Now User API"
+                              }
+                            ]
+                          },
+                          "period": 300,
+                          "stat": "Sum"
+                        },
+                        "id": "serverErrors",
+                        "returnData": false
+                      }
+                    ],
+                    "threshold": 10,
+                    "treatMissingData": "notBreaching"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cloudwatch.CfnAlarm",
+                  "version": "2.176.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_cloudwatch.Alarm",
+              "version": "2.176.0"
+            }
+          },
+          "UserApiUrl": {
+            "id": "UserApiUrl",
+            "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApiUrl",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.176.0"
+            }
+          },
+          "UserApiKeyId": {
+            "id": "UserApiKeyId",
+            "path": "SpeakHellenic-UserLoginServiceStack-dev/UserApiKeyId",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.176.0"
+            }
+          },
+          "UsersTableName": {
+            "id": "UsersTableName",
+            "path": "SpeakHellenic-UserLoginServiceStack-dev/UsersTableName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.176.0"
+            }
+          },
+          "UsersTableArn": {
+            "id": "UsersTableArn",
+            "path": "SpeakHellenic-UserLoginServiceStack-dev/UsersTableArn",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.176.0"
+            }
+          },
+          "AccessLogGroupName": {
+            "id": "AccessLogGroupName",
+            "path": "SpeakHellenic-UserLoginServiceStack-dev/AccessLogGroupName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.176.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "SpeakHellenic-UserLoginServiceStack-dev/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "SpeakHellenic-UserLoginServiceStack-dev/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.176.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.4.4"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "SpeakHellenic-UserLoginServiceStack-dev/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.176.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "SpeakHellenic-UserLoginServiceStack-dev/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.176.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.176.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.4.4"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.176.0"
+    }
+  }
+}
