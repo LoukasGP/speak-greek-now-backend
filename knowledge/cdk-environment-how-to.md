@@ -1,6 +1,6 @@
 Configure environments to use with the AWS CDK - AWS Cloud Development Kit (AWS CDK) v2 { "@context" : "https://schema.org", "@type" : "BreadcrumbList", "itemListElement" : \[ { "@type" : "ListItem", "position" : 1, "name" : "AWS", "item" : "https://aws.amazon.com" }, { "@type" : "ListItem", "position" : 2, "name" : "AWS Cloud Development Kit", "item" : "https://docs.aws.amazon.com/cdk/index.html" }, { "@type" : "ListItem", "position" : 3, "name" : "Developer Guide", "item" : "https://docs.aws.amazon.com/cdk/v2/guide" }, { "@type" : "ListItem", "position" : 4, "name" : "Configure environments to use with the AWS CDK", "item" : "https://docs.aws.amazon.com/cdk/v2/guide/configure-env.html" } \] }
 
-[](/pdfs/cdk/v2/guide/awscdk.pdf#configure-env "Open PDF")[](https://github.com/awsdocs/aws-cdk-guide/tree/main/v2/guide/configure-env.adoc "Edit this page on GitHub")
+[](/pdfs/cdk/v2/guide/awscdk.pdf#configure-env 'Open PDF')[](https://github.com/awsdocs/aws-cdk-guide/tree/main/v2/guide/configure-env.adoc 'Edit this page on GitHub')
 
 [Documentation](/index.html)[AWS Cloud Development Kit](/cdk/index.html)[Developer Guide](home.html)
 
@@ -18,8 +18,7 @@ For an introduction to AWS environments, see [Environments for the AWS CDK](./en
 
 Where you can specify environments from
 
-
------------------------------------------
+---
 
 You can specify environments in credentials and configuration files, or by using the `[env](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.Stack.html#env)` property of the `Stack` construct from the AWS Construct Library.
 
@@ -41,24 +40,18 @@ To pass environment variables, use the `AWS_DEFAULT_ACCOUNT` and `AWS_DEFAULT_RE
 
 Environment precedence with the AWS CDK
 
-
------------------------------------------
+---
 
 If you use multiple methods of specifying environments, the AWS CDK adheres to the following precedence:
 
 1.  Hard-coded values specified with the `env` property of the `Stack` construct.
-    
 2.  `AWS_DEFAULT_ACCOUNT` and `AWS_DEFAULT_REGION` environment variables specified with the `env` property of the `Stack` construct.
-    
 3.  Environment information associated with the profile from your `credentials` and `config` files and passed to the CDK CLI using the `--profile` option.
-    
 4.  The `default` profile from your `credentials` and `config` files.
-    
 
 When to specify environments
 
-
-------------------------------
+---
 
 When you develop with the CDK, you start by defining CDK stacks, which contain constructs that represent AWS resources. Next, you synthesize each CDK stack into an AWS CloudFormation template. You then deploy the CloudFormation template to your environment. How you specify environments determines when your environment information gets applied and can affect CDK behavior and outcomes.
 
@@ -86,8 +79,7 @@ For environment-agnostic stacks, any construct that uses Availability Zones will
 
 How to specify environments with the AWS CDK
 
-
-----------------------------------------------
+---
 
 ### Specify hard-coded environments for each stack
 
@@ -119,18 +111,12 @@ Go
 
 anchoranchoranchoranchoranchoranchor
 
-*   TypeScript
-    
-*   JavaScript
-    
-*   Python
-    
-*   Java
-    
-*   C#
-    
-*   Go
-    
+- TypeScript
+- JavaScript
+- Python
+- Java
+- C#
+- Go
 
 `const envEU  = { account: '2383838383', region: 'eu-west-1' }; const envUSA = { account: '8373873873', region: 'us-west-2' };  new MyFirstStack(app, 'first-stack-us', { env: envUSA }); new MyFirstStack(app, 'first-stack-eu', { env: envEU });`
 
@@ -184,18 +170,12 @@ Go
 
 anchoranchoranchoranchoranchoranchor
 
-*   TypeScript
-    
-*   JavaScript
-    
-*   Python
-    
-*   Java
-    
-*   C#
-    
-*   Go
-    
+- TypeScript
+- JavaScript
+- Python
+- Java
+- C#
+- Go
 
 Access environment variables via Node’s `process` object.
 
@@ -221,8 +201,7 @@ For more information on the `--profile` option, along with other CDK CLI command
 
 Considerations when configuring environments with the AWS CDK
 
-
----------------------------------------------------------------
+---
 
 Services that you define by using constructs within your stacks must support the Region that you are deploying to. For a list of supported AWS services per region, see [AWS Services by Region](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
 
@@ -230,8 +209,7 @@ You must have valid AWS Identity and Access Management (IAM) credentials to perf
 
 Examples
 
-
-----------
+---
 
 ### Synthesize an environment–agnostic CloudFormation template from a CDK stack
 
@@ -265,18 +243,12 @@ Go
 
 anchoranchoranchoranchoranchoranchor
 
-*   TypeScript
-    
-*   JavaScript
-    
-*   Python
-    
-*   Java
-    
-*   C#
-    
-*   Go
-    
+- TypeScript
+- JavaScript
+- Python
+- Java
+- C#
+- Go
 
 `export class CdkAppStack extends cdk.Stack {   constructor(scope: Construct, id: string, props?: cdk.StackProps) {     super(scope, id, props);      // Create the S3 bucket     const bucket = new s3.Bucket(this, 'amzn-s3-demo-bucket', {       removalPolicy: cdk.RemovalPolicy.DESTROY,     });      // Create an output for the bucket's Region     new cdk.CfnOutput(this, 'BucketRegion', {       value: bucket.env.region,     });   } }`
 
@@ -320,18 +292,12 @@ Go
 
 anchoranchoranchoranchoranchoranchor
 
-*   TypeScript
-    
-*   JavaScript
-    
-*   Python
-    
-*   Java
-    
-*   C#
-    
-*   Go
-    
+- TypeScript
+- JavaScript
+- Python
+- Java
+- C#
+- Go
 
 `new MyDevStack(app, 'dev', {   env: {     account: process.env.CDK_DEPLOY_ACCOUNT || process.env.CDK_DEFAULT_ACCOUNT,     region: process.env.CDK_DEPLOY_REGION || process.env.CDK_DEFAULT_REGION }});`
 
@@ -351,10 +317,8 @@ The Windows version of the script uses PowerShell to provide the same functional
 
 anchoranchor
 
-*   macOS/Linux
-    
-*   Windows
-    
+- macOS/Linux
+- Windows
 
 `@findstr /B /V @ %~dpnx0 > %~dpn0.ps1 && powershell -ExecutionPolicy Bypass %~dpn0.ps1 %* @exit /B %ERRORLEVEL% if ($args.length -ge 2) {     $env:CDK_DEPLOY_ACCOUNT, $args = $args     $env:CDK_DEPLOY_REGION,  $args = $args     npx cdk deploy $args     exit $lastExitCode } else {     [console]::error.writeline("Provide account and region as first two args.")     [console]::error.writeline("Additional args are passed through to cdk deploy.")     exit 1 }`
 
@@ -372,10 +336,8 @@ Windows
 
 anchoranchor
 
-*   macOS/Linux
-    
-*   Windows
-    
+- macOS/Linux
+- Windows
 
 `@echo off rem cdk-deploy-to-test.bat cdk-deploy-to 135792469 us-east-1 %*`
 
@@ -391,10 +353,8 @@ Windows
 
 anchoranchor
 
-*   macOS/Linux
-    
-*   Windows
-    
+- macOS/Linux
+- Windows
 
 `@echo off rem cdk-deploy-to-prod.bat cdk-deploy-to 135792469 us-west-1 %* || exit /B cdk-deploy-to 245813579 eu-west-1 %*`
 
@@ -420,19 +380,17 @@ Thanks for letting us know this page needs work. We're sorry we let you down.
 
 If you've got a moment, please tell us how we can make the documentation better.
 
-*   ### On this page
-    
-    1.  [Where you can specify environments from](#configure-env-where)
-    2.  [Environment precedence with the AWS CDK](#configure-env-precedence)
-    3.  [When to specify environments](#configure-env-when)
-    4.  [How to specify environments with the AWS CDK](#configure-env-how)
-    5.  [Considerations when configuring environments with the AWS CDK](#configure-env-considerations)
-    6.  [Examples](#configure-env-examples)
-    
-*   ### Adjust text size
-    
-    1420
-    
+- ### On this page
+  1.  [Where you can specify environments from](#configure-env-where)
+  2.  [Environment precedence with the AWS CDK](#configure-env-precedence)
+  3.  [When to specify environments](#configure-env-when)
+  4.  [How to specify environments with the AWS CDK](#configure-env-how)
+  5.  [Considerations when configuring environments with the AWS CDK](#configure-env-considerations)
+  6.  [Examples](#configure-env-examples)
+
+- ### Adjust text size
+
+  1420
 
 #### Next topic:
 
@@ -444,4 +402,4 @@ If you've got a moment, please tell us how we can make the documentation better.
 
 #### Need help?
 
-*   [Try AWS re:Post](https://repost.aws/topics/TA9fmRfPodSgylDF8ojd9A_w)
+- [Try AWS re:Post](https://repost.aws/topics/TA9fmRfPodSgylDF8ojd9A_w)

@@ -20,7 +20,7 @@
     "diff:prod": "cdk diff --all -c environment=prod",
     "destroy:dev": "cdk destroy --all -c environment=dev",
     "destroy:prod": "cdk destroy --all -c environment=prod",
-    "format": "prettier --write \"**/*.{ts,json,md}\"",
+    "format": "prettier --write .",
     "format:check": "prettier --check \"**/*.{ts,json,md}\"",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"

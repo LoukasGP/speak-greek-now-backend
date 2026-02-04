@@ -1,188 +1,168 @@
 {
- "Description": "S3 Storage Stack for dev environment - Speak Hellenic MP3 files",
- "Resources": {
-  "SpeakHellenicBucket8D85DBB2": {
-   "Type": "AWS::S3::Bucket",
-   "Properties": {
-    "BucketName": "speak-greek-now-lessons-dev-471112806172",
-    "CorsConfiguration": {
-     "CorsRules": [
-      {
-       "AllowedHeaders": [
-        "Authorization",
-        "Content-Type",
-        "x-amz-date",
-        "x-amz-user-agent"
-       ],
-       "AllowedMethods": [
-        "GET",
-        "HEAD"
-       ],
-       "AllowedOrigins": [
-        "http://localhost:3000",
-        "https://speakhellenic.com",
-        "https://www.speakhellenic.com",
-        "https://development.d3v5vb4u9puz3w.amplifyapp.com"
-       ],
-       "MaxAge": 3000
-      }
-     ]
-    },
-    "PublicAccessBlockConfiguration": {
-     "BlockPublicAcls": true,
-     "IgnorePublicAcls": true
-    },
-    "Tags": [
-     {
-      "Key": "Component",
-      "Value": "LessonStorage"
-     },
-     {
-      "Key": "Environment",
-      "Value": "dev"
-     },
-     {
-      "Key": "Project",
-      "Value": "SpeakHellenic"
-     }
-    ],
-    "VersioningConfiguration": {
-     "Status": "Enabled"
-    }
-   },
-   "UpdateReplacePolicy": "Retain",
-   "DeletionPolicy": "Retain",
-   "Metadata": {
-    "aws:cdk:path": "SpeakHellenic-S3StorageStack-dev/SpeakHellenicBucket/Resource"
-   }
-  },
-  "SpeakHellenicBucketPolicy7C09CB41": {
-   "Type": "AWS::S3::BucketPolicy",
-   "Properties": {
-    "Bucket": {
-     "Ref": "SpeakHellenicBucket8D85DBB2"
-    },
-    "PolicyDocument": {
-     "Statement": [
-      {
-       "Action": "s3:GetObject",
-       "Effect": "Allow",
-       "Principal": {
-        "AWS": "*"
-       },
-       "Resource": {
-        "Fn::Join": [
-         "",
-         [
+  "Description": "S3 Storage Stack for dev environment - Speak Hellenic MP3 files",
+  "Resources": {
+    "SpeakHellenicBucket8D85DBB2": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": "speak-greek-now-lessons-dev-471112806172",
+        "CorsConfiguration": {
+          "CorsRules": [
+            {
+              "AllowedHeaders": ["Authorization", "Content-Type", "x-amz-date", "x-amz-user-agent"],
+              "AllowedMethods": ["GET", "HEAD"],
+              "AllowedOrigins": [
+                "http://localhost:3000",
+                "https://speakhellenic.com",
+                "https://www.speakhellenic.com",
+                "https://development.d3v5vb4u9puz3w.amplifyapp.com"
+              ],
+              "MaxAge": 3000
+            }
+          ]
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "IgnorePublicAcls": true
+        },
+        "Tags": [
           {
-           "Fn::GetAtt": [
-            "SpeakHellenicBucket8D85DBB2",
-            "Arn"
-           ]
+            "Key": "Component",
+            "Value": "LessonStorage"
           },
-          "/*"
-         ]
-        ]
-       }
-      }
-     ],
-     "Version": "2012-10-17"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "SpeakHellenic-S3StorageStack-dev/SpeakHellenicBucket/Policy/Resource"
-   }
-  },
-  "CDKMetadata": {
-   "Type": "AWS::CDK::Metadata",
-   "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zPSMzQ30zNQTCwv1k1OydbNyUzSqw4uSUzO1kksL44vNtardipNzk4t0XFOy4OyIFRAfk5mciVCGMKvBQn4l5YUlIJ1BKUW55cWJafW6uTlp6TqZRXrlxmZ6hnpGSpmFWdm6haV5pVk5qbqBUFoAHY/27qNAAAA"
-   },
-   "Metadata": {
-    "aws:cdk:path": "SpeakHellenic-S3StorageStack-dev/CDKMetadata/Default"
-   }
-  }
- },
- "Outputs": {
-  "BucketName": {
-   "Description": "Name of the S3 bucket for MP3 lesson files",
-   "Value": {
-    "Ref": "SpeakHellenicBucket8D85DBB2"
-   },
-   "Export": {
-    "Name": "LessonBucketName"
-   }
-  },
-  "BucketArn": {
-   "Description": "ARN of the S3 bucket",
-   "Value": {
-    "Fn::GetAtt": [
-     "SpeakHellenicBucket8D85DBB2",
-     "Arn"
-    ]
-   },
-   "Export": {
-    "Name": "LessonBucketArn"
-   }
-  },
-  "BucketUrl": {
-   "Description": "Direct S3 URL for public access to lesson files",
-   "Value": {
-    "Fn::Join": [
-     "",
-     [
-      "https://",
-      {
-       "Ref": "SpeakHellenicBucket8D85DBB2"
+          {
+            "Key": "Environment",
+            "Value": "dev"
+          },
+          {
+            "Key": "Project",
+            "Value": "SpeakHellenic"
+          }
+        ],
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        }
       },
-      ".s3.eu-west-1.amazonaws.com"
-     ]
-    ]
-   },
-   "Export": {
-    "Name": "LessonBucketUrl"
-   }
-  },
-  "BucketRegion": {
-   "Description": "AWS region of the S3 bucket",
-   "Value": "eu-west-1",
-   "Export": {
-    "Name": "LessonBucketRegion"
-   }
-  }
- },
- "Parameters": {
-  "BootstrapVersion": {
-   "Type": "AWS::SSM::Parameter::Value<String>",
-   "Default": "/cdk-bootstrap/sgn2026/version",
-   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
-  }
- },
- "Rules": {
-  "CheckBootstrapVersion": {
-   "Assertions": [
-    {
-     "Assert": {
-      "Fn::Not": [
-       {
-        "Fn::Contains": [
-         [
-          "1",
-          "2",
-          "3",
-          "4",
-          "5"
-         ],
-         {
-          "Ref": "BootstrapVersion"
-         }
-        ]
-       }
-      ]
-     },
-     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "SpeakHellenic-S3StorageStack-dev/SpeakHellenicBucket/Resource"
+      }
+    },
+    "SpeakHellenicBucketPolicy7C09CB41": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "SpeakHellenicBucket8D85DBB2"
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": ["SpeakHellenicBucket8D85DBB2", "Arn"]
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "SpeakHellenic-S3StorageStack-dev/SpeakHellenicBucket/Policy/Resource"
+      }
+    },
+    "CDKMetadata": {
+      "Type": "AWS::CDK::Metadata",
+      "Properties": {
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/zPSMzQ30zNQTCwv1k1OydbNyUzSqw4uSUzO1kksL44vNtardipNzk4t0XFOy4OyIFRAfk5mciVCGMKvBQn4l5YUlIJ1BKUW55cWJafW6uTlp6TqZRXrlxmZ6hnpGSpmFWdm6haV5pVk5qbqBUFoAHY/27qNAAAA"
+      },
+      "Metadata": {
+        "aws:cdk:path": "SpeakHellenic-S3StorageStack-dev/CDKMetadata/Default"
+      }
     }
-   ]
+  },
+  "Outputs": {
+    "BucketName": {
+      "Description": "Name of the S3 bucket for MP3 lesson files",
+      "Value": {
+        "Ref": "SpeakHellenicBucket8D85DBB2"
+      },
+      "Export": {
+        "Name": "LessonBucketName"
+      }
+    },
+    "BucketArn": {
+      "Description": "ARN of the S3 bucket",
+      "Value": {
+        "Fn::GetAtt": ["SpeakHellenicBucket8D85DBB2", "Arn"]
+      },
+      "Export": {
+        "Name": "LessonBucketArn"
+      }
+    },
+    "BucketUrl": {
+      "Description": "Direct S3 URL for public access to lesson files",
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "SpeakHellenicBucket8D85DBB2"
+            },
+            ".s3.eu-west-1.amazonaws.com"
+          ]
+        ]
+      },
+      "Export": {
+        "Name": "LessonBucketUrl"
+      }
+    },
+    "BucketRegion": {
+      "Description": "AWS region of the S3 bucket",
+      "Value": "eu-west-1",
+      "Export": {
+        "Name": "LessonBucketRegion"
+      }
+    }
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Type": "AWS::SSM::Parameter::Value<String>",
+      "Default": "/cdk-bootstrap/sgn2026/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+    }
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  ["1", "2", "3", "4", "5"],
+                  {
+                    "Ref": "BootstrapVersion"
+                  }
+                ]
+              }
+            ]
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+        }
+      ]
+    }
   }
- }
 }

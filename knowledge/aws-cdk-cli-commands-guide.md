@@ -1,6 +1,6 @@
 AWS CDK CLI reference - AWS Cloud Development Kit (AWS CDK) v2 { "@context" : "https://schema.org", "@type" : "BreadcrumbList", "itemListElement" : \[ { "@type" : "ListItem", "position" : 1, "name" : "AWS", "item" : "https://aws.amazon.com" }, { "@type" : "ListItem", "position" : 2, "name" : "AWS Cloud Development Kit", "item" : "https://docs.aws.amazon.com/cdk/index.html" }, { "@type" : "ListItem", "position" : 3, "name" : "Developer Guide", "item" : "https://docs.aws.amazon.com/cdk/v2/guide" }, { "@type" : "ListItem", "position" : 4, "name" : "AWS CDK CLI reference", "item" : "https://docs.aws.amazon.com/cdk/v2/guide/cli.html" } \] }
 
-[](/pdfs/cdk/v2/guide/awscdk.pdf#cli "Open PDF")[](https://github.com/awsdocs/aws-cdk-guide/tree/main/v2/guide/cli.adoc "Edit this page on GitHub")
+[](/pdfs/cdk/v2/guide/awscdk.pdf#cli 'Open PDF')[](https://github.com/awsdocs/aws-cdk-guide/tree/main/v2/guide/cli.adoc 'Edit this page on GitHub')
 
 [Documentation](/index.html)[AWS Cloud Development Kit](/cdk/index.html)[Developer Guide](home.html)
 
@@ -22,8 +22,7 @@ If you regularly work with multiple versions of the AWS CDK, consider installing
 
 CDK CLI commands
 
-
-------------------
+---
 
 All CDK CLI commands start with `cdk`, which is followed by a subcommand (`list`, `synthesize`, `deploy`, etc.). Some subcommands have a shorter version (`ls`, `synth`, etc.) that is equivalent. Options and arguments follow the subcommand in any order.
 
@@ -31,8 +30,7 @@ For a description of all subcommands, options, and arguments, see [AWS CDK CLI 
 
 Specify options and their values
 
-
-----------------------------------
+---
 
 Command line options begin with two hyphens (`--`). Some frequently used options have single-letter synonyms that begin with a single hyphen (for example, `--app` has a synonym `-a`). The order of options in an CDK CLI command is not important.
 
@@ -50,8 +48,7 @@ A few options, namely `--context`, `--parameters`, `--plugin`, `--tags`, and `--
 
 Built-in help
 
-
----------------
+---
 
 The CDK CLI has integrated help. You can see general help about the utility and a list of the provided subcommands by issuing:
 
@@ -65,15 +62,13 @@ Issue `cdk version` to display the version of the CDK CLI. Provide this informat
 
 Version reporting
 
-
--------------------
+---
 
 To gain insight into how the AWS CDK is used, the constructs used by AWS CDK applications are collected and reported by using a resource identified as `AWS::CDK::Metadata`. To learn more, see [Configure AWS CDK usage data reporting](./usage-data.html).
 
 Authentication with AWS
 
-
--------------------------
+---
 
 There are different ways in which you can configure programmatic access to AWS resources, depending on the environment and the AWS access available to you.
 
@@ -81,18 +76,14 @@ To choose your method of authentication and configure it for the CDK CLI, see [C
 
 The recommended approach for new users developing locally, who are not given a method of authentication by their employer, is to set up AWS IAM Identity Center. This method includes installing the AWS CLI for ease of configuration and for regularly signing in to the AWS access portal. If you choose this method, your environment should contain the following elements after you complete the procedure for [IAM Identity Center authentication](https://docs.aws.amazon.com/sdkref/latest/guide/access-sso.html) in the _AWS SDKs and Tools Reference Guide_:
 
-*   The AWS CLI, which you use to start an AWS access portal session before you run your application.
-    
-*   A [shared AWS config file](https://docs.aws.amazon.com/sdkref/latest/guide/file-format.html) having a `[default]` profile with a set of configuration values that can be referenced from the AWS CDK. To find the location of this file, see [Location of the shared files](https://docs.aws.amazon.com/sdkref/latest/guide/file-location.html) in the _AWS SDKs and Tools Reference Guide_.
-    
-*   The shared `config` file sets the [region](https://docs.aws.amazon.com/sdkref/latest/guide/feature-region.html) setting. This sets the default AWS Region the AWS CDK and CDK CLI use for AWS requests.
-    
-*   The CDK CLI uses the profile’s [SSO token provider configuration](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sso-credentials.html#feature-sso-credentials-profile) to acquire credentials before sending requests to AWS. The `sso_role_name` value, which is an IAM role connected to an IAM Identity Center permission set, should allow access to the AWS services used in your application.
-    
-    The following sample `config` file shows a default profile set up with SSO token provider configuration. The profile’s `sso_session` setting refers to the named [`sso-session` section](https://docs.aws.amazon.com/sdkref/latest/guide/file-format.html#section-session). The `sso-session` section contains settings to initiate an AWS access portal session.
-    
-    `[default] sso_session = <my-sso> sso_account_id = <111122223333> sso_role_name = <SampleRole> region = <us-east-1> output = <json>  [sso-session <my-sso>] sso_region = <us-east-1> sso_start_url = <https://provided-domain.awsapps.com/start> sso_registration_scopes = sso:account:access`
-    
+- The AWS CLI, which you use to start an AWS access portal session before you run your application.
+- A [shared AWS config file](https://docs.aws.amazon.com/sdkref/latest/guide/file-format.html) having a `[default]` profile with a set of configuration values that can be referenced from the AWS CDK. To find the location of this file, see [Location of the shared files](https://docs.aws.amazon.com/sdkref/latest/guide/file-location.html) in the _AWS SDKs and Tools Reference Guide_.
+- The shared `config` file sets the [region](https://docs.aws.amazon.com/sdkref/latest/guide/feature-region.html) setting. This sets the default AWS Region the AWS CDK and CDK CLI use for AWS requests.
+- The CDK CLI uses the profile’s [SSO token provider configuration](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sso-credentials.html#feature-sso-credentials-profile) to acquire credentials before sending requests to AWS. The `sso_role_name` value, which is an IAM role connected to an IAM Identity Center permission set, should allow access to the AWS services used in your application.
+
+  The following sample `config` file shows a default profile set up with SSO token provider configuration. The profile’s `sso_session` setting refers to the named [`sso-session` section](https://docs.aws.amazon.com/sdkref/latest/guide/file-format.html#section-session). The `sso-session` section contains settings to initiate an AWS access portal session.
+
+  `[default] sso_session = <my-sso> sso_account_id = <111122223333> sso_role_name = <SampleRole> region = <us-east-1> output = <json>  [sso-session <my-sso>] sso_region = <us-east-1> sso_start_url = <https://provided-domain.awsapps.com/start> sso_registration_scopes = sso:account:access`
 
 ### Start an AWS access portal session
 
@@ -116,19 +107,15 @@ The sign in process may prompt you to allow the AWS CLI access to your data. Sin
 
 Specify Region and other configuration
 
-
-----------------------------------------
+---
 
 The CDK CLI needs to know the AWS Region that you’re deploying into and how to authenticate with AWS. This is needed for deployment operations and to retrieve context values during synthesis. Together, your account and Region make up the _environment_.
 
 Region may be specified using environment variables or in configuration files. These are the same variables and files used by other AWS tools such as the AWS CLI and the various AWS SDKs. The CDK CLI looks for this information in the following order.
 
-*   The `AWS_DEFAULT_REGION` environment variable.
-    
-*   A named profile defined in the standard AWS `config` file and specified using the `--profile` option on `cdk` commands.
-    
-*   The `[default]` section of the standard AWS `config` file.
-    
+- The `AWS_DEFAULT_REGION` environment variable.
+- A named profile defined in the standard AWS `config` file and specified using the `--profile` option on `cdk` commands.
+- The `[default]` section of the standard AWS `config` file.
 
 Besides specifying AWS authentication and a Region in the `[default]` section, you can also add one or more `[profile <NAME>]` sections, where `<NAME>` is the name of the profile. For more information about named profiles, see [Shared config and credentials files](https://docs.aws.amazon.com/sdkref/latest/guide/file-format.html) in the _AWS SDKs and Tools Reference Guide_.
 
@@ -144,8 +131,7 @@ You may optionally use the `--role-arn` (or `-r`) option to specify the ARN of a
 
 Specify the app command
 
-
--------------------------
+---
 
 Many features of the CDK CLI require one or more AWS CloudFormation templates be synthesized, which in turn requires running your application. The AWS CDK supports programs written in a variety of languages. Therefore, it uses a configuration option to specify the exact command necessary to run your app. This option can be specified in two ways.
 
@@ -165,8 +151,7 @@ When deploying, you may also specify a directory containing synthesized cloud as
 
 Specify stacks
 
-
-----------------
+---
 
 Many CDK CLI commands (for example, `cdk deploy`) work on stacks defined in your app. If your app contains only one stack, the CDK CLI assumes you mean that one if you don’t specify a stack explicitly.
 
@@ -176,12 +161,9 @@ Otherwise, you must specify the stack or stacks you want to work with. You can d
 
 You may also use wildcards to specify IDs that match a pattern.
 
-*   `?` matches any single character
-    
-*   `*` matches any number of characters (`*` alone matches all stacks)
-    
-*   `**` matches everything in a hierarchy
-    
+- `?` matches any single character
+- `*` matches any number of characters (`*` alone matches all stacks)
+- `**` matches everything in a hierarchy
 
 You may also use the `--all` option to specify all stacks.
 
@@ -197,8 +179,7 @@ The order in which you specify the stacks is not necessarily the order in which 
 
 Bootstrap your AWS environment
 
-
---------------------------------
+---
 
 Deploying stacks with the CDK requires special dedicated AWS CDK resources to be provisioned. The `cdk bootstrap` command creates the necessary resources for you. You only need to bootstrap if you are deploying a stack that requires these dedicated resources. See [AWS CDK bootstrapping](./bootstrapping.html) for details.
 
@@ -230,8 +211,7 @@ The modern bootstrap template effectively grants the permissions implied by the 
 
 Create a new app
 
-
-------------------
+---
 
 To create a new app, create a directory for it, then, inside the directory, issue `cdk init`.
 
@@ -285,8 +265,7 @@ The templates use the name of the project folder to generate names for files and
 
 List stacks
 
-
--------------
+---
 
 To see a list of the IDs of the stacks in your AWS CDK application, enter one of the following equivalent commands:
 
@@ -300,8 +279,7 @@ Add the `--long` flag to see more information about the stacks, including the st
 
 Synthesize stacks
 
-
--------------------
+---
 
 The `cdk synthesize` command (almost always abbreviated `synth`) synthesizes a stack defined in your app into a CloudFormation template.
 
@@ -337,8 +315,7 @@ Add the `--output` (`-o`) option to write the synthesized templates to a directo
 
 Deploy stacks
 
-
----------------
+---
 
 The `cdk deploy` subcommand deploys one or more specified stacks to your AWS account.
 
@@ -446,22 +423,21 @@ The setting can also be configured in the `cdk.json` file.
 
 Compare stacks
 
-
-----------------
+---
 
 The `cdk diff` command compares the current version of a stack (and its dependencies) defined in your app with the already-deployed versions, or with a saved AWS CloudFormation template, and displays a list of changes.
 
 Stack HelloCdkStack
 IAM Statement Changes
 ┌───┬──────────────────────────────┬────────┬──────────────────────────────┬──────────────────────────────┬───────────┐
-│   │ Resource                     │ Effect │ Action                       │ Principal                    │ Condition │
+│ │ Resource │ Effect │ Action │ Principal │ Condition │
 ├───┼──────────────────────────────┼────────┼──────────────────────────────┼──────────────────────────────┼───────────┤
 │ + │ ${Custom::S3AutoDeleteObject │ Allow  │ sts:AssumeRole               │ Service:lambda.amazonaws.com │           │
 │   │ sCustomResourceProvider/Role │        │                              │                              │           │
 │   │ .Arn}                        │        │                              │                              │           │
 ├───┼──────────────────────────────┼────────┼──────────────────────────────┼──────────────────────────────┼───────────┤
-│ + │ ${MyFirstBucket.Arn}         │ Allow  │ s3:DeleteObject\*             │ {aws}:${Custom::S3AutoDeleteOb │           │
-│   │ ${MyFirstBucket.Arn}/\*       │        │ s3:GetBucket\*                │ jectsCustomResourceProvider/ │           │
+│ + │ ${MyFirstBucket.Arn}         │ Allow  │ s3:DeleteObject\*             │ {aws}:${Custom::S3AutoDeleteOb │ │
+│ │ ${MyFirstBucket.Arn}/\*       │        │ s3:GetBucket\*                │ jectsCustomResourceProvider/ │           │
 │   │                              │        │ s3:GetObject\*                │ Role.Arn}                    │           │
 │   │                              │        │ s3:List\*                     │                              │           │
 └───┴──────────────────────────────┴────────┴──────────────────────────────┴──────────────────────────────┴───────────┘
@@ -470,7 +446,7 @@ IAM Policy Changes
 │   │ Resource                                               │ Managed Policy ARN                                     │
 ├───┼────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────┤
 │ + │ ${Custom::S3AutoDeleteObjectsCustomResourceProvider/Ro │ {"Fn::Sub":"arn:${{aws}::Partition}:iam::aws:policy/serv │
-│   │ le}                                                    │ ice-role/AWSLambdaBasicExecutionRole"}                 │
+│ │ le} │ ice-role/AWSLambdaBasicExecutionRole"} │
 └───┴────────────────────────────────────────────────────────┴────────────────────────────────────────────────────────┘
 (NOTE: There may be security-related changes not in this list. See https://github.com/aws/aws-cdk/issues/1299)
 
@@ -485,12 +461,12 @@ Resources
 \[+\] {aws}::IAM::Role Custom::S3AutoDeleteObjectsCustomResourceProvider/Role CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092
 \[+\] {aws}::Lambda::Function Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F
 \[~\] {aws}::S3::Bucket MyFirstBucket MyFirstBucketB8884501
- ├─ \[~\] DeletionPolicy
- │   ├─ \[-\] Retain
- │   └─ \[+\] Delete
- └─ \[~\] UpdateReplacePolicy
-     ├─ \[-\] Retain
-     └─ \[+\] Delete
+├─ \[~\] DeletionPolicy
+│ ├─ \[-\] Retain
+│ └─ \[+\] Delete
+└─ \[~\] UpdateReplacePolicy
+├─ \[-\] Retain
+└─ \[+\] Delete
 
 To compare your app’s stacks with the existing deployment:
 
@@ -502,38 +478,30 @@ To compare your app’s stacks with a saved CloudFormation template:
 
 Import existing resources into a stack
 
-
-----------------------------------------
+---
 
 You can use the `cdk import` command to bring resources under the management of CloudFormation for a particular AWS CDK stack. This is useful if you are migrating to AWS CDK, or are moving resources between stacks or changing their logical id. `cdk import` uses [CloudFormation resource imports](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html). See the [list of resources that can be imported here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html).
 
 To import an existing resource into a AWS CDK stack, follow the following steps:
 
-*   Make sure the resource is not currently being managed by any other CloudFormation stack. If it is, first set the removal policy to `RemovalPolicy.RETAIN` in the stack the resource is currently in and perform a deployment. Then, remove the resource from the stack and perform another deployment. This process will make sure that the resource is no longer managed by CloudFormation but does not delete it.
-    
-*   Run a `cdk diff` to make sure there are no pending changes to the AWS CDK stack you want to import resources into. The only changes allowed in an "import" operation are the addition of new resources which you want to import.
-    
-*   Add constructs for the resources you want to import to your stack. For example, if you want to import an Amazon S3 bucket, add something like `new s3.Bucket(this, 'ImportedS3Bucket', {});`. Do not make any modifications to any other resource.
-    
-    You must also make sure to exactly model the state that the resource currently has into the definition. For the example of the bucket, be sure to include AWS KMS keys, life cycle policies, and anything else that’s relevant about the bucket. If you do not, subsequent update operations may not do what you expect.
-    
-    You can choose whether or not to include the physical bucket name. We usually recommend to not include resource names into your AWS CDK resource definitions so that it becomes easier to deploy your resources multiple times.
-    
-*   Run `cdk import <STACKNAME>`.
-    
-*   If the resource names are not in your model, the CLI will prompt you to pass in the actual names of the resources you are importing. After this, the import starts.
-    
-*   When `cdk import` reports success, the resource is now managed by AWS CDK and CloudFormation. Any subsequent changes you make to the resource properties in your AWS CDK app the construct configuration will be applied on the next deployment.
-    
-*   To confirm that the resource definition in your AWS CDK app matches the current state of the resource, you can start an [CloudFormation drift detection operation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
-    
+- Make sure the resource is not currently being managed by any other CloudFormation stack. If it is, first set the removal policy to `RemovalPolicy.RETAIN` in the stack the resource is currently in and perform a deployment. Then, remove the resource from the stack and perform another deployment. This process will make sure that the resource is no longer managed by CloudFormation but does not delete it.
+- Run a `cdk diff` to make sure there are no pending changes to the AWS CDK stack you want to import resources into. The only changes allowed in an "import" operation are the addition of new resources which you want to import.
+- Add constructs for the resources you want to import to your stack. For example, if you want to import an Amazon S3 bucket, add something like `new s3.Bucket(this, 'ImportedS3Bucket', {});`. Do not make any modifications to any other resource.
+
+  You must also make sure to exactly model the state that the resource currently has into the definition. For the example of the bucket, be sure to include AWS KMS keys, life cycle policies, and anything else that’s relevant about the bucket. If you do not, subsequent update operations may not do what you expect.
+
+  You can choose whether or not to include the physical bucket name. We usually recommend to not include resource names into your AWS CDK resource definitions so that it becomes easier to deploy your resources multiple times.
+
+- Run `cdk import <STACKNAME>`.
+- If the resource names are not in your model, the CLI will prompt you to pass in the actual names of the resources you are importing. After this, the import starts.
+- When `cdk import` reports success, the resource is now managed by AWS CDK and CloudFormation. Any subsequent changes you make to the resource properties in your AWS CDK app the construct configuration will be applied on the next deployment.
+- To confirm that the resource definition in your AWS CDK app matches the current state of the resource, you can start an [CloudFormation drift detection operation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
 
 This feature currently does not support importing resources into nested stacks.
 
 Configuration (`cdk.json`)
 
-
-----------------------------
+---
 
 Default values for many CDK CLI command line flags can be stored in a project’s `cdk.json` file or in the `.cdk.json` file in your user directory. Following is an alphabetical reference to the supported configuration settings.
 
@@ -709,29 +677,27 @@ Thanks for letting us know this page needs work. We're sorry we let you down.
 
 If you've got a moment, please tell us how we can make the documentation better.
 
-*   ### On this page
-    
-    1.  [CDK CLI commands](#cli-commands)
-    2.  [Specify options and their values](#cli-options)
-    3.  [Built-in help](#cli-help)
-    4.  [Version reporting](#version-reporting)
-    5.  [Authentication with AWS](#cli-auth)
-    6.  [Specify Region and other configuration](#cli-environment)
-    7.  [Specify the app command](#cli-app-command)
-    8.  [Specify stacks](#cli-stacks)
-    9.  [Bootstrap your AWS environment](#cli-bootstrap)
-    10.  [Create a new app](#cli-init)
-    11.  [List stacks](#cli-list)
-    12.  [Synthesize stacks](#cli-synth)
-    13.  [Deploy stacks](#cli-deploy)
-    14.  [Compare stacks](#cli-diff)
-    15.  [Import existing resources into a stack](#cli-import)
-    16.  [Configuration (cdk.json)](#cli-config)
-    
-*   ### Adjust text size
-    
-    1420
-    
+- ### On this page
+  1.  [CDK CLI commands](#cli-commands)
+  2.  [Specify options and their values](#cli-options)
+  3.  [Built-in help](#cli-help)
+  4.  [Version reporting](#version-reporting)
+  5.  [Authentication with AWS](#cli-auth)
+  6.  [Specify Region and other configuration](#cli-environment)
+  7.  [Specify the app command](#cli-app-command)
+  8.  [Specify stacks](#cli-stacks)
+  9.  [Bootstrap your AWS environment](#cli-bootstrap)
+  10. [Create a new app](#cli-init)
+  11. [List stacks](#cli-list)
+  12. [Synthesize stacks](#cli-synth)
+  13. [Deploy stacks](#cli-deploy)
+  14. [Compare stacks](#cli-diff)
+  15. [Import existing resources into a stack](#cli-import)
+  16. [Configuration (cdk.json)](#cli-config)
+
+- ### Adjust text size
+
+  1420
 
 #### Next topic:
 
@@ -743,4 +709,4 @@ If you've got a moment, please tell us how we can make the documentation better.
 
 #### Need help?
 
-*   [Try AWS re:Post](https://repost.aws/topics/TA9fmRfPodSgylDF8ojd9A_w)
+- [Try AWS re:Post](https://repost.aws/topics/TA9fmRfPodSgylDF8ojd9A_w)

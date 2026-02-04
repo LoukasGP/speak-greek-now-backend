@@ -6,18 +6,20 @@ This project supports separate **dev** and **prod** environments with isolated s
 
 ### Environment Configuration
 
-| Environment | Stack Suffix | DynamoDB Table | API Quota | Log Retention |
-|-------------|--------------|----------------|-----------|---------------|
-| **dev**     | `-dev`       | `speak-greek-now-users-dev` | 10k/month | 7 days |
-| **Prod**    | (none)       | `speak-greek-now-users` | 50k/month | 30 days |
+| Environment | Stack Suffix | DynamoDB Table              | API Quota | Log Retention |
+| ----------- | ------------ | --------------------------- | --------- | ------------- |
+| **dev**     | `-dev`       | `speak-greek-now-users-dev` | 10k/month | 7 days        |
+| **Prod**    | (none)       | `speak-greek-now-users`     | 50k/month | 30 days       |
 
 ### Stack Names
 
 **development:**
+
 - `SpeakHellenic-S3StorageStack-dev`
 - `SpeakHellenic-UserLoginServiceStack-dev`
 
 **Production:**
+
 - `SpeakHellenic-S3StorageStack`
 - `SpeakHellenic-UserLoginServiceStack`
 
@@ -82,6 +84,7 @@ npm run deploy:dev
 ```
 
 After deployment, you'll see outputs with:
+
 - API Gateway URL
 - API Key ID (retrieve with `aws apigateway get-api-key --api-key <id> --include-value`)
 - DynamoDB table names
@@ -108,12 +111,14 @@ npm run deploy:prod
 Update your frontend `.env` files with the deployed API endpoints:
 
 **`.env.development`:**
+
 ```env
 NEXT_PUBLIC_USER_API_URL=https://xxxxx.execute-api.us-east-1.amazonaws.com/prod/
 USER_API_KEY=<dev-api-key-from-aws>
 ```
 
 **`.env.production`:**
+
 ```env
 NEXT_PUBLIC_USER_API_URL=https://yyyyy.execute-api.us-east-1.amazonaws.com/prod/
 USER_API_KEY=<prod-api-key-from-aws>
@@ -163,12 +168,14 @@ aws dynamodb get-item \
 ### "Stack already exists"
 
 If you have existing stacks without environment suffix:
+
 1. Either destroy old stacks: `cdk destroy <old-stack-name>`
 2. Or rename them in AWS CloudFormation console
 
 ### "No stacks match"
 
 Ensure you're passing the environment context:
+
 ```bash
 # ✅ Correct
 npm run deploy:dev
@@ -180,6 +187,7 @@ cdk deploy  # Missing environment context
 ### Resource Limits
 
 If deployment fails due to limits:
+
 - Check AWS service quotas in your account
 - Verify you're not hitting DynamoDB table limits
 - Check API Gateway throttling limits
@@ -189,6 +197,7 @@ If deployment fails due to limits:
 ### CloudWatch Alarms
 
 Both environments have error rate alarms configured:
+
 - **dev:** `SpeakHellenic-UserApi-HighErrorRate` (10 errors in 10 minutes)
 - **Prod:** `SpeakHellenic-UserApi-HighErrorRate` (10 errors in 10 minutes)
 
@@ -202,11 +211,13 @@ Both environments have error rate alarms configured:
 ## Cost Optimization
 
 ### development
+
 - Log retention: 7 days (vs 30 for prod)
 - Quota: 10k requests/month
 - Can be destroyed when not in use: `npm run destroy:dev`
 
 ### Production
+
 - Point-in-time recovery enabled on DynamoDB
 - 30-day log retention
 - Higher quota: 50k requests/month
@@ -224,6 +235,7 @@ Both environments have error rate alarms configured:
 ## Next Steps
 
 After deploying to dev:
+
 1. Test all API endpoints
 2. Verify DynamoDB writes
 3. Check CloudWatch logs

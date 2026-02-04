@@ -26,18 +26,14 @@
         "stackTemplateAssetObjectUrl": "s3://cdk-sgn2026-assets-471112806172-eu-west-1/c653c86c58b752cfb73dd0ac8357e61927af10fc6a9e71359db66f049143f2aa.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/sgn2026/version",
-        "additionalDependencies": [
-          "SpeakHellenic-S3StorageStack-dev.assets"
-        ],
+        "additionalDependencies": ["SpeakHellenic-S3StorageStack-dev.assets"],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::471112806172:role/cdk-sgn2026-lookup-role-471112806172-eu-west-1",
           "requiresBootstrapStackVersion": 8,
           "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/sgn2026/version"
         }
       },
-      "dependencies": [
-        "SpeakHellenic-S3StorageStack-dev.assets"
-      ],
+      "dependencies": ["SpeakHellenic-S3StorageStack-dev.assets"],
       "metadata": {
         "/SpeakHellenic-S3StorageStack-dev": [
           {
@@ -140,18 +136,14 @@
         "stackTemplateAssetObjectUrl": "s3://cdk-sgn2026-assets-471112806172-eu-west-1/42e6b4b4928885ac8178068ab086dbe9373f68254874eb740c0bf3db6ccb4db6.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/sgn2026/version",
-        "additionalDependencies": [
-          "SpeakHellenic-UserLoginServiceStack-dev.assets"
-        ],
+        "additionalDependencies": ["SpeakHellenic-UserLoginServiceStack-dev.assets"],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::471112806172:role/cdk-sgn2026-lookup-role-471112806172-eu-west-1",
           "requiresBootstrapStackVersion": 8,
           "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/sgn2026/version"
         }
       },
-      "dependencies": [
-        "SpeakHellenic-UserLoginServiceStack-dev.assets"
-      ],
+      "dependencies": ["SpeakHellenic-UserLoginServiceStack-dev.assets"],
       "metadata": {
         "/SpeakHellenic-UserLoginServiceStack-dev": [
           {

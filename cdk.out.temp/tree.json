@@ -29,10 +29,7 @@
                             "x-amz-date",
                             "x-amz-user-agent"
                           ],
-                          "allowedMethods": [
-                            "GET",
-                            "HEAD"
-                          ],
+                          "allowedMethods": ["GET", "HEAD"],
                           "allowedOrigins": [
                             "http://localhost:3000",
                             "https://speakhellenic.com",
@@ -96,10 +93,7 @@
                                   "",
                                   [
                                     {
-                                      "Fn::GetAtt": [
-                                        "SpeakHellenicBucket8D85DBB2",
-                                        "Arn"
-                                      ]
+                                      "Fn::GetAtt": ["SpeakHellenicBucket8D85DBB2", "Arn"]
                                     },
                                     "/*"
                                   ]
@@ -366,10 +360,7 @@
                       "aws:cdk:cloudformation:props": {
                         "accessLogSetting": {
                           "destinationArn": {
-                            "Fn::GetAtt": [
-                              "UserApiAccessLogs44175256",
-                              "Arn"
-                            ]
+                            "Fn::GetAtt": ["UserApiAccessLogs44175256", "Arn"]
                           },
                           "format": "{\"requestId\":\"$context.requestId\",\"ip\":\"$context.identity.sourceIp\",\"requestTime\":\"$context.requestTime\",\"httpMethod\":\"$context.httpMethod\",\"resourcePath\":\"$context.resourcePath\",\"status\":\"$context.status\",\"protocol\":\"$context.protocol\",\"responseLength\":\"$context.responseLength\"}"
                         },
@@ -475,10 +466,7 @@
                               }
                             ],
                             "resourceId": {
-                              "Fn::GetAtt": [
-                                "UserApiB6C12381",
-                                "RootResourceId"
-                              ]
+                              "Fn::GetAtt": ["UserApiB6C12381", "RootResourceId"]
                             },
                             "restApiId": {
                               "Ref": "UserApiB6C12381"
@@ -507,10 +495,7 @@
                           "aws:cdk:cloudformation:type": "AWS::ApiGateway::Resource",
                           "aws:cdk:cloudformation:props": {
                             "parentId": {
-                              "Fn::GetAtt": [
-                                "UserApiB6C12381",
-                                "RootResourceId"
-                              ]
+                              "Fn::GetAtt": ["UserApiB6C12381", "RootResourceId"]
                             },
                             "pathPart": "users",
                             "restApiId": {
@@ -720,10 +705,7 @@
                                         }
                                       ],
                                       "credentials": {
-                                        "Fn::GetAtt": [
-                                          "ApiGatewayDynamoDBRole84FBC2AA",
-                                          "Arn"
-                                        ]
+                                        "Fn::GetAtt": ["ApiGatewayDynamoDBRole84FBC2AA", "Arn"]
                                       }
                                     },
                                     "methodResponses": [
@@ -832,10 +814,7 @@
                                         }
                                       ],
                                       "credentials": {
-                                        "Fn::GetAtt": [
-                                          "ApiGatewayDynamoDBRole84FBC2AA",
-                                          "Arn"
-                                        ]
+                                        "Fn::GetAtt": ["ApiGatewayDynamoDBRole84FBC2AA", "Arn"]
                                       }
                                     },
                                     "methodResponses": [
@@ -962,10 +941,7 @@
                                     }
                                   ],
                                   "credentials": {
-                                    "Fn::GetAtt": [
-                                      "ApiGatewayDynamoDBRole84FBC2AA",
-                                      "Arn"
-                                    ]
+                                    "Fn::GetAtt": ["ApiGatewayDynamoDBRole84FBC2AA", "Arn"]
                                   }
                                 },
                                 "methodResponses": [
@@ -1221,10 +1197,7 @@
                               "Effect": "Allow",
                               "Resource": [
                                 {
-                                  "Fn::GetAtt": [
-                                    "UsersTable9725E9C8",
-                                    "Arn"
-                                  ]
+                                  "Fn::GetAtt": ["UsersTable9725E9C8", "Arn"]
                                 },
                                 {
                                   "Ref": "AWS::NoValue"

@@ -34,7 +34,7 @@ const config = envConfig[environment as keyof typeof envConfig];
 
 if (!config) {
   throw new Error(
-    `Invalid environment: ${environment}. Must be 'dev' or 'prod'. Use: cdk deploy -c environment=dev`,
+    `Invalid environment: ${environment}. Must be 'dev' or 'prod'. Use: cdk deploy -c environment=dev`
   );
 }
 
