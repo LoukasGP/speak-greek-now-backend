@@ -43,8 +43,8 @@ export class UserLoginServiceStack extends cdk.Stack {
 
     // API Gateway REST API
     const api = new apigateway.RestApi(this, 'UserApi', {
-      restApiName: 'Speak Greek Now User API',
-      description: 'User management API for Speak Greek Now authentication',
+      restApiName: `Speak Greek Now User API${props.envSuffix}`,
+      description: `User management API for Speak Greek Now authentication - ${props.environment} environment`,
       deployOptions: {
         stageName: 'prod',
         loggingLevel: apigateway.MethodLoggingLevel.INFO,
@@ -64,12 +64,10 @@ export class UserLoginServiceStack extends cdk.Stack {
         }),
       },
       defaultCorsPreflightOptions: {
-        allowOrigins: [
-          'http://localhost:3000',
-          'https://speakhellenic.com',
-          'https://www.speakhellenic.com',
-          'https://development.d3v5vb4u9puz3w.amplifyapp.com',
-        ],
+        allowOrigins:
+          props.environment === 'production'
+            ? ['https://speakhellenic.com', 'https://www.speakhellenic.com']
+            : ['http://localhost:3000', 'https://development.d3v5vb4u9puz3w.amplifyapp.com'],
         allowMethods: ['GET', 'POST', 'PUT', 'OPTIONS'],
         allowHeaders: [
           'Content-Type',
@@ -89,14 +87,14 @@ export class UserLoginServiceStack extends cdk.Stack {
 
     // API Key for authentication
     const apiKey = api.addApiKey('UserApiKey', {
-      apiKeyName: 'speak-greek-now-user-api-key',
-      description: 'API key for frontend authentication',
+      apiKeyName: `speak-greek-now-user-api-key${props.envSuffix}`,
+      description: `API key for frontend authentication - ${props.environment} environment`,
     });
 
     // Usage Plan with MVP-appropriate throttling (200 req/min target)
     const usagePlan = api.addUsagePlan('UserApiUsagePlan', {
-      name: 'MVP Usage Plan',
-      description: 'Usage plan optimized for MVP scale (200 req/min target)',
+      name: `MVP Usage Plan${props.envSuffix}`,
+      description: `Usage plan optimized for MVP scale (200 req/min target) - ${props.environment} environment`,
       throttle: {
         rateLimit: 10, // 10 req/sec = 600 req/min (3x buffer)
         burstLimit: 20, // Allow short bursts
@@ -450,8 +448,8 @@ $update#if($foreach.hasNext), #end
 
     // CloudWatch Alarm for API errors (4xx and 5xx)
     this.apiErrorAlarm = new cloudwatch.Alarm(this, 'UserApiErrorAlarm', {
-      alarmName: 'SpeakHellenic-UserApi-HighErrorRate',
-      alarmDescription: 'Alert when User API has high error rate (4xx/5xx)',
+      alarmName: `SpeakHellenic-UserApi-HighErrorRate${props.envSuffix}`,
+      alarmDescription: `Alert when User API has high error rate (4xx/5xx) - ${props.environment} environment`,
       metric: new cloudwatch.MathExpression({
         expression: 'clientErrors + serverErrors',
         usingMetrics: {
@@ -475,32 +473,34 @@ $update#if($foreach.hasNext), #end
     new cdk.CfnOutput(this, 'UserApiUrl', {
       value: api.url,
       description: 'User API Gateway URL (provide to frontend team)',
-      exportName: 'UserApiUrl',
+      exportName: `UserApiUrl${props.envSuffix}`,
     });
 
     new cdk.CfnOutput(this, 'UserApiKeyId', {
       value: apiKey.keyId,
       description:
-        'User API Key ID (retrieve value with: aws apigateway get-api-key --api-key <id> --include-value)',
-      exportName: 'UserApiKeyId',
+        'User API Key ID - Get value: aws apigateway get-api-key --api-key ' +
+        apiKey.keyId +
+        ' --include-value --query value --output text',
+      exportName: `UserApiKeyId${props.envSuffix}`,
     });
 
     new cdk.CfnOutput(this, 'UsersTableName', {
       value: usersTable.tableName,
       description: 'DynamoDB users table name',
-      exportName: 'UsersTableName',
+      exportName: `UsersTableName${props.envSuffix}`,
     });
 
     new cdk.CfnOutput(this, 'UsersTableArn', {
       value: usersTable.tableArn,
       description: 'DynamoDB users table ARN',
-      exportName: 'UsersTableArn',
+      exportName: `UsersTableArn${props.envSuffix}`,
     });
 
     new cdk.CfnOutput(this, 'AccessLogGroupName', {
       value: accessLogGroup.logGroupName,
       description: 'CloudWatch Log Group for API access logs',
-      exportName: 'UserApiAccessLogGroup',
+      exportName: `UserApiAccessLogGroup${props.envSuffix}`,
     });
   }
 }
