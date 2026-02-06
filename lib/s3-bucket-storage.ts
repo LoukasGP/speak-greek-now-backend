@@ -30,7 +30,6 @@ export class S3StorageStack extends cdk.Stack {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ACLS,
     });
 
-    // Add resource tags for cost tracking
     cdk.Tags.of(bucket).add('Project', 'SpeakHellenic');
     cdk.Tags.of(bucket).add('Environment', props.environment);
     cdk.Tags.of(bucket).add('Component', 'LessonStorage');
