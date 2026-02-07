@@ -5,11 +5,14 @@ CDK infrastructure for the Speak Greek Now application, managing AWS resources f
 ## Project Structure
 
 - `bin/back-end.ts` - CDK app entry point with environment configuration
-- `lib/` - Stack definitions
-  - `user-login-service.ts` - User authentication API and DynamoDB
+- `lib/` - Application code and infrastructure stacks
+  - `readme.md` - **📖 Detailed application architecture documentation**
+  - `user-login-service.ts` - User authentication API and DynamoDB stack
   - `s3-bucket-storage.ts` - S3 bucket for lesson MP3 files
-- `knowledge/` - Best practices and documentation
+  - `lambda/` - Hexagonal architecture application code (handlers, domain logic, adapters)
+- `knowledge/` - Best practices and implementation guidelines
 - `features/todo/done/` - Completed feature tickets
+- `test/` - Unit, integration, and E2E tests
 
 ## Deployment
 
@@ -67,6 +70,21 @@ npm run synth:dev     # Synthesize dev templates
 npm run synth:prod    # Synthesize prod templates
 npm run destroy:dev   # Destroy dev stacks
 npm run destroy:prod  # Destroy prod stacks
+```
+
+## Cloud E2E Tests
+
+E2E tests run against the deployed dev API and clean up test data in DynamoDB.
+
+**Prerequisites**:
+
+- Dev stack deployed (`npm run deploy:dev`)
+- AWS credentials configured with access to CloudFormation, API Gateway, and DynamoDB
+
+**Run tests**:
+
+```bash
+npm run test:e2e
 ```
 
 ### First-Time Setup

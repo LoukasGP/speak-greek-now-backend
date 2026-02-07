@@ -3,6 +3,9 @@ module.exports = {
   testEnvironment: 'node',
   roots: ['<rootDir>/test', '<rootDir>/lib'],
   testMatch: ['**/*.test.ts'],
+  transformIgnorePatterns: [
+    'node_modules/(?!(@aws-sdk|@smithy)/)',
+  ],
   collectCoverageFrom: [
     'lib/lambda/**/*.ts',
     '!lib/lambda/**/*.d.ts',

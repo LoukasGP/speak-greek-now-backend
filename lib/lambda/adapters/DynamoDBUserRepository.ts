@@ -5,14 +5,11 @@ import {
   PutCommand,
   UpdateCommand,
   UpdateCommandInput,
+  DeleteCommand,
 } from '@aws-sdk/lib-dynamodb';
 import { User, CompletedLesson } from '../domain/entities/User';
 import { IUserRepository } from '../domain/ports/IUserRepository';
-import {
-  UserAlreadyExistsError,
-  UserNotFoundError,
-  RepositoryError,
-} from '../shared/errors';
+import { UserAlreadyExistsError, UserNotFoundError, RepositoryError } from '../shared/errors';
 
 export class DynamoDBUserRepository implements IUserRepository {
   private readonly docClient: DynamoDBDocumentClient;
@@ -36,10 +33,7 @@ export class DynamoDBUserRepository implements IUserRepository {
 
       return result.Item ? this.fromDynamoDBItem(result.Item) : null;
     } catch (error: any) {
-      throw new RepositoryError(
-        `Failed to get user ${userId}`,
-        error as Error
-      );
+      throw new RepositoryError(`Failed to get user ${userId}`, error as Error);
     }
   }
 
@@ -58,10 +52,7 @@ export class DynamoDBUserRepository implements IUserRepository {
       if (error.name === 'ConditionalCheckFailedException') {
         throw new UserAlreadyExistsError(user.userId);
       }
-      throw new RepositoryError(
-        `Failed to create user ${user.userId}`,
-        error as Error
-      );
+      throw new RepositoryError(`Failed to create user ${user.userId}`, error as Error);
     }
   }
 
@@ -101,10 +92,7 @@ export class DynamoDBUserRepository implements IUserRepository {
       if (error.name === 'ConditionalCheckFailedException') {
         throw new UserNotFoundError(user.userId);
       }
-      throw new RepositoryError(
-        `Failed to update user ${user.userId}`,
-        error as Error
-      );
+      throw new RepositoryError(`Failed to update user ${user.userId}`, error as Error);
     }
   }
 
@@ -125,16 +113,30 @@ export class DynamoDBUserRepository implements IUserRepository {
       if (error.name === 'ConditionalCheckFailedException') {
         throw new UserNotFoundError(userId);
       }
-      throw new RepositoryError(
-        `Failed to update last login for user ${userId}`,
-        error as Error
-      );
+      throw new RepositoryError(`Failed to update last login for user ${userId}`, error as Error);
     }
   }
 
   async userExists(userId: string): Promise<boolean> {
     const user = await this.getUserById(userId);
     return user !== null;
+  }
+
+  async deleteUser(userId: string): Promise<void> {
+    try {
+      await this.docClient.send(
+        new DeleteCommand({
+          TableName: this.tableName,
+          Key: { userId },
+          ConditionExpression: 'attribute_exists(userId)',
+        })
+      );
+    } catch (error: any) {
+      if (error.name === 'ConditionalCheckFailedException') {
+        throw new UserNotFoundError(userId);
+      }
+      throw new RepositoryError(`Failed to delete user ${userId}`, error as Error);
+    }
   }
 
   private toDynamoDBItem(user: User): Record<string, any> {

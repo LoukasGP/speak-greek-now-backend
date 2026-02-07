@@ -41,6 +41,14 @@ export class InMemoryUserRepository implements IUserRepository {
     return this.users.has(userId);
   }
 
+  async deleteUser(userId: string): Promise<void> {
+    const exists = await this.userExists(userId);
+    if (!exists) {
+      throw new UserNotFoundError(userId);
+    }
+    this.users.delete(userId);
+  }
+
   clear(): void {
     this.users.clear();
   }

@@ -30,11 +30,7 @@ export class UserNotFoundError extends DomainError {
 
 export class RepositoryError extends DomainError {
   constructor(message: string, originalError?: Error) {
-    super(
-      `Repository operation failed: ${message}`,
-      'REPOSITORY_ERROR',
-      500
-    );
+    super(`Repository operation failed: ${message}`, 'REPOSITORY_ERROR', 500);
     if (originalError && originalError.stack) {
       this.stack = originalError.stack;
     }

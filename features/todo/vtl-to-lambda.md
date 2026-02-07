@@ -89,12 +89,14 @@
 ### Testing Framework Setup
 
 **Tools**:
+
 - **Jest**: Test runner and assertion library (already installed)
 - **AWS SDK v3 Mocking**: Mock DynamoDB calls for integration tests
 - **Supertest** (optional): HTTP assertion library for API testing
 - **CDK Assertions**: Test infrastructure code
 
 **Test Commands**:
+
 ```bash
 npm test                    # Run all tests
 npm test:unit              # Unit tests only (fast, no AWS)
@@ -111,6 +113,7 @@ npm test:coverage          # Generate coverage report
 ### Phase 1: Setup & Infrastructure
 
 #### Ticket 1: Project Structure & Testing Framework ✅ COMPLETE
+
 - [x] Create directory structure for hexagonal architecture
   ```
   lib/
@@ -146,6 +149,7 @@ npm test:coverage          # Generate coverage report
   - Test helpers for assertions
 
 **Acceptance Criteria**:
+
 - ✅ Directory structure created
 - ✅ Test scripts run without errors
 - ✅ Sample unit test passes
@@ -154,6 +158,7 @@ npm test:coverage          # Generate coverage report
 ---
 
 #### Ticket 2: Domain Layer - User Entity & Value Objects ✅ COMPLETE
+
 - [x] Create `lib/lambda/domain/entities/User.ts`:
   - User entity with validation
   - Immutable properties where appropriate
@@ -169,12 +174,14 @@ npm test:coverage          # Generate coverage report
   - **No AWS dependencies** - pure TypeScript
 
 **Acceptance Criteria**:
+
 - ✅ User entity created with TypeScript types
 - ✅ All validation logic tested
 - ✅ Unit tests achieve >90% coverage
 - ✅ No dependencies on AWS SDK or infrastructure
 
 **Example**:
+
 ```typescript
 // lib/lambda/domain/entities/User.ts
 export class User {
@@ -214,6 +221,7 @@ export class User {
 ---
 
 #### Ticket 3: Repository Port (Interface) ✅ COMPLETE
+
 - [x] Create `lib/lambda/domain/ports/IUserRepository.ts`:
   ```typescript
   export interface IUserRepository {
@@ -231,6 +239,7 @@ export class User {
   - Test edge cases (user not found, duplicates)
 
 **Acceptance Criteria**:
+
 - ✅ Interface defines all user operations
 - ✅ Mock implementation works for testing
 - ✅ Domain layer can use repository via interface
@@ -241,6 +250,7 @@ export class User {
 ### Phase 2: DynamoDB Adapter Implementation
 
 #### Ticket 4: DynamoDB User Repository Adapter ✅ COMPLETE
+
 - [x] Create `lib/lambda/adapters/DynamoDBUserRepository.ts`:
   - Implements `IUserRepository` interface
   - Uses AWS SDK v3 DynamoDBDocumentClient
@@ -259,12 +269,14 @@ export class User {
   - Generic errors → InternalServerError
 
 **Acceptance Criteria**:
+
 - ✅ Adapter implements all repository methods
 - ✅ Proper error handling and mapping
 - ✅ Integration tests with mocked DynamoDB client
 - ✅ Type-safe translations between domain and database
 
 **Example**:
+
 ```typescript
 // lib/lambda/adapters/DynamoDBUserRepository.ts
 export class DynamoDBUserRepository implements IUserRepository {
@@ -280,7 +292,7 @@ export class DynamoDBUserRepository implements IUserRepository {
         Key: { userId },
       })
     );
-    
+
     return result.Item ? this.fromDynamoDBItem(result.Item) : null;
   }
 
@@ -303,6 +315,7 @@ export class DynamoDBUserRepository implements IUserRepository {
 ### Phase 3: Use Cases (Business Logic)
 
 #### Ticket 5: Create User Use Case ✅ COMPLETE
+
 - [x] Create `lib/lambda/domain/use-cases/CreateUserUseCase.ts`:
   - Accept user data as input
   - Validate business rules
@@ -323,6 +336,7 @@ export class DynamoDBUserRepository implements IUserRepository {
   - Test validation errors
 
 **Acceptance Criteria**:
+
 - ✅ Use case encapsulates business logic
 - ✅ No direct dependencies on AWS services
 - ✅ 100% unit test coverage
@@ -331,12 +345,14 @@ export class DynamoDBUserRepository implements IUserRepository {
 ---
 
 #### Ticket 6: Get User Use Case ✅ COMPLETE
+
 - [x] Create `lib/lambda/domain/use-cases/GetUserUseCase.ts`:
   - Find user by ID
   - Return null if not found (404 at handler level)
 - [x] Write unit tests with mock repository
 
 **Acceptance Criteria**:
+
 - ✅ Simple, focused use case
 - ✅ Unit tests pass
 - ✅ Handles user not found gracefully
@@ -344,6 +360,7 @@ export class DynamoDBUserRepository implements IUserRepository {
 ---
 
 #### Ticket 7: Update User Use Case ✅ COMPLETE
+
 - [x] Create `lib/lambda/domain/use-cases/UpdateUserUseCase.ts`:
   - Update lastLoginAt timestamp
   - Update completedLessons array
@@ -357,6 +374,7 @@ export class DynamoDBUserRepository implements IUserRepository {
   - Test immutable field protection
 
 **Acceptance Criteria**:
+
 - ✅ Use case handles updates correctly
 - ✅ Immutable fields protected
 - ✅ Unit tests achieve 100% coverage
@@ -366,6 +384,7 @@ export class DynamoDBUserRepository implements IUserRepository {
 ### Phase 4: Lambda Handlers (API Adapters)
 
 #### Ticket 8: Create User Lambda Handler ✅ COMPLETE
+
 - [x] **Refactor existing** `lib/lambda/create-user.ts` to use hexagonal architecture:
   - Handler parses API Gateway event
   - Creates use case with repository adapter
@@ -386,34 +405,33 @@ export class DynamoDBUserRepository implements IUserRepository {
   - Validate response format
 
 **Acceptance Criteria**:
+
 - ✅ Handler delegates to use case
 - ✅ No business logic in handler
 - ✅ All errors handled gracefully
 - ✅ Integration tests pass
 
 **Example**:
+
 ```typescript
 // lib/lambda/handlers/create-user-handler.ts
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const logger = new Logger({ serviceName: 'CreateUser' });
-  
+
   try {
     const input = JSON.parse(event.body || '{}');
-    
+
     // Create dependencies (adapter)
-    const repository = new DynamoDBUserRepository(
-      docClient,
-      process.env.TABLE_NAME!
-    );
-    
+    const repository = new DynamoDBUserRepository(docClient, process.env.TABLE_NAME!);
+
     // Create use case
     const useCase = new CreateUserUseCase(repository);
-    
+
     // Execute
     const user = await useCase.execute(input);
-    
+
     logger.info('User created', { userId: user.userId });
-    
+
     return {
       statusCode: 200,
       headers: { 'Access-Control-Allow-Origin': '*' },
@@ -428,6 +446,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 ---
 
 #### Ticket 9: Get User Lambda Handler ✅ COMPLETE
+
 - [x] Create `lib/lambda/handlers/get-user-handler.ts`:
   - Extract userId from path parameters
   - Call GetUserUseCase
@@ -439,6 +458,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 - [x] Deploy and test against dev environment
 
 **Acceptance Criteria**:
+
 - ✅ Lambda handler created
 - ✅ VTL integration removed from CDK
 - ✅ Integration tests pass
@@ -447,6 +467,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 ---
 
 #### Ticket 10: Update User Lambda Handler ✅ COMPLETE
+
 - [x] Create `lib/lambda/handlers/update-user-handler.ts`:
   - Extract userId and update data
   - Call UpdateUserUseCase
@@ -457,6 +478,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 - [x] Write integration and E2E tests
 
 **Acceptance Criteria**:
+
 - ✅ Lambda handler created
 - ✅ VTL integration removed
 - ✅ All tests pass
@@ -467,6 +489,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 ### Phase 5: Infrastructure Updates
 
 #### Ticket 11: Update CDK Stack for All Lambda Functions ✅ COMPLETE
+
 - [x] Remove all VTL AwsIntegration configurations
 - [x] Replace with NodejsFunction constructs:
   - GET /users/{userId}
@@ -489,12 +512,14 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 - [x] Grant DynamoDB permissions via IAM
 
 **Acceptance Criteria**:
+
 - ✅ All endpoints use Lambda integrations
 - ✅ No VTL code remains in CDK stack
 - ✅ All Lambdas deploy successfully
 - ✅ CloudWatch logs configured
 
 **Example**:
+
 ```typescript
 // In user-login-service.ts
 const getUserFunction = new lambdaNodejs.NodejsFunction(this, 'GetUserFunction', {
@@ -524,6 +549,7 @@ userResource.addMethod('GET', getUserIntegration, { apiKeyRequired: true });
 ### Phase 6: Testing & Validation
 
 #### Ticket 12: Integration Tests Setup (Optional Enhancement)
+
 - [ ] Configure Jest for integration tests:
   - Separate test environment
   - Mock AWS SDK clients using `aws-sdk-client-mock`
@@ -535,6 +561,7 @@ userResource.addMethod('GET', getUserIntegration, { apiKeyRequired: true });
 - [ ] Run locally: `npm run test:integration`
 
 **Acceptance Criteria**:
+
 - ⏳ All handlers have integration tests
 - ⏳ Tests run in <30 seconds locally
 - ⏳ Coverage >80% for handlers
@@ -542,6 +569,7 @@ userResource.addMethod('GET', getUserIntegration, { apiKeyRequired: true });
 ---
 
 #### Ticket 13: E2E Tests Against Dev Environment ✅ COMPLETE (Manual)
+
 - [x] Create E2E test suite:
   - Deploy to dev environment first
   - Get API Gateway URL from CloudFormation outputs
@@ -556,11 +584,13 @@ userResource.addMethod('GET', getUserIntegration, { apiKeyRequired: true });
 - [ ] Document running E2E tests in README
 
 **Acceptance Criteria**:
+
 - ✅ E2E tests pass against deployed dev stack
 - ✅ All API endpoints tested end-to-end
 - ⏳ Tests clean up test data after execution (manual cleanup done)
 
 **Example**:
+
 ```typescript
 // test/e2e/user-api.e2e.test.ts
 describe('User API E2E', () => {
@@ -569,7 +599,9 @@ describe('User API E2E', () => {
 
   beforeAll(async () => {
     // Get stack outputs
-    const { UserApiUrl, UserApiKeyId } = await getCdkOutputs('SpeakHellenic-UserLoginServiceStack-dev');
+    const { UserApiUrl, UserApiKeyId } = await getCdkOutputs(
+      'SpeakHellenic-UserLoginServiceStack-dev'
+    );
     apiUrl = UserApiUrl;
     apiKey = await getApiKeyValue(UserApiKeyId);
   });
@@ -609,6 +641,7 @@ describe('User API E2E', () => {
 ---
 
 #### Ticket 14: Unit Tests for Domain Layer ✅ COMPLETE
+
 - [x] Write comprehensive unit tests for:
   - User entity and value objects
   - All use cases
@@ -618,6 +651,7 @@ describe('User API E2E', () => {
 - [x] Run: `npm run test:unit`
 
 **Acceptance Criteria**:
+
 - ✅ Domain layer has 100% test coverage (43 tests passing)
 - ✅ Tests run in <5 seconds (6 seconds actual)
 - ✅ No AWS dependencies in unit tests
@@ -627,6 +661,7 @@ describe('User API E2E', () => {
 ### Phase 7: Documentation & Deployment
 
 #### Ticket 15: Update Documentation (Optional Enhancement)
+
 - [x] Update README.md:
   - Architecture diagram
   - Testing strategy
@@ -643,6 +678,7 @@ describe('User API E2E', () => {
 - [ ] Update API documentation
 
 **Acceptance Criteria**:
+
 - ✅ README updated with testing instructions
 - ✅ Architecture documented
 - ⏳ New developers can onboard easily (basics documented)
@@ -650,6 +686,7 @@ describe('User API E2E', () => {
 ---
 
 #### Ticket 16: Deploy to Production (Ready When Needed)
+
 - [x] Verify all tests pass:
   - Unit tests: `npm run test:unit` ✅
   - Integration tests: `npm run test:integration` (pending)
@@ -669,6 +706,7 @@ describe('User API E2E', () => {
   - DynamoDB throttling
 
 **Acceptance Criteria**:
+
 - ✅ All tests pass (dev environment)
 - ⏳ Production deployment successful
 - ⏳ Smoke tests pass
@@ -680,12 +718,14 @@ describe('User API E2E', () => {
 ### Phase 8: Cleanup & Optimization
 
 #### Ticket 17: Remove Legacy VTL Code (Optional Enhancement)
+
 - [ ] Delete unused VTL templates from git history (optional)
 - [x] Remove API Gateway execution role (if no longer needed) ✅ (apiRole removed)
 - [x] Clean up old CloudFormation resources ✅ (automatically cleaned during deployment)
 - [ ] Update knowledge base documentation
 
 **Acceptance Criteria**:
+
 - ✅ No VTL code remains in repository (all VTL removed from CDK)
 - ✅ CloudFormation stacks cleaned up
 - ⏳ Knowledge base updated
@@ -693,6 +733,7 @@ describe('User API E2E', () => {
 ---
 
 #### Ticket 18: Performance Optimization (Optional Enhancement)
+
 - [ ] Review Lambda cold start times:
   - Consider Lambda SnapStart if needed
   - Optimize bundle size
@@ -707,6 +748,7 @@ describe('User API E2E', () => {
   - Consider caching frequently accessed users
 
 **Acceptance Criteria**:
+
 - ⏳ Lambda cold starts <500ms
 - ⏳ P95 latency <200ms
 - ⏳ Cost analysis shows reasonable pricing
@@ -718,17 +760,14 @@ describe('User API E2E', () => {
 ### Jest Configuration
 
 **File**: `jest.config.js`
+
 ```javascript
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   roots: ['<rootDir>/test', '<rootDir>/lib'],
   testMatch: ['**/*.test.ts'],
-  collectCoverageFrom: [
-    'lib/lambda/**/*.ts',
-    '!lib/lambda/**/*.d.ts',
-    '!lib/lambda/**/*.test.ts',
-  ],
+  collectCoverageFrom: ['lib/lambda/**/*.ts', '!lib/lambda/**/*.d.ts', '!lib/lambda/**/*.test.ts'],
   coverageThreshold: {
     global: {
       branches: 80,
@@ -779,12 +818,14 @@ module.exports = {
 ## Success Metrics
 
 ### Quality Metrics
+
 - [ ] **Test Coverage**: >80% overall, 100% on domain layer
 - [ ] **Performance**: P95 latency <200ms
 - [ ] **Security**: No secrets in code, IAM least privilege
 - [ ] **Maintainability**: Clear separation of concerns
 
 ### Business Metrics
+
 - [ ] **Reliability**: Frontend authentication works 100%
 - [ ] **Developer Experience**: New features take <2 days
 - [ ] **Cost**: Lambda costs <$5/month at MVP scale
@@ -834,9 +875,11 @@ module.exports = {
 - [Fix Summary](../../BACKEND-FIX-SUMMARY.md)
 
 ---
+
 ## Summary
 
 ### ✅ Completed (Core Functionality)
+
 - **Tickets 1-11**: All infrastructure, domain layer, use cases, handlers, and CDK updates complete
 - **Ticket 14**: Unit tests complete (43 tests passing)
 - **Ticket 13**: E2E tests complete (manual verification)
@@ -845,6 +888,7 @@ module.exports = {
 - **Zero VTL remaining**: All Velocity Template Language code eliminated
 
 ### ⏳ Optional Enhancements
+
 - **Ticket 12**: Integration tests with AWS SDK mocks
 - **Ticket 15**: Additional documentation (API docs, detailed guides)
 - **Ticket 16**: Production deployment (ready when needed)
@@ -852,6 +896,7 @@ module.exports = {
 - **Ticket 18**: Performance monitoring and optimization
 
 ### 📊 Key Metrics
+
 - **43 unit tests passing** in ~6 seconds
 - **3 Lambda functions** deployed (6.7-7.8kb each)
 - **Bundle time**: 6-9ms with local esbuild

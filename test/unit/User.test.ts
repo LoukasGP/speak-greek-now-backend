@@ -22,58 +22,26 @@ describe('User Entity', () => {
 
     it('should throw error for empty userId', () => {
       expect(() => {
-        new User(
-          '',
-          'test@example.com',
-          'Test User',
-          '',
-          new Date(),
-          new Date(),
-          []
-        );
+        new User('', 'test@example.com', 'Test User', '', new Date(), new Date(), []);
       }).toThrow('userId is required and cannot be empty');
     });
 
     it('should throw error for invalid email', () => {
       expect(() => {
-        new User(
-          'user-123',
-          'invalid-email',
-          'Test User',
-          '',
-          new Date(),
-          new Date(),
-          []
-        );
+        new User('user-123', 'invalid-email', 'Test User', '', new Date(), new Date(), []);
       }).toThrow('Valid email is required');
     });
 
     it('should throw error for empty name', () => {
       expect(() => {
-        new User(
-          'user-123',
-          'test@example.com',
-          '',
-          '',
-          new Date(),
-          new Date(),
-          []
-        );
+        new User('user-123', 'test@example.com', '', '', new Date(), new Date(), []);
       }).toThrow('name is required and cannot be empty');
     });
 
     it('should throw error for name longer than 200 characters', () => {
       const longName = 'a'.repeat(201);
       expect(() => {
-        new User(
-          'user-123',
-          'test@example.com',
-          longName,
-          '',
-          new Date(),
-          new Date(),
-          []
-        );
+        new User('user-123', 'test@example.com', longName, '', new Date(), new Date(), []);
       }).toThrow('name must be less than 200 characters');
     });
   });
@@ -98,9 +66,7 @@ describe('User Entity', () => {
         const updatedUser = user.updateLastLogin();
 
         expect(updatedUser.userId).toBe(user.userId);
-        expect(updatedUser.lastLoginAt.getTime()).toBeGreaterThan(
-          user.lastLoginAt.getTime()
-        );
+        expect(updatedUser.lastLoginAt.getTime()).toBeGreaterThan(user.lastLoginAt.getTime());
       });
 
       it('should return a new instance (immutability)', () => {

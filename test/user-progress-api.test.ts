@@ -86,7 +86,7 @@ describe('User Progress API Tests', () => {
 
     test('API has CORS configured for PUT requests', () => {
       template.hasResourceProperties('AWS::ApiGateway::RestApi', {
-        Name: 'Speak Greek Now User API',
+        Name: 'Speak Greek Now User API-test',
       });
     });
   });
@@ -107,7 +107,7 @@ describe('User Progress API Tests', () => {
     test('API key authentication is configured', () => {
       template.hasResourceProperties('AWS::ApiGateway::ApiKey', {
         Enabled: true,
-        Name: 'speak-greek-now-user-api-key',
+        Name: 'speak-greek-now-user-api-key-test',
       });
     });
 
@@ -177,7 +177,7 @@ describe('User Progress API Tests', () => {
 
     test('Error alarm is configured', () => {
       template.hasResourceProperties('AWS::CloudWatch::Alarm', {
-        AlarmName: 'SpeakHellenic-UserApi-HighErrorRate',
+        AlarmName: 'SpeakHellenic-UserApi-HighErrorRate-test',
         Threshold: 10,
         EvaluationPeriods: 2,
       });

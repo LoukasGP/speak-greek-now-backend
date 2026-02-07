@@ -6,4 +6,5 @@ export interface IUserRepository {
   updateUser(user: User): Promise<User>;
   updateLastLogin(userId: string): Promise<void>;
   userExists(userId: string): Promise<boolean>;
+  deleteUser(userId: string): Promise<void>;
 }

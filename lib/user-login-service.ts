@@ -66,7 +66,7 @@ export class UserLoginServiceStack extends cdk.Stack {
           props.environment === 'production'
             ? ['https://speakhellenic.com', 'https://www.speakhellenic.com']
             : ['http://localhost:3000', 'https://development.d3v5vb4u9puz3w.amplifyapp.com'],
-        allowMethods: ['GET', 'POST', 'PUT', 'OPTIONS'],
+        allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowHeaders: [
           'Content-Type',
           'X-Amz-Date',
@@ -159,6 +159,20 @@ export class UserLoginServiceStack extends cdk.Stack {
 
     usersTable.grantReadWriteData(updateUserFunction);
 
+    const deleteUserFunction = new lambdaNodejs.NodejsFunction(this, 'DeleteUserFunction', {
+      functionName: `speak-greek-now-delete-user${props.envSuffix}`,
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: 'handler',
+      entry: path.join(__dirname, 'lambda', 'handlers', 'delete-user-handler.ts'),
+      environment: lambdaEnvironment,
+      timeout: cdk.Duration.seconds(10),
+      memorySize: 256,
+      description: `Deletes users - ${props.environment} environment`,
+      bundling: lambdaBundling,
+    });
+
+    usersTable.grantReadWriteData(deleteUserFunction);
+
     const usersResource = api.root.addResource('users');
     const userResource = usersResource.addResource('{userId}');
 
@@ -227,6 +241,34 @@ export class UserLoginServiceStack extends cdk.Stack {
         },
         {
           statusCode: '400',
+          responseParameters: {
+            'method.response.header.Access-Control-Allow-Origin': true,
+          },
+        },
+        {
+          statusCode: '404',
+          responseParameters: {
+            'method.response.header.Access-Control-Allow-Origin': true,
+          },
+        },
+        {
+          statusCode: '500',
+          responseParameters: {
+            'method.response.header.Access-Control-Allow-Origin': true,
+          },
+        },
+      ],
+    });
+
+    const deleteUserIntegration = new apigateway.LambdaIntegration(deleteUserFunction, {
+      proxy: true,
+    });
+
+    userResource.addMethod('DELETE', deleteUserIntegration, {
+      apiKeyRequired: true,
+      methodResponses: [
+        {
+          statusCode: '204',
           responseParameters: {
             'method.response.header.Access-Control-Allow-Origin': true,
           },

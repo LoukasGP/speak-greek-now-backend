@@ -79,9 +79,7 @@ describe('UpdateUserUseCase', () => {
       };
 
       await expect(useCase.execute(input)).rejects.toThrow(ValidationError);
-      await expect(useCase.execute(input)).rejects.toThrow(
-        'At least one field must be provided'
-      );
+      await expect(useCase.execute(input)).rejects.toThrow('At least one field must be provided');
     });
 
     it('should throw UserNotFoundError for non-existent user', async () => {
@@ -100,9 +98,7 @@ describe('UpdateUserUseCase', () => {
 
       const user = await repository.getUserById('user-123');
       expect(user).not.toBeNull();
-      expect(user!.lastLoginAt.getTime()).toBeGreaterThan(
-        testUser.lastLoginAt.getTime()
-      );
+      expect(user!.lastLoginAt.getTime()).toBeGreaterThan(testUser.lastLoginAt.getTime());
     });
 
     it('should throw ValidationError for empty userId', async () => {
@@ -110,9 +106,7 @@ describe('UpdateUserUseCase', () => {
     });
 
     it('should throw UserNotFoundError for non-existent user', async () => {
-      await expect(useCase.updateLastLogin('non-existent')).rejects.toThrow(
-        UserNotFoundError
-      );
+      await expect(useCase.updateLastLogin('non-existent')).rejects.toThrow(UserNotFoundError);
     });
   });
 
@@ -132,21 +126,17 @@ describe('UpdateUserUseCase', () => {
     });
 
     it('should throw ValidationError for empty userId', async () => {
-      await expect(useCase.addCompletedLesson('', 'lesson-1')).rejects.toThrow(
-        ValidationError
-      );
+      await expect(useCase.addCompletedLesson('', 'lesson-1')).rejects.toThrow(ValidationError);
     });
 
     it('should throw ValidationError for empty lessonId', async () => {
-      await expect(useCase.addCompletedLesson('user-123', '')).rejects.toThrow(
-        ValidationError
-      );
+      await expect(useCase.addCompletedLesson('user-123', '')).rejects.toThrow(ValidationError);
     });
 
     it('should throw UserNotFoundError for non-existent user', async () => {
-      await expect(
-        useCase.addCompletedLesson('non-existent', 'lesson-1')
-      ).rejects.toThrow(UserNotFoundError);
+      await expect(useCase.addCompletedLesson('non-existent', 'lesson-1')).rejects.toThrow(
+        UserNotFoundError
+      );
     });
   });
 });

@@ -7,9 +7,7 @@ import { DomainError } from '../shared/errors';
 const logger = new Logger('CreateUserHandler');
 const tableName = process.env.TABLE_NAME!;
 
-export const handler = async (
-  event: APIGatewayProxyEvent
-): Promise<APIGatewayProxyResult> => {
+export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   logger.info('Create user request received', {
     requestId: event.requestContext.requestId,
   });
@@ -53,11 +51,7 @@ function handleError(error: unknown): APIGatewayProxyResult {
 
   logger.error('Unexpected error occurred', error as Error);
 
-  return createErrorResponse(
-    500,
-    'An internal server error occurred',
-    'INTERNAL_SERVER_ERROR'
-  );
+  return createErrorResponse(500, 'An internal server error occurred', 'INTERNAL_SERVER_ERROR');
 }
 
 function createErrorResponse(

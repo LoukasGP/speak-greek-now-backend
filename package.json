@@ -10,7 +10,7 @@
     "test": "jest",
     "test:unit": "jest --testPathPattern=test/unit",
     "test:integration": "jest --testPathPattern=test/integration",
-    "test:e2e": "jest --testPathPattern=test/e2e --runInBand",
+    "test:e2e": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --testPathPattern=test/e2e --runInBand",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:ci": "npm run test:unit && npm run test:integration",
@@ -32,6 +32,8 @@
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
+    "@aws-sdk/client-api-gateway": "^3.984.0",
+    "@aws-sdk/client-cloudformation": "^3.984.0",
     "@aws-sdk/client-dynamodb": "^3.984.0",
     "@aws-sdk/lib-dynamodb": "^3.984.0",
     "@eslint/js": "^9.39.2",
@@ -41,6 +43,7 @@
     "@typescript-eslint/eslint-plugin": "^8.51.0",
     "@typescript-eslint/parser": "^8.51.0",
     "aws-cdk": "2.176.0",
+    "cross-env": "^10.1.0",
     "esbuild": "^0.27.3",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",

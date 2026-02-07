@@ -1,14 +1,14 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { DynamoDBUserRepository } from '../adapters/DynamoDBUserRepository';
-import { UpdateUserUseCase } from '../domain/use-cases/UpdateUserUseCase';
+import { DeleteUserUseCase } from '../domain/use-cases/DeleteUserUseCase';
 import { Logger } from '../shared/logger';
 import { DomainError } from '../shared/errors';
 
-const logger = new Logger('UpdateUserHandler');
+const logger = new Logger('DeleteUserHandler');
 const tableName = process.env.TABLE_NAME!;
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  logger.info('Update user request received', {
+  logger.info('Delete user request received', {
     requestId: event.requestContext.requestId,
   });
 
@@ -21,32 +21,19 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 
     const userId = decodeURIComponent(encodedUserId);
 
-    if (!event.body) {
-      return createErrorResponse(400, 'Request body is required');
-    }
-
-    const body = JSON.parse(event.body);
-
-    const input = {
-      userId,
-      lastLoginAt: body.lastLoginAt,
-      completedLessons: body.completedLessons,
-    };
-
     const repository = new DynamoDBUserRepository(tableName);
-    const useCase = new UpdateUserUseCase(repository);
+    const useCase = new DeleteUserUseCase(repository);
 
-    const user = await useCase.execute(input);
+    await useCase.execute(userId);
 
-    logger.info('User updated successfully', { userId: user.userId });
+    logger.info('User deleted successfully', { userId });
 
     return {
-      statusCode: 200,
+      statusCode: 204,
       headers: {
-        'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify(user.toJSON()),
+      body: '',
     };
   } catch (error) {
     return handleError(error);

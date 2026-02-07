@@ -10,24 +10,18 @@ Continue reading this short guide to learn about testing strategies for serverle
 
 For serverless testing, you will still write _unit_, _integration_ and _end-to-end_ tests.
 
-*   **Unit tests** - Tests that run against an isolated block of code. For example, verifying the business logic to calculate the delivery charge given a particular item and destination.
-    
-*   **Integration tests** - Tests involving two or more components or services that interact, typically in a cloud environment. For example, verifying a function processes events from a queue.
-    
-*   **End-to-end tests** - Tests that verify behavior across an entire application. For example, ensuring infrastructure is set up correctly and that events flow between services as expected to record a customer's order.
-    
+- **Unit tests** - Tests that run against an isolated block of code. For example, verifying the business logic to calculate the delivery charge given a particular item and destination.
+- **Integration tests** - Tests involving two or more components or services that interact, typically in a cloud environment. For example, verifying a function processes events from a queue.
+- **End-to-end tests** - Tests that verify behavior across an entire application. For example, ensuring infrastructure is set up correctly and that events flow between services as expected to record a customer's order.
 
 Targeted business outcomes
 
-
-----------------------------
+---
 
 Testing serverless solutions may require slightly more time to set up tests that verify event-driven interactions between services. Keep the following practical business reasons in mind as you read this guide:
 
-*   Increase the quality of your application
-    
-*   Decrease time to build features and fix bugs
-    
+- Increase the quality of your application
+- Decrease time to build features and fix bugs
 
 The quality of an application depends on testing a variety of scenarios to verify functionality. Carefully considering the business scenarios and automating those tests to run against cloud services will raise the quality of your application.
 
@@ -37,17 +31,13 @@ A well planned serverless testing strategy will increase software quality and im
 
 What to test
 
-
---------------
+---
 
 We recommend adopting a testing strategy that tests managed service _behaviors_, cloud configuration, security policies, and the integration with your code to improve software quality. _Behavior testing_, also known as black box testing, verifies a system works as expected without knowing all the internals.
 
-*   Run unit tests to check business logic inside Lambda functions.
-    
-*   Verify integrated services are actually invoked, and input parameters are correct.
-    
-*   Check that an event goes through all expected services end-to-end in a workflow.
-    
+- Run unit tests to check business logic inside Lambda functions.
+- Verify integrated services are actually invoked, and input parameters are correct.
+- Check that an event goes through all expected services end-to-end in a workflow.
 
 In traditional server-based architecture, teams often define a scope for testing to only include code that runs on the application server. Other components, services, or dependencies are often considered external and out of scope for testing.
 
@@ -57,8 +47,7 @@ Some application functionality can be delegated entirely to managed services suc
 
 How to test serverless
 
-
-------------------------
+---
 
 You are probably familiar with how to test applications deployed locally: You write tests that run against code running entirely on your desktop operating system, or inside containers. For example, you might invoke a local web service component with a request and then make assertions about the response.
 
@@ -70,23 +59,19 @@ In serverless applications, architecture components commonly exist entirely in t
 
 Testing techniques
 
-
---------------------
+---
 
 In reality, your testing strategy will likely include a mix of techniques to increase quality of your solutions. You will use quick interactive tests to debug functions in the console, automated unit tests to check isolated business logic, verification of calls to external services with mocks, and occasional testing against emulators that mimic a service.
 
-*   [Testing in the cloud](#testing-in-the-cloud): You deploy infrastructure and code to test with actual services, security policies, configurations and infrastructure specific parameters. Cloud-based tests provide the **most accurate** measure of quality of your code.
-    
-    Debugging a function in the console is a quick way to test in the cloud. You can choose from a library of sample test events or create a custom event to test a function in isolation. You can also share test events through the console with your team.
-    
-    To **automate** testing in the development and build lifecycle, you will need to test outside of the console. See the language specific testing sections in this guide for automation strategies and resources.
-    
-*   [Testing with mocks](#testing-with-mocks): Mocks are objects within your code that simulate and stand-in for an external service. Mocks provide pre-defined behavior to verify service calls and parameters. A _fake_ is a mock implementation that takes shortcuts to simplify or improve performance. For example, a fake data access object might return data from an in-memory datastore. Mocks can mimic and simplify complex dependencies, but can also lead to more mocks in order to replace nested dependencies.
-    
-*   [Testing locally using AWS SAM CLI](#testing-with-local-containers): Use AWS SAM CLI to locally invoke Lambda functions in Docker containers that use the same runtime environment as AWS Lambda. You can test function logic and event processing without deploying to the cloud.
-    
-*   [Testing with emulation](#testing-with-emulation): Use the [LocalStack integration in VS Code](https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/lambda-localstack.html) to emulate multiple AWS services locally for testing service integrations.
-    
+- [Testing in the cloud](#testing-in-the-cloud): You deploy infrastructure and code to test with actual services, security policies, configurations and infrastructure specific parameters. Cloud-based tests provide the **most accurate** measure of quality of your code.
+
+  Debugging a function in the console is a quick way to test in the cloud. You can choose from a library of sample test events or create a custom event to test a function in isolation. You can also share test events through the console with your team.
+
+  To **automate** testing in the development and build lifecycle, you will need to test outside of the console. See the language specific testing sections in this guide for automation strategies and resources.
+
+- [Testing with mocks](#testing-with-mocks): Mocks are objects within your code that simulate and stand-in for an external service. Mocks provide pre-defined behavior to verify service calls and parameters. A _fake_ is a mock implementation that takes shortcuts to simplify or improve performance. For example, a fake data access object might return data from an in-memory datastore. Mocks can mimic and simplify complex dependencies, but can also lead to more mocks in order to replace nested dependencies.
+- [Testing locally using AWS SAM CLI](#testing-with-local-containers): Use AWS SAM CLI to locally invoke Lambda functions in Docker containers that use the same runtime environment as AWS Lambda. You can test function logic and event processing without deploying to the cloud.
+- [Testing with emulation](#testing-with-emulation): Use the [LocalStack integration in VS Code](https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/lambda-localstack.html) to emulate multiple AWS services locally for testing service integrations.
 
 ### Testing in the cloud
 
@@ -106,23 +91,16 @@ Test automation samples are available in the [Serverless Test Samples repository
 
 Although the test runs locally, it interacts with cloud-based resources. These resources have been deployed using the AWS Serverless Application Model and AWS SAM command line tool. The test code first retrieves the deployed stack outputs, which includes the API endpoint, function ARN, and security role. Next, the test sends a request to the API endpoint, which responds with a list of Amazon S3 buckets. This test runs entirely against cloud-based resources to verify those resources are deployed, secured, and work as expected.
 
-`========================= test session starts =========================       platform darwin -- Python 3.10.10, pytest-7.3.1, pluggy-1.0.0       -- /Users/t/code/aws/serverless-test-samples/python-test-samples/apigw-lambda/venv/bin/python       cachedir: .pytest_cache       rootdir: /Users/t/code/aws/serverless-test-samples/python-test-samples/apigw-lambda       plugins: mock-3.10.0       collected 1 item                                                                                                                tests/integration/test_api_gateway.py::TestApiGateway::test_api_gateway         --> Stack outputs:          HelloWorldApi         = https://p7teqs3162.execute-api.us-east-2.amazonaws.com/Prod/hello/         > API Gateway endpoint URL for Prod stage for Hello World function          PythonTestDemo         = arn:aws:lambda:us-east-2:123456789012:function:testing-apigw-lambda-PythonTestDemo-iSij8evaTdxl         > Hello World Lambda Function ARN          PythonTestDemoIamRole         = arn:aws:iam::123456789012:role/testing-apigw-lambda-PythonTestDemoRole-IZELQQ9MG4HQ         > Implicit IAM Role created for Hello World function        --> Found API endpoint for "testing-apigw-lambda" stack...       --> https://p7teqs3162.execute-api.us-east-2.amazonaws.com/Prod/hello/       API Gateway response:       amplify-dev-123456789-deployment|myapp-prod-p-loggingbucket-123456|s3-java-bucket-123456789       PASSED        ========================= 1 passed in 1.53s =========================` 
-      
+`========================= test session starts =========================       platform darwin -- Python 3.10.10, pytest-7.3.1, pluggy-1.0.0       -- /Users/t/code/aws/serverless-test-samples/python-test-samples/apigw-lambda/venv/bin/python       cachedir: .pytest_cache       rootdir: /Users/t/code/aws/serverless-test-samples/python-test-samples/apigw-lambda       plugins: mock-3.10.0       collected 1 item                                                                                                                tests/integration/test_api_gateway.py::TestApiGateway::test_api_gateway         --> Stack outputs:          HelloWorldApi         = https://p7teqs3162.execute-api.us-east-2.amazonaws.com/Prod/hello/         > API Gateway endpoint URL for Prod stage for Hello World function          PythonTestDemo         = arn:aws:lambda:us-east-2:123456789012:function:testing-apigw-lambda-PythonTestDemo-iSij8evaTdxl         > Hello World Lambda Function ARN          PythonTestDemoIamRole         = arn:aws:iam::123456789012:role/testing-apigw-lambda-PythonTestDemoRole-IZELQQ9MG4HQ         > Implicit IAM Role created for Hello World function        --> Found API endpoint for "testing-apigw-lambda" stack...       --> https://p7teqs3162.execute-api.us-east-2.amazonaws.com/Prod/hello/       API Gateway response:       amplify-dev-123456789-deployment|myapp-prod-p-loggingbucket-123456|s3-java-bucket-123456789       PASSED        ========================= 1 passed in 1.53s =========================`
 
 For cloud-native application development, testing in the cloud provides the following benefits:
 
-*   You can test **every** available service.
-    
-*   You are always using the most recent service APIs and return values.
-    
-*   A cloud test environment closely resembles your production environment.
-    
-*   Tests can cover security policies, service quotas, configurations and infrastructure specific parameters.
-    
-*   Every developer can quickly create one or more testing environments in the cloud.
-    
-*   Cloud tests increase confidence your code will run correctly in production.
-    
+- You can test **every** available service.
+- You are always using the most recent service APIs and return values.
+- A cloud test environment closely resembles your production environment.
+- Tests can cover security policies, service quotas, configurations and infrastructure specific parameters.
+- Every developer can quickly create one or more testing environments in the cloud.
+- Cloud tests increase confidence your code will run correctly in production.
 
 Testing in the cloud does have some disadvantages. The most obvious negative of testing in the cloud is that deployments to cloud environments typically take longer than deployments to a local desktop environments.
 
@@ -148,31 +126,20 @@ Note that mock objects differ from emulators in that mocks are typically created
 
 The advantages of using mocks include the following:
 
-*   Mocks can simulate third-party services that are beyond the control of your application, such as APIs and software as a service (SaaS) providers, without needing direct access to those services.
-    
-*   Mocks are useful for testing failure conditions, especially when such conditions are hard to simulate, like a service outage.
-    
-*   Mock can provide fast local testing once configured.
-    
-*   Mocks can provide substitute behavior for virtually any kind of object, so mocking strategies can create coverage for a wider variety of services than emulators.
-    
-*   When new features or behaviors become available, mock testing can react more quickly. By using a generic mock framework, you can simulate new features as soon as the updated AWS SDK become available.
-    
+- Mocks can simulate third-party services that are beyond the control of your application, such as APIs and software as a service (SaaS) providers, without needing direct access to those services.
+- Mocks are useful for testing failure conditions, especially when such conditions are hard to simulate, like a service outage.
+- Mock can provide fast local testing once configured.
+- Mocks can provide substitute behavior for virtually any kind of object, so mocking strategies can create coverage for a wider variety of services than emulators.
+- When new features or behaviors become available, mock testing can react more quickly. By using a generic mock framework, you can simulate new features as soon as the updated AWS SDK become available.
 
 Mock testing has these disadvantages:
 
-*   Mocks generally require a non-trivial amount of setup and configuration effort, specifically when trying to determine return values from different services in order to properly mock responses.
-    
-*   Mocks are written, configured, and must be maintained by developers, increasing their responsibilities.
-    
-*   You might need to have access to the cloud in order to understand the APIs and return values of services.
-    
-*   Mocks can be difficult to maintain. When mocked cloud API signatures change, or return value schemas evolve, you need to update your mocks. Mocks also require updates if you extend your application logic to make calls to new APIs.
-    
-*   Tests that use mocks might pass in desktop environments but fail in the cloud. Results may not match the current API. Service configuration and quotas cannot be tested.
-    
-*   Mock frameworks are limited in testing or detecting AWS Identity and Access Management (IAM) policy or quota limitations. Although mocks are better at simulating when authorization fails or a quota is exceeded, testing cannot determine which outcome will actually occur in a production environment.
-    
+- Mocks generally require a non-trivial amount of setup and configuration effort, specifically when trying to determine return values from different services in order to properly mock responses.
+- Mocks are written, configured, and must be maintained by developers, increasing their responsibilities.
+- You might need to have access to the cloud in order to understand the APIs and return values of services.
+- Mocks can be difficult to maintain. When mocked cloud API signatures change, or return value schemas evolve, you need to update your mocks. Mocks also require updates if you extend your application logic to make calls to new APIs.
+- Tests that use mocks might pass in desktop environments but fail in the cloud. Results may not match the current API. Service configuration and quotas cannot be tested.
+- Mock frameworks are limited in testing or detecting AWS Identity and Access Management (IAM) policy or quota limitations. Although mocks are better at simulating when authorization fails or a quota is exceeded, testing cannot determine which outcome will actually occur in a production environment.
 
 ### Testing locally using AWS SAM CLI
 
@@ -180,19 +147,14 @@ Use AWS SAM CLI to [test your functions in Docker containers](https://docs.aws.
 
 The advantages of testing with local containers include the following:
 
-*   Uses AWS Lambda runtime environments for accurate testing.
-    
-*   Enables fast local development iterations without cloud deployment.
-    
-*   Supports debugging with familiar local development tools.
-    
+- Uses AWS Lambda runtime environments for accurate testing.
+- Enables fast local development iterations without cloud deployment.
+- Supports debugging with familiar local development tools.
 
 Testing with local containers has these limitations:
 
-*   AWS service calls from your function will interact with real AWS resources, which may incur costs and affect production data.
-    
-*   Requires Docker to be installed and running locally.
-    
+- AWS service calls from your function will interact with real AWS resources, which may incur costs and affect production data.
+- Requires Docker to be installed and running locally.
 
 ### Testing with emulation
 
@@ -202,30 +164,21 @@ LocalStack is an AWS Cloud emulator that you can use to test serverless applicat
 
 The advantages of test with emulators include the following:
 
-*   Emulators can facilitate fast local development iterations and testing.
-    
-*   Emulators provide a familiar environment for developers used to developing code in a local environment. For example, if you’re familiar with the development of an _n_\-tier application, you might have a database engine and web server, similar to those running in production, running on your local machine to provide quick, local, isolated test capability.
-    
-*   Emulators do not require any changes to cloud infrastructure (such as developer cloud accounts), so it’s easy to implement with existing testing patterns.
-    
-*   Because emulators don't use actual AWS resources, you won't get unexpected charges when starting multiple services or for letting some resources run for extended periods of time.
-    
+- Emulators can facilitate fast local development iterations and testing.
+- Emulators provide a familiar environment for developers used to developing code in a local environment. For example, if you’re familiar with the development of an _n_\-tier application, you might have a database engine and web server, similar to those running in production, running on your local machine to provide quick, local, isolated test capability.
+- Emulators do not require any changes to cloud infrastructure (such as developer cloud accounts), so it’s easy to implement with existing testing patterns.
+- Because emulators don't use actual AWS resources, you won't get unexpected charges when starting multiple services or for letting some resources run for extended periods of time.
 
 Testing with emulators has these disadvantages:
 
-*   Emulators can be difficult to set up and replicate, especially when used in CI/CD pipelines. This can increase the workload of IT staff or developers who manage their own software.
-    
-*   Emulated features and APIs typically lag behind service updates. This can lead to errors because tested code does not match the actual API, and impede the adoption of new features.
-    
-*   Emulators require support, updates, bug fixes, and feature parity enhancements. These are the responsibility of the emulator author, which could be a third-party company.
-    
-*   Tests that rely on emulators may provide successful results locally, but fail in the cloud due to production security policies, inter-service configurations, or exceeding Lambda quotas.
-    
+- Emulators can be difficult to set up and replicate, especially when used in CI/CD pipelines. This can increase the workload of IT staff or developers who manage their own software.
+- Emulated features and APIs typically lag behind service updates. This can lead to errors because tested code does not match the actual API, and impede the adoption of new features.
+- Emulators require support, updates, bug fixes, and feature parity enhancements. These are the responsibility of the emulator author, which could be a third-party company.
+- Tests that rely on emulators may provide successful results locally, but fail in the cloud due to production security policies, inter-service configurations, or exceeding Lambda quotas.
 
 Best practices
 
-
-----------------
+---
 
 The following sections provide recommendations for successful serverless application testing.
 
@@ -301,8 +254,7 @@ When you do use emulation for testing, you must still test in the cloud to verif
 
 Challenges testing locally
 
-
-----------------------------
+---
 
 When you use emulators and mocked calls to test on your local desktop you might experience testing inconsistencies as your code progresses from environment to environment in your CI/CD pipeline. Unit tests to validate your application’s business logic on your desktop may not accurately test critical aspects of the cloud services.
 
@@ -312,10 +264,8 @@ The following examples provide cases to watch out for when testing locally with 
 
 If a Lambda function’s logic depends on creating an S3 bucket, a complete test should confirm that Amazon S3 was called and the bucket was successfully created.
 
-*   In a mock testing setup, you might mock a success response and potentially add a test case to handle a failure response.
-    
-*   In an emulation testing scenario, the **CreateBucket** API might be called, but you need to be aware that the identity making the local call will **not** originate from the Lambda service. The calling identity will not assume a security role as it would in the cloud, so a placeholder authentication will be used instead, possibly with a more permissive role or user identity that will be different when run in the cloud.
-    
+- In a mock testing setup, you might mock a success response and potentially add a test case to handle a failure response.
+- In an emulation testing scenario, the **CreateBucket** API might be called, but you need to be aware that the identity making the local call will **not** originate from the Lambda service. The calling identity will not assume a security role as it would in the cloud, so a placeholder authentication will be used instead, possibly with a more permissive role or user identity that will be different when run in the cloud.
 
 The mock and emulation setups will test what the Lambda function will do if it calls Amazon S3; however, those tests will not verify that the Lambda function, as configured, is capable of successfully creating the Amazon S3 bucket. You must make sure the role assigned to the function has an attached security policy that allows the function to perform the `s3:CreateBucket` action. If not, the function will likely fail when deployed to a cloud environment.
 
@@ -329,19 +279,15 @@ Local testing that simulates the Amazon SQS integration will test what the Lambd
 
 Some examples of configuration problems you might encounter with Amazon SQS and Lambda include the following:
 
-*   Amazon SQS visibility timeout is too low, resulting in multiple invocations when only one was intended.
-    
-*   The Lambda function’s execution role doesn’t allow reading messages from the queue (through `sqs:ReceiveMessage`, `sqs:DeleteMessage`, or`sqs:GetQueueAttributes`).
-    
-*   The sample event that is passed to the Lambda function exceeds the Amazon SQS message size quota. Therefore, the test is invalid because Amazon SQS would never be able to send a message of that size.
-    
+- Amazon SQS visibility timeout is too low, resulting in multiple invocations when only one was intended.
+- The Lambda function’s execution role doesn’t allow reading messages from the queue (through `sqs:ReceiveMessage`, `sqs:DeleteMessage`, or`sqs:GetQueueAttributes`).
+- The sample event that is passed to the Lambda function exceeds the Amazon SQS message size quota. Therefore, the test is invalid because Amazon SQS would never be able to send a message of that size.
 
 As these examples show, tests that cover business logic but not the configurations between cloud services are likely to provide unreliable results.
 
 FAQ
 
-
------
+---
 
 **I have a Lambda function that performs calculations and returns a result without calling any other services. Do I really need to test it in the cloud?**
 
@@ -355,12 +301,9 @@ Many serverless applications have architectural components that can be tested in
 
 Consider a test that is written by using the Arrange, Act, Assert pattern:
 
-*   _Arrange_: Allocate resources (a queue to receive messages, and the function under test).
-    
-*   _Act_: Call the function under test.
-    
-*   _Assert_: Retrieve the message sent by the function, and validate the output.
-    
+- _Arrange_: Allocate resources (a queue to receive messages, and the function under test).
+- _Act_: Call the function under test.
+- _Assert_: Retrieve the message sent by the function, and validate the output.
 
 A mock testing approach would involve mocking the queue with an in-process mock object, and creating an in-process instance of the class or module that contains the Lambda function code. During the Assert phase, the queued message would be retrieved from the mocked object.
 
@@ -370,8 +313,7 @@ The cloud-based test would run the same code, assert the same behavior, and vali
 
 Next steps and resources
 
-
---------------------------
+---
 
 Use the following resources to learn more and explore practical examples of testing.
 
@@ -385,19 +327,13 @@ Visit [Serverless Land](https://serverlessland.com/) to access the latest blogs,
 
 The following AWS blog posts are also recommended reading:
 
-*   [Accelerating serverless development with AWS SAM Accelerate](https://aws.amazon.com/blogs/compute/accelerating-serverless-development-with-aws-sam-accelerate/) (AWS blog post)
-    
-*   [Increasing development speed with CDK Watch](https://aws.amazon.com/blogs/developer/increasing-development-speed-with-cdk-watch/) (AWS blog post)
-    
-*   [Mocking service integrations with AWS Step Functions Local](https://aws.amazon.com/blogs/compute/mocking-service-integrations-with-aws-step-functions-local/) (AWS blog post)
-    
-*   [Getting started with testing serverless applications](https://aws.amazon.com/blogs/compute/getting-started-with-testing-serverless-applications/) (AWS blog post)
-    
+- [Accelerating serverless development with AWS SAM Accelerate](https://aws.amazon.com/blogs/compute/accelerating-serverless-development-with-aws-sam-accelerate/) (AWS blog post)
+- [Increasing development speed with CDK Watch](https://aws.amazon.com/blogs/developer/increasing-development-speed-with-cdk-watch/) (AWS blog post)
+- [Mocking service integrations with AWS Step Functions Local](https://aws.amazon.com/blogs/compute/mocking-service-integrations-with-aws-step-functions-local/) (AWS blog post)
+- [Getting started with testing serverless applications](https://aws.amazon.com/blogs/compute/getting-started-with-testing-serverless-applications/) (AWS blog post)
 
 **Tools**
 
-*   AWS SAM – [Testing and debugging serverless applications](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-test-and-debug.html)
-    
-*   AWS SAM – [Integrating with automated tests](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-using-automated-tests.html)
-    
-*   Lambda – [Testing Lambda functions in the Lambda console](./testing-functions.html)
+- AWS SAM – [Testing and debugging serverless applications](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-test-and-debug.html)
+- AWS SAM – [Integrating with automated tests](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-using-automated-tests.html)
+- Lambda – [Testing Lambda functions in the Lambda console](./testing-functions.html)

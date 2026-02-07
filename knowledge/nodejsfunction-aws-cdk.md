@@ -1,27 +1,26 @@
-[](#class-nodejsfunction-construct)class NodejsFunction (construct)
-===================================================================
+# [](#class-nodejsfunction-construct)class NodejsFunction (construct)
 
 Language
 
 Type name
 
- [![](/cdk/api/v2/img/dotnet32.png) .NET](/cdk/api/v2/dotnet/api/Amazon.CDK.AWS.Lambda.Nodejs.NodejsFunction.html)
+[![](/cdk/api/v2/img/dotnet32.png) .NET](/cdk/api/v2/dotnet/api/Amazon.CDK.AWS.Lambda.Nodejs.NodejsFunction.html)
 
 `Amazon.CDK.AWS.Lambda.Nodejs.NodejsFunction`
 
- [![](/cdk/api/v2/img/go32.png) Go](https://pkg.go.dev/github.com/aws/aws-cdk-go/awscdk/v2/awslambdanodejs#NodejsFunction)
+[![](/cdk/api/v2/img/go32.png) Go](https://pkg.go.dev/github.com/aws/aws-cdk-go/awscdk/v2/awslambdanodejs#NodejsFunction)
 
 `github.com/aws/aws-cdk-go/awscdk/v2/awslambdanodejs#NodejsFunction`
 
- [![](/cdk/api/v2/img/java32.png) Java](/cdk/api/v2/java/software/amazon/awscdk/services/lambda/nodejs/NodejsFunction.html)
+[![](/cdk/api/v2/img/java32.png) Java](/cdk/api/v2/java/software/amazon/awscdk/services/lambda/nodejs/NodejsFunction.html)
 
 `software.amazon.awscdk.services.lambda.nodejs.NodejsFunction`
 
- [![](/cdk/api/v2/img/python32.png) Python](/cdk/api/v2/python/aws_cdk.aws_lambda_nodejs/NodejsFunction.html)
+[![](/cdk/api/v2/img/python32.png) Python](/cdk/api/v2/python/aws_cdk.aws_lambda_nodejs/NodejsFunction.html)
 
 `aws_cdk.aws_lambda_nodejs.NodejsFunction`
 
- ![](/cdk/api/v2/img/typescript32.png) TypeScript ([source](https://github.com/aws/aws-cdk/blob/v2.237.1/packages/aws-cdk-lib/aws-lambda-nodejs/lib/function.ts#L113))
+![](/cdk/api/v2/img/typescript32.png) TypeScript ([source](https://github.com/aws/aws-cdk/blob/v2.237.1/packages/aws-cdk-lib/aws-lambda-nodejs/lib/function.ts#L113))
 
 `aws-cdk-lib` » `aws_lambda_nodejs` » `NodejsFunction`
 
@@ -29,8 +28,7 @@ _Implements_ [`IConstruct`](constructs.IConstruct.html), [`IDependable`](constru
 
 A Node.js Lambda function bundled using esbuild.
 
-[](#example)Example
--------------------
+## [](#example)Example
 
     new nodejs.NodejsFunction(this, 'my-handler', {
      bundling: {
@@ -41,22 +39,18 @@ A Node.js Lambda function bundled using esbuild.
          volumes: [{ hostPath: '/host-path', containerPath: '/container-path' }],
       },
     });
-    
 
-[](#initializer)Initializer
----------------------------
+## [](#initializer)Initializer
 
     new NodejsFunction(scope: Construct, id: string, props?: NodejsFunctionProps)
-    
 
 _Parameters_
 
-*   **scope** [`Construct`](constructs.Construct.html)
-*   **id** `string`
-*   **props** [`NodejsFunctionProps`](aws-cdk-lib.aws_lambda_nodejs.NodejsFunctionProps.html)
+- **scope** [`Construct`](constructs.Construct.html)
+- **id** `string`
+- **props** [`NodejsFunctionProps`](aws-cdk-lib.aws_lambda_nodejs.NodejsFunctionProps.html)
 
-[](#construct-props)Construct Props
------------------------------------
+## [](#construct-props)Construct Props
 
 Name
 
@@ -424,7 +418,7 @@ vpcSubnets?
 
 Where to place the network interfaces within the VPC.
 
-* * *
+---
 
 ### [](#adotinstrumentation)adotInstrumentation?
 
@@ -434,7 +428,7 @@ Specify the configuration of AWS Distro for OpenTelemetry (ADOT) instrumentation
 
 See also: [https://aws-otel.github.io/docs/getting-started/lambda](https://aws-otel.github.io/docs/getting-started/lambda)
 
-* * *
+---
 
 ### [](#allowallipv6outbound)allowAllIpv6Outbound?
 
@@ -446,7 +440,7 @@ If set to true, there will only be a single egress rule which allows all outboun
 
 Do not specify this property if the `securityGroups` or `securityGroup` property is set. Instead, configure `allowAllIpv6Outbound` directly on the security group.
 
-* * *
+---
 
 ### [](#allowalloutbound)allowAllOutbound?
 
@@ -458,7 +452,7 @@ If set to false, you must individually add traffic rules to allow the Lambda to 
 
 Do not specify this property if the `securityGroups` or `securityGroup` property is set. Instead, configure `allowAllOutbound` directly on the security group.
 
-* * *
+---
 
 ### [](#allowpublicsubnet)allowPublicSubnet?
 
@@ -470,7 +464,7 @@ Use this property to acknowledge this limitation and still place the function in
 
 See also: [https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841](https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841)
 
-* * *
+---
 
 ### [](#applicationloglevelspan-classapi-icon-api-icon-deprecated-titlethis-api-element-is-deprecated-its-use-is-not-recommended️span)applicationLogLevel?⚠️
 
@@ -480,7 +474,7 @@ _Type:_ `string` _(optional, default: "INFO")_
 
 Sets the application log level for the function.
 
-* * *
+---
 
 ### [](#applicationloglevelv2)applicationLogLevelV2?
 
@@ -488,15 +482,15 @@ _Type:_ [`ApplicationLogLevel`](aws-cdk-lib.aws_lambda.ApplicationLogLevel.html)
 
 Sets the application log level for the function.
 
-* * *
+---
 
 ### [](#architecture)architecture?
 
-_Type:_ [`Architecture`](aws-cdk-lib.aws_lambda.Architecture.html) _(optional, default: Architecture.X86\_64)_
+_Type:_ [`Architecture`](aws-cdk-lib.aws_lambda.Architecture.html) _(optional, default: Architecture.X86_64)_
 
 The system architectures compatible with this lambda function.
 
-* * *
+---
 
 ### [](#awssdkconnectionreuse)awsSdkConnectionReuse?
 
@@ -514,7 +508,7 @@ This sets the `AWS_NODEJS_CONNECTION_REUSE_ENABLED` environment variable to `1`.
 
 See also: [https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/node-reusing-connections.html](/sdk-for-javascript/v3/developer-guide/node-reusing-connections.html)
 
-* * *
+---
 
 ### [](#bundling)bundling?
 
@@ -522,7 +516,7 @@ _Type:_ [`BundlingOptions`](aws-cdk-lib.aws_lambda_nodejs.BundlingOptions.html) 
 
 Bundling options.
 
-* * *
+---
 
 ### [](#code)code?
 
@@ -532,9 +526,9 @@ The code that will be deployed to the Lambda Handler.
 
 If included, then properties related to bundling of the code are ignored.
 
-*   If the `code` field is specified, then you must include the `handler` property.
+- If the `code` field is specified, then you must include the `handler` property.
 
-* * *
+---
 
 ### [](#codesigningconfig)codeSigningConfig?
 
@@ -542,7 +536,7 @@ _Type:_ [`ICodeSigningConfigRef`](aws-cdk-lib.interfaces.aws_lambda.ICodeSigning
 
 Code signing config associated with this function.
 
-* * *
+---
 
 ### [](#currentversionoptions)currentVersionOptions?
 
@@ -550,7 +544,7 @@ _Type:_ [`VersionOptions`](aws-cdk-lib.aws_lambda.VersionOptions.html) _(optiona
 
 Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method.
 
-* * *
+---
 
 ### [](#deadletterqueue)deadLetterQueue?
 
@@ -560,7 +554,7 @@ The SQS queue to use if DLQ is enabled.
 
 If SNS topic is desired, specify `deadLetterTopic` property instead.
 
-* * *
+---
 
 ### [](#deadletterqueueenabled)deadLetterQueueEnabled?
 
@@ -570,7 +564,7 @@ Enabled DLQ.
 
 If `deadLetterQueue` is undefined, an SQS queue with default options will be defined for your Function.
 
-* * *
+---
 
 ### [](#deadlettertopic)deadLetterTopic?
 
@@ -580,7 +574,7 @@ The SNS topic to use as a DLQ.
 
 Note that if `deadLetterQueueEnabled` is set to `true`, an SQS queue will be created rather than an SNS topic. Using an SNS topic as a DLQ requires this property to be set explicitly.
 
-* * *
+---
 
 ### [](#depslockfilepath)depsLockFilePath?
 
@@ -592,7 +586,7 @@ This will be used as the source for the volume mounted in the Docker container.
 
 Modules specified in `nodeModules` will be installed using the right installer (`yarn`, `pnpm`, `bun` or `npm`) along with this lock file.
 
-* * *
+---
 
 ### [](#description)description?
 
@@ -600,7 +594,7 @@ _Type:_ `string` _(optional, default: No description.)_
 
 A description of the function.
 
-* * *
+---
 
 ### [](#durableconfig)durableConfig?
 
@@ -610,7 +604,7 @@ The durable configuration for the function.
 
 If durability is added to an existing function, a resource replacement will be triggered. See the 'durableConfig' section in the module README for more details.
 
-* * *
+---
 
 ### [](#entry)entry?
 
@@ -618,7 +612,7 @@ _Type:_ `string` _(optional, default: Derived from the name of the defining file
 
 Path to the entry file (JavaScript or TypeScript).
 
-* * *
+---
 
 ### [](#environment)environment?
 
@@ -628,7 +622,7 @@ Key-value pairs that Lambda caches and makes available for your Lambda functions
 
 Use environment variables to apply configuration changes, such as test and production environment configurations, without changing your Lambda function source code.
 
-* * *
+---
 
 ### [](#environmentencryption)environmentEncryption?
 
@@ -636,7 +630,7 @@ _Type:_ [`IKeyRef`](aws-cdk-lib.interfaces.aws_kms.IKeyRef.html) _(optional, def
 
 The AWS KMS key that's used to encrypt your function's environment variables.
 
-* * *
+---
 
 ### [](#ephemeralstoragesize)ephemeralStorageSize?
 
@@ -644,7 +638,7 @@ _Type:_ [`Size`](aws-cdk-lib.Size.html) _(optional, default: 512 MiB)_
 
 The size of the function’s /tmp directory in MiB.
 
-* * *
+---
 
 ### [](#events)events?
 
@@ -654,7 +648,7 @@ Event sources for this function.
 
 You can also add event sources using `addEventSource`.
 
-* * *
+---
 
 ### [](#filesystem)filesystem?
 
@@ -662,7 +656,7 @@ _Type:_ [`FileSystem`](aws-cdk-lib.aws_lambda.FileSystem.html) _(optional, defau
 
 The filesystem configuration for the lambda function.
 
-* * *
+---
 
 ### [](#functionname)functionName?
 
@@ -670,7 +664,7 @@ _Type:_ `string` _(optional, default: AWS CloudFormation generates a unique phys
 
 A name for the function.
 
-* * *
+---
 
 ### [](#handler)handler?
 
@@ -678,12 +672,10 @@ _Type:_ `string` _(optional, default: handler)_
 
 The name of the exported handler in the entry file.
 
-*   If the `code` property is supplied, then you must include the `handler` property. The handler should be the name of the file that contains the exported handler and the function that should be called when the AWS Lambda is invoked. For example, if you had a file called `myLambda.js` and the function to be invoked was `myHandler`, then you should input `handler` property as `myLambda.myHandler`.
-    
-*   If the `code` property is not supplied and the handler input does not contain a `.`, then the handler is prefixed with `index.` (index period). Otherwise, the handler property is not modified.
-    
+- If the `code` property is supplied, then you must include the `handler` property. The handler should be the name of the file that contains the exported handler and the function that should be called when the AWS Lambda is invoked. For example, if you had a file called `myLambda.js` and the function to be invoked was `myHandler`, then you should input `handler` property as `myLambda.myHandler`.
+- If the `code` property is not supplied and the handler input does not contain a `.`, then the handler is prefixed with `index.` (index period). Otherwise, the handler property is not modified.
 
-* * *
+---
 
 ### [](#initialpolicy)initialPolicy?
 
@@ -693,7 +685,7 @@ Initial policy statements to add to the created Lambda Role.
 
 You can call `addToRolePolicy` to the created lambda to add statements post creation.
 
-* * *
+---
 
 ### [](#insightsversion)insightsVersion?
 
@@ -703,7 +695,7 @@ Specify the version of CloudWatch Lambda insights to use for monitoring.
 
 See also: [https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Lambda-Insights-Getting-Started-docker.html](/AmazonCloudWatch/latest/monitoring/Lambda-Insights-Getting-Started-docker.html)
 
-* * *
+---
 
 ### [](#ipv6allowedfordualstack)ipv6AllowedForDualStack?
 
@@ -713,7 +705,7 @@ Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack s
 
 Only used if 'vpc' is supplied.
 
-* * *
+---
 
 ### [](#layers)layers?
 
@@ -723,7 +715,7 @@ A list of layers to add to the function's execution environment.
 
 You can configure your Lambda function to pull in additional code during initialization in the form of layers. Layers are packages of libraries or other dependencies that can be used by multiple functions.
 
-* * *
+---
 
 ### [](#logformatspan-classapi-icon-api-icon-deprecated-titlethis-api-element-is-deprecated-its-use-is-not-recommended️span)logFormat?⚠️
 
@@ -733,7 +725,7 @@ _Type:_ `string` _(optional, default: "Text")_
 
 Sets the logFormat for the function.
 
-* * *
+---
 
 ### [](#loggroup)logGroup?
 
@@ -747,7 +739,7 @@ Use the `logGroup` property to create a fully customizable LogGroup ahead of tim
 
 Providing a user-controlled log group was rolled out to commercial regions on 2023-11-16. If you are deploying to another type of region, please check regional availability first.
 
-* * *
+---
 
 ### [](#logremovalpolicyspan-classapi-icon-api-icon-deprecated-titlethis-api-element-is-deprecated-its-use-is-not-recommended️span)logRemovalPolicy?⚠️
 
@@ -759,7 +751,7 @@ Determine the removal policy of the log group that is auto-created by this const
 
 Normally you want to retain the log group so you can diagnose issues from logs even after a deployment that no longer includes the log group. In that case, use the normal date-based retention policy to age out your logs.
 
-* * *
+---
 
 ### [](#logretentionspan-classapi-icon-api-icon-deprecated-titlethis-api-element-is-deprecated-its-use-is-not-recommended️span)logRetention?⚠️
 
@@ -776,12 +768,11 @@ This is a legacy API and we strongly recommend you move away from it if you can.
 In AWS CDK code, you can access the log group name directly from the LogGroup construct:
 
     import * as logs from 'aws-cdk-lib/aws-logs';
-    
+
     declare const myLogGroup: logs.LogGroup;
     myLogGroup.logGroupName;
-    
 
-* * *
+---
 
 ### [](#logretentionretryoptions)logRetentionRetryOptions?
 
@@ -793,7 +784,7 @@ These options control the retry policy when interacting with CloudWatch APIs.
 
 This is a legacy API and we strongly recommend you migrate to `logGroup` if you can. `logGroup` allows you to create a fully customizable log group and instruct the Lambda function to send logs to it.
 
-* * *
+---
 
 ### [](#logretentionrole)logRetentionRole?
 
@@ -803,7 +794,7 @@ The IAM role for the Lambda function associated with the custom resource that se
 
 This is a legacy API and we strongly recommend you migrate to `logGroup` if you can. `logGroup` allows you to create a fully customizable log group and instruct the Lambda function to send logs to it.
 
-* * *
+---
 
 ### [](#loggingformat)loggingFormat?
 
@@ -811,7 +802,7 @@ _Type:_ [`LoggingFormat`](aws-cdk-lib.aws_lambda.LoggingFormat.html) _(optional,
 
 Sets the loggingFormat for the function.
 
-* * *
+---
 
 ### [](#maxeventage)maxEventAge?
 
@@ -821,7 +812,7 @@ The maximum age of a request that Lambda sends to a function for processing.
 
 Minimum: 60 seconds Maximum: 6 hours
 
-* * *
+---
 
 ### [](#memorysize)memorySize?
 
@@ -831,7 +822,7 @@ The amount of memory, in MB, that is allocated to your Lambda function.
 
 Lambda uses this value to proportionally allocate the amount of CPU power. For more information, see Resource Model in the AWS Lambda Developer Guide.
 
-* * *
+---
 
 ### [](#onfailure)onFailure?
 
@@ -839,7 +830,7 @@ _Type:_ [`IDestination`](aws-cdk-lib.aws_lambda.IDestination.html) _(optional, d
 
 The destination for failed invocations.
 
-* * *
+---
 
 ### [](#onsuccess)onSuccess?
 
@@ -847,7 +838,7 @@ _Type:_ [`IDestination`](aws-cdk-lib.aws_lambda.IDestination.html) _(optional, d
 
 The destination for successful invocations.
 
-* * *
+---
 
 ### [](#paramsandsecrets)paramsAndSecrets?
 
@@ -857,7 +848,7 @@ Specify the configuration of Parameters and Secrets Extension.
 
 See also: [https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-integration-lambda-extensions.html](/systems-manager/latest/userguide/ps-integration-lambda-extensions.html)
 
-* * *
+---
 
 ### [](#profiling)profiling?
 
@@ -867,7 +858,7 @@ Enable profiling.
 
 See also: [https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html](/codeguru/latest/profiler-ug/setting-up-lambda.html)
 
-* * *
+---
 
 ### [](#profilinggroup)profilingGroup?
 
@@ -877,7 +868,7 @@ Profiling Group.
 
 See also: [https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html](/codeguru/latest/profiler-ug/setting-up-lambda.html)
 
-* * *
+---
 
 ### [](#projectroot)projectRoot?
 
@@ -885,7 +876,7 @@ _Type:_ `string` _(optional, default: the directory containing the `depsLockFile
 
 The path to the directory containing project config files (`package.json` or `tsconfig.json`).
 
-* * *
+---
 
 ### [](#recursiveloop)recursiveLoop?
 
@@ -895,7 +886,7 @@ Sets the Recursive Loop Protection for Lambda Function.
 
 It lets Lambda detect and terminate unintended recursive loops.
 
-* * *
+---
 
 ### [](#reservedconcurrentexecutions)reservedConcurrentExecutions?
 
@@ -905,7 +896,7 @@ The maximum of concurrent executions you want to reserve for the function.
 
 See also: [https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html](/lambda/latest/dg/concurrent-executions.html)
 
-* * *
+---
 
 ### [](#retryattempts)retryAttempts?
 
@@ -915,7 +906,7 @@ The maximum number of times to retry when the function returns an error.
 
 Minimum: 0 Maximum: 2
 
-* * *
+---
 
 ### [](#role)role?
 
@@ -929,7 +920,7 @@ The default Role automatically has permissions granted for Lambda execution. If 
 
 The relevant managed policies are "service-role/AWSLambdaBasicExecutionRole" and "service-role/AWSLambdaVPCAccessExecutionRole".
 
-* * *
+---
 
 ### [](#runtime)runtime?
 
@@ -939,7 +930,7 @@ The runtime environment.
 
 Only runtimes of the Node.js family are supported.
 
-* * *
+---
 
 ### [](#runtimemanagementmode)runtimeManagementMode?
 
@@ -947,7 +938,7 @@ _Type:_ [`RuntimeManagementMode`](aws-cdk-lib.aws_lambda.RuntimeManagementMode.h
 
 Sets the runtime management configuration for a function's version.
 
-* * *
+---
 
 ### [](#securitygroups)securityGroups?
 
@@ -957,7 +948,7 @@ The list of security groups to associate with the Lambda's network interfaces.
 
 Only used if 'vpc' is supplied.
 
-* * *
+---
 
 ### [](#snapstart)snapStart?
 
@@ -967,7 +958,7 @@ Enable SnapStart for Lambda Function.
 
 SnapStart is currently supported for Java 11, Java 17, Python 3.12, Python 3.13, and .NET 8 runtime
 
-* * *
+---
 
 ### [](#systemloglevelspan-classapi-icon-api-icon-deprecated-titlethis-api-element-is-deprecated-its-use-is-not-recommended️span)systemLogLevel?⚠️
 
@@ -977,7 +968,7 @@ _Type:_ `string` _(optional, default: "INFO")_
 
 Sets the system log level for the function.
 
-* * *
+---
 
 ### [](#systemloglevelv2)systemLogLevelV2?
 
@@ -985,7 +976,7 @@ _Type:_ [`SystemLogLevel`](aws-cdk-lib.aws_lambda.SystemLogLevel.html) _(optiona
 
 Sets the system log level for the function.
 
-* * *
+---
 
 ### [](#tenancyconfig)tenancyConfig?
 
@@ -993,7 +984,7 @@ _Type:_ [`TenancyConfig`](aws-cdk-lib.aws_lambda.TenancyConfig.html) _(optional,
 
 The tenancy configuration for the function.
 
-* * *
+---
 
 ### [](#timeout)timeout?
 
@@ -1003,7 +994,7 @@ The function execution time (in seconds) after which Lambda terminates the funct
 
 Because the execution time affects cost, set this value based on the function's expected execution time.
 
-* * *
+---
 
 ### [](#tracing)tracing?
 
@@ -1011,7 +1002,7 @@ _Type:_ [`Tracing`](aws-cdk-lib.aws_lambda.Tracing.html) _(optional, default: Tr
 
 Enable AWS X-Ray Tracing for Lambda Function.
 
-* * *
+---
 
 ### [](#vpc)vpc?
 
@@ -1021,7 +1012,7 @@ VPC network to place Lambda network interfaces.
 
 Specify this if the Lambda function needs to access resources in a VPC. This is required when `vpcSubnets` is specified.
 
-* * *
+---
 
 ### [](#vpcsubnets)vpcSubnets?
 
@@ -1033,8 +1024,7 @@ This requires `vpc` to be specified in order for interfaces to actually be place
 
 Note: Internet access for Lambda Functions requires a NAT Gateway, so picking public subnets is not allowed (unless `allowPublicSubnet` is set to `true`).
 
-[](#properties)Properties
--------------------------
+## [](#properties)Properties
 
 Name
 
@@ -1046,7 +1036,7 @@ architecture
 
 [`Architecture`](aws-cdk-lib.aws_lambda.Architecture.html)
 
-The architecture of this Lambda Function (this is an optional attribute and defaults to X86\_64).
+The architecture of this Lambda Function (this is an optional attribute and defaults to X86_64).
 
 connections
 
@@ -1168,15 +1158,15 @@ timeout?
 
 The timeout configured for this lambda.
 
-* * *
+---
 
 ### [](#architecture-1)architecture
 
 _Type:_ [`Architecture`](aws-cdk-lib.aws_lambda.Architecture.html)
 
-The architecture of this Lambda Function (this is an optional attribute and defaults to X86\_64).
+The architecture of this Lambda Function (this is an optional attribute and defaults to X86_64).
 
-* * *
+---
 
 ### [](#connections)connections
 
@@ -1186,7 +1176,7 @@ Access the Connections object.
 
 Will fail if not a VPC-enabled Lambda Function
 
-* * *
+---
 
 ### [](#currentversion)currentVersion
 
@@ -1196,7 +1186,7 @@ Returns a `lambda.Version` which represents the current version of this Lambda f
 
 You can specify options for this version using the `currentVersionOptions` prop when initializing the `lambda.Function`.
 
-* * *
+---
 
 ### [](#env)env
 
@@ -1208,7 +1198,7 @@ For resources that are created and managed in a Stack (those created by creating
 
 For referenced resources (those obtained from referencing methods like `Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be different than the stack they were imported into.
 
-* * *
+---
 
 ### [](#functionarn)functionArn
 
@@ -1216,7 +1206,7 @@ _Type:_ `string`
 
 ARN of this function.
 
-* * *
+---
 
 ### [](#functionname-1)functionName
 
@@ -1224,7 +1214,7 @@ _Type:_ `string`
 
 Name of this function.
 
-* * *
+---
 
 ### [](#functionref)functionRef
 
@@ -1232,7 +1222,7 @@ _Type:_ [`FunctionReference`](aws-cdk-lib.interfaces.aws_lambda.FunctionReferenc
 
 A reference to a Function resource.
 
-* * *
+---
 
 ### [](#grantprincipal)grantPrincipal
 
@@ -1240,7 +1230,7 @@ _Type:_ [`IPrincipal`](aws-cdk-lib.aws_iam.IPrincipal.html)
 
 The principal this Lambda Function is running as.
 
-* * *
+---
 
 ### [](#isboundtovpc)isBoundToVpc
 
@@ -1250,7 +1240,7 @@ Whether or not this Lambda function was bound to a VPC.
 
 If this is is `false`, trying to access the `connections` object will fail.
 
-* * *
+---
 
 ### [](#latestversion)latestVersion
 
@@ -1262,7 +1252,7 @@ Note that this is reference to a non-specific AWS Lambda version, which means th
 
 To obtain a reference to an explicit version which references the current function configuration, use `lambdaFunction.currentVersion` instead.
 
-* * *
+---
 
 ### [](#loggroup-1)logGroup
 
@@ -1274,7 +1264,7 @@ If either `logRetention` is set or this property is called, a CloudFormation cus
 
 Further, if the log group already exists and the `logRetention` is not set, the custom resource will reset the log retention to never expire even if it was configured with a different value.
 
-* * *
+---
 
 ### [](#node)node
 
@@ -1282,7 +1272,7 @@ _Type:_ [`Node`](constructs.Node.html)
 
 The tree node.
 
-* * *
+---
 
 ### [](#permissionsnode)permissionsNode
 
@@ -1290,7 +1280,7 @@ _Type:_ [`Node`](constructs.Node.html)
 
 The construct node where permissions are attached.
 
-* * *
+---
 
 ### [](#resourcearnsforgrantinvoke)resourceArnsForGrantInvoke
 
@@ -1298,7 +1288,7 @@ _Type:_ `string[]`
 
 The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke().
 
-* * *
+---
 
 ### [](#runtime-1)runtime
 
@@ -1306,7 +1296,7 @@ _Type:_ [`Runtime`](aws-cdk-lib.aws_lambda.Runtime.html)
 
 The runtime configured for this lambda.
 
-* * *
+---
 
 ### [](#stack)stack
 
@@ -1314,7 +1304,7 @@ _Type:_ [`Stack`](aws-cdk-lib.Stack.html)
 
 The stack in which this resource is defined.
 
-* * *
+---
 
 ### [](#deadletterqueue-1)deadLetterQueue?
 
@@ -1322,7 +1312,7 @@ _Type:_ [`IQueue`](aws-cdk-lib.aws_sqs.IQueue.html) _(optional)_
 
 The DLQ (as queue) associated with this Lambda Function (this is an optional attribute).
 
-* * *
+---
 
 ### [](#deadlettertopic-1)deadLetterTopic?
 
@@ -1330,7 +1320,7 @@ _Type:_ [`ITopic`](aws-cdk-lib.aws_sns.ITopic.html) _(optional)_
 
 The DLQ (as topic) associated with this Lambda Function (this is an optional attribute).
 
-* * *
+---
 
 ### [](#role-1)role?
 
@@ -1338,7 +1328,7 @@ _Type:_ [`IRole`](aws-cdk-lib.aws_iam.IRole.html) _(optional)_
 
 Execution role associated with this function.
 
-* * *
+---
 
 ### [](#tenancyconfig-1)tenancyConfig?
 
@@ -1346,7 +1336,7 @@ _Type:_ [`TenancyConfig`](aws-cdk-lib.aws_lambda.TenancyConfig.html) _(optional)
 
 The tenancy configuration for this function.
 
-* * *
+---
 
 ### [](#timeout-1)timeout?
 
@@ -1354,8 +1344,7 @@ _Type:_ [`Duration`](aws-cdk-lib.Duration.html) _(optional)_
 
 The timeout configured for this lambda.
 
-[](#methods)Methods
--------------------
+## [](#methods)Methods
 
 Name
 
@@ -1453,69 +1442,65 @@ toString()
 
 Returns a string representation of this construct.
 
-* * *
+---
 
 ### [](#addwbraliasaliasname-options)addAlias(aliasName, options?)
 
     public addAlias(aliasName: string, options?: AliasOptions): Alias
-    
 
 _Parameters_
 
-*   **aliasName** `string` — The name of the alias.
-*   **options** [`AliasOptions`](aws-cdk-lib.aws_lambda.AliasOptions.html) — Alias options.
+- **aliasName** `string` — The name of the alias.
+- **options** [`AliasOptions`](aws-cdk-lib.aws_lambda.AliasOptions.html) — Alias options.
 
 _Returns_
 
-*   [`Alias`](aws-cdk-lib.aws_lambda.Alias.html)
+- [`Alias`](aws-cdk-lib.aws_lambda.Alias.html)
 
 Defines an alias for this function.
 
 The alias will automatically be updated to point to the latest version of the function as it is being updated during a deployment.
 
     declare const fn: lambda.Function;
-    
+
     fn.addAlias('Live');
-    
+
     // Is equivalent to
-    
+
     new lambda.Alias(this, 'AliasLive', {
       aliasName: 'Live',
       version: fn.currentVersion,
     });
-    
 
-* * *
+---
 
 ### [](#addwbrenvironmentkey-value-options)addEnvironment(key, value, options?)
 
     public addEnvironment(key: string, value: string, options?: EnvironmentOptions): Function
-    
 
 _Parameters_
 
-*   **key** `string` — The environment variable key.
-*   **value** `string` — The environment variable's value.
-*   **options** [`EnvironmentOptions`](aws-cdk-lib.aws_lambda.EnvironmentOptions.html) — Environment variable options.
+- **key** `string` — The environment variable key.
+- **value** `string` — The environment variable's value.
+- **options** [`EnvironmentOptions`](aws-cdk-lib.aws_lambda.EnvironmentOptions.html) — Environment variable options.
 
 _Returns_
 
-*   [`Function`](aws-cdk-lib.aws_lambda.Function.html)
+- [`Function`](aws-cdk-lib.aws_lambda.Function.html)
 
 Adds an environment variable to this Lambda function.
 
 If this is a ref to a Lambda function, this operation results in a no-op.
 
-* * *
+---
 
 ### [](#addwbreventwbrsourcesource)addEventSource(source)
 
     public addEventSource(source: IEventSource): void
-    
 
 _Parameters_
 
-*   **source** [`IEventSource`](aws-cdk-lib.aws_lambda.IEventSource.html)
+- **source** [`IEventSource`](aws-cdk-lib.aws_lambda.IEventSource.html)
 
 Adds an event source to this function.
 
@@ -1525,95 +1510,88 @@ The following example adds an SQS Queue as an event source:
 
     import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
     myFunction.addEventSource(new SqsEventSource(myQueue));
-    
 
-* * *
+---
 
 ### [](#addwbreventwbrsourcewbrmappingid-options)addEventSourceMapping(id, options)
 
     public addEventSourceMapping(id: string, options: EventSourceMappingOptions): EventSourceMapping
-    
 
 _Parameters_
 
-*   **id** `string`
-*   **options** [`EventSourceMappingOptions`](aws-cdk-lib.aws_lambda.EventSourceMappingOptions.html)
+- **id** `string`
+- **options** [`EventSourceMappingOptions`](aws-cdk-lib.aws_lambda.EventSourceMappingOptions.html)
 
 _Returns_
 
-*   [`EventSourceMapping`](aws-cdk-lib.aws_lambda.EventSourceMapping.html)
+- [`EventSourceMapping`](aws-cdk-lib.aws_lambda.EventSourceMapping.html)
 
 Adds an event source that maps to this AWS Lambda function.
 
-* * *
+---
 
 ### [](#addwbrfunctionwbrurloptions)addFunctionUrl(options?)
 
     public addFunctionUrl(options?: FunctionUrlOptions): FunctionUrl
-    
 
 _Parameters_
 
-*   **options** [`FunctionUrlOptions`](aws-cdk-lib.aws_lambda.FunctionUrlOptions.html)
+- **options** [`FunctionUrlOptions`](aws-cdk-lib.aws_lambda.FunctionUrlOptions.html)
 
 _Returns_
 
-*   [`FunctionUrl`](aws-cdk-lib.aws_lambda.FunctionUrl.html)
+- [`FunctionUrl`](aws-cdk-lib.aws_lambda.FunctionUrl.html)
 
 Adds a url to this lambda function.
 
-* * *
+---
 
 ### [](#addwbrlayerslayers)addLayers(...layers)
 
     public addLayers(...layers: ILayerVersion[]): void
-    
 
 _Parameters_
 
-*   **layers** [`ILayerVersion`](aws-cdk-lib.aws_lambda.ILayerVersion.html) — the layers to be added.
+- **layers** [`ILayerVersion`](aws-cdk-lib.aws_lambda.ILayerVersion.html) — the layers to be added.
 
 Adds one or more Lambda Layers to this Lambda function.
 
-* * *
+---
 
 ### [](#addwbrpermissionid-permission)addPermission(id, permission)
 
     public addPermission(id: string, permission: Permission): void
-    
 
 _Parameters_
 
-*   **id** `string` — The id for the permission construct.
-*   **permission** [`Permission`](aws-cdk-lib.aws_lambda.Permission.html) — The permission to grant to this Lambda function.
+- **id** `string` — The id for the permission construct.
+- **permission** [`Permission`](aws-cdk-lib.aws_lambda.Permission.html) — The permission to grant to this Lambda function.
 
 Adds a permission to the Lambda resource policy.
 
 See also: \[Permission for details.\](Permission for details.)
 
-* * *
+---
 
 ### [](#addwbrtowbrrolewbrpolicystatement)addToRolePolicy(statement)
 
     public addToRolePolicy(statement: PolicyStatement): void
-    
 
 _Parameters_
 
-*   **statement** [`PolicyStatement`](aws-cdk-lib.aws_iam.PolicyStatement.html)
+- **statement** [`PolicyStatement`](aws-cdk-lib.aws_iam.PolicyStatement.html)
 
 Adds a statement to the IAM role assumed by the instance.
 
-* * *
+---
 
 ### [](#applywbrremovalwbrpolicypolicy)applyRemovalPolicy(policy)
 
     public applyRemovalPolicy(policy: RemovalPolicy): void
-    
 
 _Parameters_
 
-*   **policy** [`RemovalPolicy`](aws-cdk-lib.RemovalPolicy.html)
+- **policy** [`RemovalPolicy`](aws-cdk-lib.RemovalPolicy.html)
 
 Apply the given removal policy to this resource.
 
@@ -1621,143 +1599,135 @@ The Removal Policy controls what happens to this resource when it stops being ma
 
 The resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
-* * *
+---
 
 ### [](#configurewbrasyncwbrinvokeoptions)configureAsyncInvoke(options)
 
     public configureAsyncInvoke(options: EventInvokeConfigOptions): void
-    
 
 _Parameters_
 
-*   **options** [`EventInvokeConfigOptions`](aws-cdk-lib.aws_lambda.EventInvokeConfigOptions.html)
+- **options** [`EventInvokeConfigOptions`](aws-cdk-lib.aws_lambda.EventInvokeConfigOptions.html)
 
 Configures options for asynchronous invocation.
 
-* * *
+---
 
 ### [](#considerwbrwarningwbronwbrinvokewbrfunctionwbrpermissionsscope-action)considerWarningOnInvokeFunctionPermissions(scope, action)
 
     public considerWarningOnInvokeFunctionPermissions(scope: Construct, action: string): void
-    
 
 _Parameters_
 
-*   **scope** [`Construct`](constructs.Construct.html)
-*   **action** `string`
+- **scope** [`Construct`](constructs.Construct.html)
+- **action** `string`
 
 A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.
 
-*   function.currentVersion is invoked before or after the permission is created.
+- function.currentVersion is invoked before or after the permission is created.
 
 This applies only to permissions on Lambda functions, not versions or aliases. This function is overridden as a noOp for QualifiedFunctionBase.
 
-* * *
+---
 
 ### [](#grantwbrinvokegrantee)grantInvoke(grantee)
 
     public grantInvoke(grantee: IGrantable): Grant
-    
 
 _Parameters_
 
-*   **grantee** [`IGrantable`](aws-cdk-lib.aws_iam.IGrantable.html)
+- **grantee** [`IGrantable`](aws-cdk-lib.aws_iam.IGrantable.html)
 
 _Returns_
 
-*   [`Grant`](aws-cdk-lib.aws_iam.Grant.html)
+- [`Grant`](aws-cdk-lib.aws_iam.Grant.html)
 
 Grant the given identity permissions to invoke this Lambda.
 
 \[disable-awslint:no-grants\]
 
-* * *
+---
 
 ### [](#grantwbrinvokewbrcompositewbrprincipalcompositeprincipal)grantInvokeCompositePrincipal(compositePrincipal)
 
     public grantInvokeCompositePrincipal(compositePrincipal: CompositePrincipal): Grant[]
-    
 
 _Parameters_
 
-*   **compositePrincipal** [`CompositePrincipal`](aws-cdk-lib.aws_iam.CompositePrincipal.html)
+- **compositePrincipal** [`CompositePrincipal`](aws-cdk-lib.aws_iam.CompositePrincipal.html)
 
 _Returns_
 
-*   [`Grant`](aws-cdk-lib.aws_iam.Grant.html)`[]`
+- [`Grant`](aws-cdk-lib.aws_iam.Grant.html)`[]`
 
 Grant multiple principals the ability to invoke this Lambda via CompositePrincipal.
 
 \[disable-awslint:no-grants\]
 
-* * *
+---
 
 ### [](#grantwbrinvokewbrlatestwbrversiongrantee)grantInvokeLatestVersion(grantee)
 
     public grantInvokeLatestVersion(grantee: IGrantable): Grant
-    
 
 _Parameters_
 
-*   **grantee** [`IGrantable`](aws-cdk-lib.aws_iam.IGrantable.html)
+- **grantee** [`IGrantable`](aws-cdk-lib.aws_iam.IGrantable.html)
 
 _Returns_
 
-*   [`Grant`](aws-cdk-lib.aws_iam.Grant.html)
+- [`Grant`](aws-cdk-lib.aws_iam.Grant.html)
 
 Grant the given identity permissions to invoke the $LATEST version or unqualified version of this Lambda.
 
 \[disable-awslint:no-grants\]
 
-* * *
+---
 
 ### [](#grantwbrinvokewbrurlgrantee)grantInvokeUrl(grantee)
 
     public grantInvokeUrl(grantee: IGrantable): Grant
-    
 
 _Parameters_
 
-*   **grantee** [`IGrantable`](aws-cdk-lib.aws_iam.IGrantable.html)
+- **grantee** [`IGrantable`](aws-cdk-lib.aws_iam.IGrantable.html)
 
 _Returns_
 
-*   [`Grant`](aws-cdk-lib.aws_iam.Grant.html)
+- [`Grant`](aws-cdk-lib.aws_iam.Grant.html)
 
 Grant the given identity permissions to invoke this Lambda Function URL.
 
 \[disable-awslint:no-grants\]
 
-* * *
+---
 
 ### [](#grantwbrinvokewbrversiongrantee-version)grantInvokeVersion(grantee, version)
 
     public grantInvokeVersion(grantee: IGrantable, version: IVersion): Grant
-    
 
 _Parameters_
 
-*   **grantee** [`IGrantable`](aws-cdk-lib.aws_iam.IGrantable.html)
-*   **version** [`IVersion`](aws-cdk-lib.aws_lambda.IVersion.html)
+- **grantee** [`IGrantable`](aws-cdk-lib.aws_iam.IGrantable.html)
+- **version** [`IVersion`](aws-cdk-lib.aws_lambda.IVersion.html)
 
 _Returns_
 
-*   [`Grant`](aws-cdk-lib.aws_iam.Grant.html)
+- [`Grant`](aws-cdk-lib.aws_iam.Grant.html)
 
 Grant the given identity permissions to invoke the given version of this Lambda.
 
 \[disable-awslint:no-grants\]
 
-* * *
+---
 
 ### [](#invalidatewbrversionwbrbasedwbronx)invalidateVersionBasedOn(x)
 
     public invalidateVersionBasedOn(x: string): void
-    
 
 _Parameters_
 
-*   **x** `string`
+- **x** `string`
 
 Mix additional information into the hash of the Version object.
 
@@ -1769,109 +1739,103 @@ This method can be used to invalidate the current Version object. Pass in any st
 
 This method may be called more than once.
 
-* * *
+---
 
 ### [](#metricmetricname-props)metric(metricName, props?)
 
     public metric(metricName: string, props?: MetricOptions): Metric
-    
 
 _Parameters_
 
-*   **metricName** `string`
-*   **props** [`MetricOptions`](aws-cdk-lib.aws_cloudwatch.MetricOptions.html)
+- **metricName** `string`
+- **props** [`MetricOptions`](aws-cdk-lib.aws_cloudwatch.MetricOptions.html)
 
 _Returns_
 
-*   [`Metric`](aws-cdk-lib.aws_cloudwatch.Metric.html)
+- [`Metric`](aws-cdk-lib.aws_cloudwatch.Metric.html)
 
 Return the given named metric for this Function.
 
-* * *
+---
 
 ### [](#metricwbrdurationprops)metricDuration(props?)
 
     public metricDuration(props?: MetricOptions): Metric
-    
 
 _Parameters_
 
-*   **props** [`MetricOptions`](aws-cdk-lib.aws_cloudwatch.MetricOptions.html)
+- **props** [`MetricOptions`](aws-cdk-lib.aws_cloudwatch.MetricOptions.html)
 
 _Returns_
 
-*   [`Metric`](aws-cdk-lib.aws_cloudwatch.Metric.html)
+- [`Metric`](aws-cdk-lib.aws_cloudwatch.Metric.html)
 
 How long execution of this Lambda takes.
 
 Average over 5 minutes
 
-* * *
+---
 
 ### [](#metricwbrerrorsprops)metricErrors(props?)
 
     public metricErrors(props?: MetricOptions): Metric
-    
 
 _Parameters_
 
-*   **props** [`MetricOptions`](aws-cdk-lib.aws_cloudwatch.MetricOptions.html)
+- **props** [`MetricOptions`](aws-cdk-lib.aws_cloudwatch.MetricOptions.html)
 
 _Returns_
 
-*   [`Metric`](aws-cdk-lib.aws_cloudwatch.Metric.html)
+- [`Metric`](aws-cdk-lib.aws_cloudwatch.Metric.html)
 
 How many invocations of this Lambda fail.
 
 Sum over 5 minutes
 
-* * *
+---
 
 ### [](#metricwbrinvocationsprops)metricInvocations(props?)
 
     public metricInvocations(props?: MetricOptions): Metric
-    
 
 _Parameters_
 
-*   **props** [`MetricOptions`](aws-cdk-lib.aws_cloudwatch.MetricOptions.html)
+- **props** [`MetricOptions`](aws-cdk-lib.aws_cloudwatch.MetricOptions.html)
 
 _Returns_
 
-*   [`Metric`](aws-cdk-lib.aws_cloudwatch.Metric.html)
+- [`Metric`](aws-cdk-lib.aws_cloudwatch.Metric.html)
 
 How often this Lambda is invoked.
 
 Sum over 5 minutes
 
-* * *
+---
 
 ### [](#metricwbrthrottlesprops)metricThrottles(props?)
 
     public metricThrottles(props?: MetricOptions): Metric
-    
 
 _Parameters_
 
-*   **props** [`MetricOptions`](aws-cdk-lib.aws_cloudwatch.MetricOptions.html)
+- **props** [`MetricOptions`](aws-cdk-lib.aws_cloudwatch.MetricOptions.html)
 
 _Returns_
 
-*   [`Metric`](aws-cdk-lib.aws_cloudwatch.Metric.html)
+- [`Metric`](aws-cdk-lib.aws_cloudwatch.Metric.html)
 
 How often this Lambda is throttled.
 
 Sum over 5 minutes
 
-* * *
+---
 
 ### [](#towbrstring)toString()
 
     public toString(): string
-    
 
 _Returns_
 
-*   `string`
+- `string`
 
 Returns a string representation of this construct.
