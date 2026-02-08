@@ -2,18 +2,24 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
-import * as iam from 'aws-cdk-lib/aws-iam';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as lambdaNodejs from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as path from 'path';
+
+export interface UserLoginServiceStackProps extends cdk.StackProps {
+  environment: string;
+  envSuffix: string;
+}
 
 export class UserLoginServiceStack extends cdk.Stack {
   public readonly apiErrorAlarm: cloudwatch.Alarm;
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props: UserLoginServiceStackProps) {
     super(scope, id, props);
 
-    // DynamoDB Table for user data
     const usersTable = new dynamodb.Table(this, 'UsersTable', {
-      tableName: 'speak-greek-now-users',
+      tableName: `speak-greek-now-users${props.envSuffix}`,
       partitionKey: {
         name: 'userId',
         type: dynamodb.AttributeType.STRING,
@@ -24,22 +30,19 @@ export class UserLoginServiceStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.RETAIN,
     });
 
-    // Add resource tags for cost tracking
     cdk.Tags.of(usersTable).add('Project', 'SpeakHellenic');
-    cdk.Tags.of(usersTable).add('Environment', 'Production');
+    cdk.Tags.of(usersTable).add('Environment', props.environment);
     cdk.Tags.of(usersTable).add('Component', 'UserAuthentication');
 
-    // CloudWatch Log Group for API access logs (7-day retention for MVP)
     const accessLogGroup = new logs.LogGroup(this, 'UserApiAccessLogs', {
-      logGroupName: '/aws/apigateway/speak-greek-now-user-api',
+      logGroupName: `/aws/apigateway/speak-greek-now-user-api${props.envSuffix}`,
       retention: logs.RetentionDays.ONE_WEEK,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
-    // API Gateway REST API
     const api = new apigateway.RestApi(this, 'UserApi', {
-      restApiName: 'Speak Greek Now User API',
-      description: 'User management API for Speak Greek Now authentication',
+      restApiName: `Speak Greek Now User API${props.envSuffix}`,
+      description: `User management API for Speak Greek Now authentication - ${props.environment} environment`,
       deployOptions: {
         stageName: 'prod',
         loggingLevel: apigateway.MethodLoggingLevel.INFO,
@@ -59,13 +62,11 @@ export class UserLoginServiceStack extends cdk.Stack {
         }),
       },
       defaultCorsPreflightOptions: {
-        allowOrigins: [
-          'http://localhost:3000',
-          'https://speakhellenic.com',
-          'https://www.speakhellenic.com',
-          'https://development.d3v5vb4u9puz3w.amplifyapp.com',
-        ],
-        allowMethods: ['GET', 'POST', 'PUT', 'OPTIONS'],
+        allowOrigins:
+          props.environment === 'production'
+            ? ['https://speakhellenic.com', 'https://www.speakhellenic.com']
+            : ['http://localhost:3000', 'https://development.d3v5vb4u9puz3w.amplifyapp.com'],
+        allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowHeaders: [
           'Content-Type',
           'X-Amz-Date',
@@ -77,27 +78,24 @@ export class UserLoginServiceStack extends cdk.Stack {
       },
     });
 
-    // Add resource tags to API Gateway
     cdk.Tags.of(api).add('Project', 'SpeakHellenic');
-    cdk.Tags.of(api).add('Environment', 'Production');
+    cdk.Tags.of(api).add('Environment', props.environment);
     cdk.Tags.of(api).add('Component', 'UserAuthentication');
 
-    // API Key for authentication
     const apiKey = api.addApiKey('UserApiKey', {
-      apiKeyName: 'speak-greek-now-user-api-key',
-      description: 'API key for frontend authentication',
+      apiKeyName: `speak-greek-now-user-api-key${props.envSuffix}`,
+      description: `API key for frontend authentication - ${props.environment} environment`,
     });
 
-    // Usage Plan with MVP-appropriate throttling (200 req/min target)
     const usagePlan = api.addUsagePlan('UserApiUsagePlan', {
-      name: 'MVP Usage Plan',
-      description: 'Usage plan optimized for MVP scale (200 req/min target)',
+      name: `MVP Usage Plan${props.envSuffix}`,
+      description: `Usage plan optimized for MVP scale (200 req/min target) - ${props.environment} environment`,
       throttle: {
-        rateLimit: 10, // 10 req/sec = 600 req/min (3x buffer)
-        burstLimit: 20, // Allow short bursts
+        rateLimit: 10,
+        burstLimit: 20,
       },
       quota: {
-        limit: 5000, // 5000 requests/month for MVP
+        limit: 5000,
         period: apigateway.Period.MONTH,
       },
     });
@@ -107,98 +105,79 @@ export class UserLoginServiceStack extends cdk.Stack {
       stage: api.deploymentStage,
     });
 
-    // IAM Role for API Gateway to access DynamoDB
-    const apiRole = new iam.Role(this, 'ApiGatewayDynamoDBRole', {
-      assumedBy: new iam.ServicePrincipal('apigateway.amazonaws.com'),
-      description: 'Allows API Gateway to perform operations on DynamoDB users table',
+    const lambdaEnvironment = {
+      TABLE_NAME: usersTable.tableName,
+      LOG_LEVEL: props.environment === 'prod' ? 'INFO' : 'DEBUG',
+    };
+
+    const lambdaBundling = {
+      minify: true,
+      sourceMap: false,
+      externalModules: ['@aws-sdk/*'],
+      forceDockerBundling: false,
+    };
+
+    const createUserFunction = new lambdaNodejs.NodejsFunction(this, 'CreateUserFunction', {
+      functionName: `speak-greek-now-create-user${props.envSuffix}`,
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: 'handler',
+      entry: path.join(__dirname, 'lambda', 'handlers', 'create-user-handler.ts'),
+      environment: lambdaEnvironment,
+      timeout: cdk.Duration.seconds(10),
+      memorySize: 256,
+      description: `Creates new users - ${props.environment} environment`,
+      bundling: lambdaBundling,
     });
 
-    usersTable.grantReadWriteData(apiRole);
+    usersTable.grantReadWriteData(createUserFunction);
 
-    // API Resources
+    const getUserFunction = new lambdaNodejs.NodejsFunction(this, 'GetUserFunction', {
+      functionName: `speak-greek-now-get-user${props.envSuffix}`,
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: 'handler',
+      entry: path.join(__dirname, 'lambda', 'handlers', 'get-user-handler.ts'),
+      environment: lambdaEnvironment,
+      timeout: cdk.Duration.seconds(10),
+      memorySize: 256,
+      description: `Retrieves users by ID - ${props.environment} environment`,
+      bundling: lambdaBundling,
+    });
+
+    usersTable.grantReadData(getUserFunction);
+
+    const updateUserFunction = new lambdaNodejs.NodejsFunction(this, 'UpdateUserFunction', {
+      functionName: `speak-greek-now-update-user${props.envSuffix}`,
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: 'handler',
+      entry: path.join(__dirname, 'lambda', 'handlers', 'update-user-handler.ts'),
+      environment: lambdaEnvironment,
+      timeout: cdk.Duration.seconds(10),
+      memorySize: 256,
+      description: `Updates user data - ${props.environment} environment`,
+      bundling: lambdaBundling,
+    });
+
+    usersTable.grantReadWriteData(updateUserFunction);
+
+    const deleteUserFunction = new lambdaNodejs.NodejsFunction(this, 'DeleteUserFunction', {
+      functionName: `speak-greek-now-delete-user${props.envSuffix}`,
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: 'handler',
+      entry: path.join(__dirname, 'lambda', 'handlers', 'delete-user-handler.ts'),
+      environment: lambdaEnvironment,
+      timeout: cdk.Duration.seconds(10),
+      memorySize: 256,
+      description: `Deletes users - ${props.environment} environment`,
+      bundling: lambdaBundling,
+    });
+
+    usersTable.grantReadWriteData(deleteUserFunction);
+
     const usersResource = api.root.addResource('users');
     const userResource = usersResource.addResource('{userId}');
 
-    // POST /users - Create new user
-    const createUserIntegration = new apigateway.AwsIntegration({
-      service: 'dynamodb',
-      action: 'PutItem',
-      options: {
-        credentialsRole: apiRole,
-        requestTemplates: {
-          'application/json': `#set($userId = $input.path('$.userId'))
-#set($email = $input.path('$.email'))
-#set($name = $input.path('$.name'))
-#set($picture = $input.path('$.picture'))
-#set($createdAt = $input.path('$.createdAt'))
-#set($lastLoginAt = $input.path('$.lastLoginAt'))
-{
-  "TableName": "${usersTable.tableName}",
-  "Item": {
-    "userId": { "S": "$userId" },
-    "email": { "S": "$email" },
-    "name": { "S": "$name" },
-    "picture": { "S": "$picture" },
-    "createdAt": { "S": "$createdAt" },
-    "lastLoginAt": { "S": "$lastLoginAt" }
-  },
-  "ConditionExpression": "attribute_not_exists(userId)",
-  "ReturnValues": "ALL_NEW"
-}`,
-        },
-        integrationResponses: [
-          {
-            statusCode: '200',
-            responseTemplates: {
-              'application/json': `#set($attrs = $input.path('$.Attributes'))
-{
-  "userId": "$attrs.userId.S",
-  "email": "$attrs.email.S",
-  "name": "$attrs.name.S",
-  "picture": "$attrs.picture.S",
-  "createdAt": "$attrs.createdAt.S",
-  "lastLoginAt": "$attrs.lastLoginAt.S"
-}`,
-            },
-            responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'*'",
-            },
-          },
-          {
-            statusCode: '400',
-            selectionPattern: '.*/error.*',
-            responseTemplates: {
-              'application/json':
-                '{ "error": "ValidationError", "message": "Missing required fields: userId and email are required" }',
-            },
-            responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'*'",
-            },
-          },
-          {
-            statusCode: '400',
-            selectionPattern: '.*ConditionalCheckFailedException.*',
-            responseTemplates: {
-              'application/json':
-                '{ "error": "UserAlreadyExists", "message": "A user with this userId already exists" }',
-            },
-            responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'*'",
-            },
-          },
-          {
-            statusCode: '500',
-            selectionPattern: '.*ServiceUnavailable.*|.*InternalServerError.*',
-            responseTemplates: {
-              'application/json':
-                '{ "error": "ServiceError", "message": "An internal service error occurred" }',
-            },
-            responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'*'",
-            },
-          },
-        ],
-      },
+    const createUserIntegration = new apigateway.LambdaIntegration(createUserFunction, {
+      proxy: true,
     });
 
     usersResource.addMethod('POST', createUserIntegration, {
@@ -225,45 +204,8 @@ export class UserLoginServiceStack extends cdk.Stack {
       ],
     });
 
-    // GET /users/{userId} - Get user by ID
-    const getUserIntegration = new apigateway.AwsIntegration({
-      service: 'dynamodb',
-      action: 'GetItem',
-      options: {
-        credentialsRole: apiRole,
-        requestTemplates: {
-          'application/json': `{
-  "TableName": "${usersTable.tableName}",
-  "Key": {
-    "userId": { "S": "$util.urlDecode($input.params('userId'))" }
-  }
-}`,
-        },
-        integrationResponses: [
-          {
-            statusCode: '200',
-            responseTemplates: {
-              'application/json': `#set($item = $input.path('$.Item'))
-#if($item && $item.userId)
-{
-  "userId": "$item.userId.S",
-  "email": "$item.email.S",
-  "name": "$item.name.S",
-  "picture": "$item.picture.S",
-  "createdAt": "$item.createdAt.S",
-  "lastLoginAt": "$item.lastLoginAt.S"
-}
-#else
-#set($context.responseOverride.status = 404)
-{"message": "User not found"}
-#end`,
-            },
-            responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'*'",
-            },
-          },
-        ],
-      },
+    const getUserIntegration = new apigateway.LambdaIntegration(getUserFunction, {
+      proxy: true,
     });
 
     userResource.addMethod('GET', getUserIntegration, {
@@ -284,69 +226,8 @@ export class UserLoginServiceStack extends cdk.Stack {
       ],
     });
 
-    // PUT /users/{userId} - Update user last login
-    const updateUserIntegration = new apigateway.AwsIntegration({
-      service: 'dynamodb',
-      action: 'UpdateItem',
-      options: {
-        credentialsRole: apiRole,
-        requestTemplates: {
-          'application/json': `#set($lastLogin = $input.path('$.lastLoginAt'))
-{
-  "TableName": "${usersTable.tableName}",
-  "Key": {
-    "userId": { "S": "$util.urlDecode($input.params('userId'))" }
-  },
-  "UpdateExpression": "SET lastLoginAt = :lastLoginAt",
-  "ConditionExpression": "attribute_exists(userId)",
-  "ExpressionAttributeValues": {
-    ":lastLoginAt": { "S": "$lastLogin" }
-  },
-  "ReturnValues": "ALL_NEW"
-}`,
-        },
-        integrationResponses: [
-          {
-            statusCode: '200',
-            responseTemplates: {
-              'application/json': `#set($attrs = $input.path('$.Attributes'))
-{
-  "userId": "$attrs.userId.S",
-  "email": "$attrs.email.S",
-  "name": "$attrs.name.S",
-  "picture": "$attrs.picture.S",
-  "createdAt": "$attrs.createdAt.S",
-  "lastLoginAt": "$attrs.lastLoginAt.S"
-}`,
-            },
-            responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'*'",
-            },
-          },
-          {
-            statusCode: '404',
-            selectionPattern: '.*ConditionalCheckFailedException.*',
-            responseTemplates: {
-              'application/json':
-                '{ "error": "ConditionFailed", "message": "The update condition was not met" }',
-            },
-            responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'*'",
-            },
-          },
-          {
-            statusCode: '500',
-            selectionPattern: '.*ServiceUnavailable.*|.*InternalServerError.*',
-            responseTemplates: {
-              'application/json':
-                '{ "error": "ServiceError", "message": "An internal service error occurred" }',
-            },
-            responseParameters: {
-              'method.response.header.Access-Control-Allow-Origin': "'*'",
-            },
-          },
-        ],
-      },
+    const updateUserIntegration = new apigateway.LambdaIntegration(updateUserFunction, {
+      proxy: true,
     });
 
     userResource.addMethod('PUT', updateUserIntegration, {
@@ -354,6 +235,12 @@ export class UserLoginServiceStack extends cdk.Stack {
       methodResponses: [
         {
           statusCode: '200',
+          responseParameters: {
+            'method.response.header.Access-Control-Allow-Origin': true,
+          },
+        },
+        {
+          statusCode: '400',
           responseParameters: {
             'method.response.header.Access-Control-Allow-Origin': true,
           },
@@ -373,10 +260,37 @@ export class UserLoginServiceStack extends cdk.Stack {
       ],
     });
 
-    // CloudWatch Alarm for API errors (4xx and 5xx)
+    const deleteUserIntegration = new apigateway.LambdaIntegration(deleteUserFunction, {
+      proxy: true,
+    });
+
+    userResource.addMethod('DELETE', deleteUserIntegration, {
+      apiKeyRequired: true,
+      methodResponses: [
+        {
+          statusCode: '204',
+          responseParameters: {
+            'method.response.header.Access-Control-Allow-Origin': true,
+          },
+        },
+        {
+          statusCode: '404',
+          responseParameters: {
+            'method.response.header.Access-Control-Allow-Origin': true,
+          },
+        },
+        {
+          statusCode: '500',
+          responseParameters: {
+            'method.response.header.Access-Control-Allow-Origin': true,
+          },
+        },
+      ],
+    });
+
     this.apiErrorAlarm = new cloudwatch.Alarm(this, 'UserApiErrorAlarm', {
-      alarmName: 'SpeakHellenic-UserApi-HighErrorRate',
-      alarmDescription: 'Alert when User API has high error rate (4xx/5xx)',
+      alarmName: `SpeakHellenic-UserApi-HighErrorRate${props.envSuffix}`,
+      alarmDescription: `Alert when User API has high error rate (4xx/5xx) - ${props.environment} environment`,
       metric: new cloudwatch.MathExpression({
         expression: 'clientErrors + serverErrors',
         usingMetrics: {
@@ -396,36 +310,35 @@ export class UserLoginServiceStack extends cdk.Stack {
       treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
     });
 
-    // CloudFormation Outputs
     new cdk.CfnOutput(this, 'UserApiUrl', {
       value: api.url,
       description: 'User API Gateway URL (provide to frontend team)',
-      exportName: 'UserApiUrl',
+      exportName: `UserApiUrl${props.envSuffix}`,
     });
 
     new cdk.CfnOutput(this, 'UserApiKeyId', {
       value: apiKey.keyId,
       description:
-        'User API Key ID (retrieve value with: aws apigateway get-api-key --api-key <id> --include-value)',
-      exportName: 'UserApiKeyId',
+        'User API Key ID - Get value: aws apigateway get-api-key --api-key <KEY_ID> --include-value --query value --output text',
+      exportName: `UserApiKeyId${props.envSuffix}`,
     });
 
     new cdk.CfnOutput(this, 'UsersTableName', {
       value: usersTable.tableName,
       description: 'DynamoDB users table name',
-      exportName: 'UsersTableName',
+      exportName: `UsersTableName${props.envSuffix}`,
     });
 
     new cdk.CfnOutput(this, 'UsersTableArn', {
       value: usersTable.tableArn,
       description: 'DynamoDB users table ARN',
-      exportName: 'UsersTableArn',
+      exportName: `UsersTableArn${props.envSuffix}`,
     });
 
     new cdk.CfnOutput(this, 'AccessLogGroupName', {
       value: accessLogGroup.logGroupName,
       description: 'CloudWatch Log Group for API access logs',
-      exportName: 'UserApiAccessLogGroup',
+      exportName: `UserApiAccessLogGroup${props.envSuffix}`,
     });
   }
 }
