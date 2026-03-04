@@ -28,6 +28,12 @@ export class UserNotFoundError extends DomainError {
   }
 }
 
+export class WordNotFoundError extends DomainError {
+  constructor(greek: string, bank: string) {
+    super(`Word "${greek}" not found in ${bank} bank`, 'WORD_NOT_FOUND', 404);
+  }
+}
+
 export class RepositoryError extends DomainError {
   constructor(message: string, originalError?: Error) {
     super(`Repository operation failed: ${message}`, 'REPOSITORY_ERROR', 500);

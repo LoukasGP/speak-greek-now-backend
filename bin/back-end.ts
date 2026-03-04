@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
+import { ActivityTableStack } from '../lib/activity-table-service';
 import { S3StorageStack } from '../lib/s3-bucket-storage';
 import { UserLoginServiceStack } from '../lib/user-login-service';
 
@@ -54,18 +55,47 @@ new S3StorageStack(app, `SpeakHellenic-S3StorageStack${config.stackSuffix}`, {
   },
 });
 
-// User Login Service Stack for authentication
-new UserLoginServiceStack(app, `SpeakHellenic-UserLoginServiceStack${config.stackSuffix}`, {
-  environment,
-  envSuffix: config.stackSuffix,
-  env: {
-    account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION,
-  },
-  description: `User Login Service Stack for ${environment} environment - Authentication and user management`,
-  tags: {
-    Environment: environment,
-    Project: 'SpeakHellenic',
-    ManagedBy: 'CDK',
-  },
-});
+// Activity Table Stack for all user activity data (must deploy before User stack)
+const activityStack = new ActivityTableStack(
+  app,
+  `SpeakHellenic-ActivityTableStack${config.stackSuffix}`,
+  {
+    environment,
+    envSuffix: config.stackSuffix,
+    env: {
+      account: process.env.CDK_DEFAULT_ACCOUNT,
+      region: process.env.CDK_DEFAULT_REGION,
+    },
+    description: `Activity Table Stack for ${environment} environment - Words, stories, lessons, gamification`,
+    tags: {
+      Environment: environment,
+      Project: 'SpeakHellenic',
+      ManagedBy: 'CDK',
+    },
+  }
+);
+
+// User Login Service Stack for authentication (includes word routes from Activity stack)
+const userLoginStack = new UserLoginServiceStack(
+  app,
+  `SpeakHellenic-UserLoginServiceStack${config.stackSuffix}`,
+  {
+    environment,
+    envSuffix: config.stackSuffix,
+    getWordsFunction: activityStack.getWordsFunction,
+    putWordsFunction: activityStack.putWordsFunction,
+    moveWordFunction: activityStack.moveWordFunction,
+    env: {
+      account: process.env.CDK_DEFAULT_ACCOUNT,
+      region: process.env.CDK_DEFAULT_REGION,
+    },
+    description: `User Login Service Stack for ${environment} environment - Authentication and user management`,
+    tags: {
+      Environment: environment,
+      Project: 'SpeakHellenic',
+      ManagedBy: 'CDK',
+    },
+  }
+);
+
+userLoginStack.addDependency(activityStack);

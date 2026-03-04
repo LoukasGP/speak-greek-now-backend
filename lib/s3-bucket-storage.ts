@@ -21,7 +21,7 @@ export class S3StorageStack extends cdk.Stack {
           allowedOrigins:
             props.environment === 'production'
               ? ['https://speakhellenic.com', 'https://www.speakhellenic.com']
-              : ['http://localhost:3000', 'https://development.d3v5vb4u9puz3w.amplifyapp.com'],
+              : ['http://localhost:3000', 'https://dev.d3v5vb4u9puz3w.amplifyapp.com'],
           allowedHeaders: ['Authorization', 'Content-Type', 'x-amz-date', 'x-amz-user-agent'],
           maxAge: 3000,
         },

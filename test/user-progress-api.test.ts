@@ -1,15 +1,23 @@
 import * as cdk from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { UserLoginServiceStack } from '../lib/user-login-service';
+import { ActivityTableStack } from '../lib/activity-table-service';
 
 describe('User Progress API Tests', () => {
   let template: Template;
 
   beforeAll(() => {
     const app = new cdk.App();
+    const activityStack = new ActivityTableStack(app, 'TestActivityTableStack', {
+      environment: 'test',
+      envSuffix: '-test',
+    });
     const stack = new UserLoginServiceStack(app, 'TestUserLoginServiceStack', {
       environment: 'test',
       envSuffix: '-test',
+      getWordsFunction: activityStack.getWordsFunction,
+      putWordsFunction: activityStack.putWordsFunction,
+      moveWordFunction: activityStack.moveWordFunction,
     });
     template = Template.fromStack(stack);
   });

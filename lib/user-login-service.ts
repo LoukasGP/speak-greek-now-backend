@@ -11,6 +11,9 @@ import * as path from 'path';
 export interface UserLoginServiceStackProps extends cdk.StackProps {
   environment: string;
   envSuffix: string;
+  getWordsFunction: lambda.IFunction;
+  putWordsFunction: lambda.IFunction;
+  moveWordFunction: lambda.IFunction;
 }
 
 export class UserLoginServiceStack extends cdk.Stack {
@@ -65,7 +68,7 @@ export class UserLoginServiceStack extends cdk.Stack {
         allowOrigins:
           props.environment === 'production'
             ? ['https://speakhellenic.com', 'https://www.speakhellenic.com']
-            : ['http://localhost:3000', 'https://development.d3v5vb4u9puz3w.amplifyapp.com'],
+            : ['http://localhost:3000', 'https://dev.d3v5vb4u9puz3w.amplifyapp.com'],
         allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowHeaders: [
           'Content-Type',
@@ -287,6 +290,56 @@ export class UserLoginServiceStack extends cdk.Stack {
         },
       ],
     });
+
+    // ─── Word Bank Routes (from Activity stack) ────────────────────────
+
+    const wordsResource = userResource.addResource('words');
+    const moveResource = wordsResource.addResource('move');
+
+    const wordResponseParams = {
+      'method.response.header.Access-Control-Allow-Origin': true,
+    };
+
+    wordsResource.addMethod(
+      'GET',
+      new apigateway.LambdaIntegration(props.getWordsFunction, { proxy: true }),
+      {
+        apiKeyRequired: true,
+        methodResponses: [
+          { statusCode: '200', responseParameters: wordResponseParams },
+          { statusCode: '400', responseParameters: wordResponseParams },
+          { statusCode: '500', responseParameters: wordResponseParams },
+        ],
+      }
+    );
+
+    wordsResource.addMethod(
+      'PUT',
+      new apigateway.LambdaIntegration(props.putWordsFunction, { proxy: true }),
+      {
+        apiKeyRequired: true,
+        methodResponses: [
+          { statusCode: '200', responseParameters: wordResponseParams },
+          { statusCode: '400', responseParameters: wordResponseParams },
+          { statusCode: '404', responseParameters: wordResponseParams },
+          { statusCode: '500', responseParameters: wordResponseParams },
+        ],
+      }
+    );
+
+    moveResource.addMethod(
+      'POST',
+      new apigateway.LambdaIntegration(props.moveWordFunction, { proxy: true }),
+      {
+        apiKeyRequired: true,
+        methodResponses: [
+          { statusCode: '200', responseParameters: wordResponseParams },
+          { statusCode: '400', responseParameters: wordResponseParams },
+          { statusCode: '404', responseParameters: wordResponseParams },
+          { statusCode: '500', responseParameters: wordResponseParams },
+        ],
+      }
+    );
 
     this.apiErrorAlarm = new cloudwatch.Alarm(this, 'UserApiErrorAlarm', {
       alarmName: `SpeakHellenic-UserApi-HighErrorRate${props.envSuffix}`,
