@@ -14,6 +14,8 @@ export interface UserLoginServiceStackProps extends cdk.StackProps {
   getWordsFunction: lambda.IFunction;
   putWordsFunction: lambda.IFunction;
   moveWordFunction: lambda.IFunction;
+  getLessonStateFunction: lambda.IFunction;
+  putLessonStateFunction: lambda.IFunction;
 }
 
 export class UserLoginServiceStack extends cdk.Stack {
@@ -341,6 +343,42 @@ export class UserLoginServiceStack extends cdk.Stack {
       }
     );
 
+    // ─── Lesson State Routes (from Activity stack) ─────────────────────
+    // GET/PUT /users/{userId}/lesson-state/{lessonId}
+
+    const lessonStateResource = userResource.addResource('lesson-state');
+    const lessonStateByIdResource = lessonStateResource.addResource('{lessonId}');
+
+    const lessonStateResponseParams = {
+      'method.response.header.Access-Control-Allow-Origin': true,
+    };
+
+    lessonStateByIdResource.addMethod(
+      'GET',
+      new apigateway.LambdaIntegration(props.getLessonStateFunction, { proxy: true }),
+      {
+        apiKeyRequired: true,
+        methodResponses: [
+          { statusCode: '200', responseParameters: lessonStateResponseParams },
+          { statusCode: '400', responseParameters: lessonStateResponseParams },
+          { statusCode: '500', responseParameters: lessonStateResponseParams },
+        ],
+      }
+    );
+
+    lessonStateByIdResource.addMethod(
+      'PUT',
+      new apigateway.LambdaIntegration(props.putLessonStateFunction, { proxy: true }),
+      {
+        apiKeyRequired: true,
+        methodResponses: [
+          { statusCode: '200', responseParameters: lessonStateResponseParams },
+          { statusCode: '400', responseParameters: lessonStateResponseParams },
+          { statusCode: '500', responseParameters: lessonStateResponseParams },
+        ],
+      }
+    );
+
     this.apiErrorAlarm = new cloudwatch.Alarm(this, 'UserApiErrorAlarm', {
       alarmName: `SpeakHellenic-UserApi-HighErrorRate${props.envSuffix}`,
       alarmDescription: `Alert when User API has high error rate (4xx/5xx) - ${props.environment} environment`,
@@ -361,6 +399,167 @@ export class UserLoginServiceStack extends cdk.Stack {
       threshold: 10,
       evaluationPeriods: 2,
       treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+    });
+
+    // ─── Story Progress Table ──────────────────────────────────────────
+
+    const storyProgressTable = new dynamodb.Table(this, 'StoryProgressTable', {
+      tableName: `speak-greek-now-story-progress${props.envSuffix}`,
+      partitionKey: {
+        name: 'userId',
+        type: dynamodb.AttributeType.STRING,
+      },
+      sortKey: {
+        name: 'storyId',
+        type: dynamodb.AttributeType.STRING,
+      },
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      encryption: dynamodb.TableEncryption.AWS_MANAGED,
+      pointInTimeRecovery: true,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
+    });
+
+    storyProgressTable.addGlobalSecondaryIndex({
+      indexName: 'storyId-index',
+      partitionKey: {
+        name: 'storyId',
+        type: dynamodb.AttributeType.STRING,
+      },
+      projectionType: dynamodb.ProjectionType.ALL,
+    });
+
+    cdk.Tags.of(storyProgressTable).add('Project', 'SpeakHellenic');
+    cdk.Tags.of(storyProgressTable).add('Environment', props.environment);
+    cdk.Tags.of(storyProgressTable).add('ManagedBy', 'CDK');
+    cdk.Tags.of(storyProgressTable).add('Feature', 'Stories');
+
+    // ─── Story Progress Lambda Functions ───────────────────────────────
+
+    const storyProgressEnvironment = {
+      STORY_PROGRESS_TABLE_NAME: storyProgressTable.tableName,
+      LOG_LEVEL: props.environment === 'prod' ? 'INFO' : 'DEBUG',
+    };
+
+    const getStoryProgressFunction = new lambdaNodejs.NodejsFunction(
+      this,
+      'GetStoryProgressFunction',
+      {
+        functionName: `speak-greek-now-get-story-progress${props.envSuffix}`,
+        runtime: lambda.Runtime.NODEJS_20_X,
+        handler: 'handler',
+        entry: path.join(__dirname, 'lambda', 'handlers', 'get-story-progress-handler.ts'),
+        environment: storyProgressEnvironment,
+        timeout: cdk.Duration.seconds(10),
+        memorySize: 256,
+        description: `Gets story progress for a user - ${props.environment} environment`,
+        bundling: lambdaBundling,
+      }
+    );
+
+    storyProgressTable.grantReadData(getStoryProgressFunction);
+
+    const updateStoryProgressFunction = new lambdaNodejs.NodejsFunction(
+      this,
+      'UpdateStoryProgressFunction',
+      {
+        functionName: `speak-greek-now-update-story-progress${props.envSuffix}`,
+        runtime: lambda.Runtime.NODEJS_20_X,
+        handler: 'handler',
+        entry: path.join(__dirname, 'lambda', 'handlers', 'update-story-progress-handler.ts'),
+        environment: storyProgressEnvironment,
+        timeout: cdk.Duration.seconds(10),
+        memorySize: 256,
+        description: `Updates story progress - ${props.environment} environment`,
+        bundling: lambdaBundling,
+      }
+    );
+
+    storyProgressTable.grantReadWriteData(updateStoryProgressFunction);
+
+    const getUserStoriesFunction = new lambdaNodejs.NodejsFunction(
+      this,
+      'GetUserStoriesFunction',
+      {
+        functionName: `speak-greek-now-get-user-stories${props.envSuffix}`,
+        runtime: lambda.Runtime.NODEJS_20_X,
+        handler: 'handler',
+        entry: path.join(__dirname, 'lambda', 'handlers', 'get-user-stories-handler.ts'),
+        environment: storyProgressEnvironment,
+        timeout: cdk.Duration.seconds(10),
+        memorySize: 256,
+        description: `Gets all story progress for a user - ${props.environment} environment`,
+        bundling: lambdaBundling,
+      }
+    );
+
+    storyProgressTable.grantReadData(getUserStoriesFunction);
+
+    // ─── Story Progress API Routes ─────────────────────────────────────
+
+    const storiesResource = api.root.addResource('stories');
+    const storiesProgressResource = storiesResource.addResource('progress');
+    const storiesProgressUserResource = storiesProgressResource.addResource('{userId}');
+    const storyResource = storiesResource.addResource('{storyId}');
+    const storyProgressResource = storyResource.addResource('progress');
+    const storyProgressUserResource = storyProgressResource.addResource('{userId}');
+
+    const storyResponseParams = {
+      'method.response.header.Access-Control-Allow-Origin': true,
+    };
+
+    // GET /stories/progress/{userId} — all stories for a user
+    storiesProgressUserResource.addMethod(
+      'GET',
+      new apigateway.LambdaIntegration(getUserStoriesFunction, { proxy: true }),
+      {
+        apiKeyRequired: true,
+        methodResponses: [
+          { statusCode: '200', responseParameters: storyResponseParams },
+          { statusCode: '400', responseParameters: storyResponseParams },
+          { statusCode: '500', responseParameters: storyResponseParams },
+        ],
+      }
+    );
+
+    // GET /stories/{storyId}/progress/{userId} — specific story progress
+    storyProgressUserResource.addMethod(
+      'GET',
+      new apigateway.LambdaIntegration(getStoryProgressFunction, { proxy: true }),
+      {
+        apiKeyRequired: true,
+        methodResponses: [
+          { statusCode: '200', responseParameters: storyResponseParams },
+          { statusCode: '400', responseParameters: storyResponseParams },
+          { statusCode: '404', responseParameters: storyResponseParams },
+          { statusCode: '500', responseParameters: storyResponseParams },
+        ],
+      }
+    );
+
+    // PUT /stories/{storyId}/progress/{userId} — mark checkpoint complete
+    storyProgressUserResource.addMethod(
+      'PUT',
+      new apigateway.LambdaIntegration(updateStoryProgressFunction, { proxy: true }),
+      {
+        apiKeyRequired: true,
+        methodResponses: [
+          { statusCode: '200', responseParameters: storyResponseParams },
+          { statusCode: '400', responseParameters: storyResponseParams },
+          { statusCode: '500', responseParameters: storyResponseParams },
+        ],
+      }
+    );
+
+    new cdk.CfnOutput(this, 'StoryProgressTableName', {
+      value: storyProgressTable.tableName,
+      description: 'DynamoDB story progress table name',
+      exportName: `StoryProgressTableName${props.envSuffix}`,
+    });
+
+    new cdk.CfnOutput(this, 'StoryProgressTableArn', {
+      value: storyProgressTable.tableArn,
+      description: 'DynamoDB story progress table ARN',
+      exportName: `StoryProgressTableArn${props.envSuffix}`,
     });
 
     new cdk.CfnOutput(this, 'UserApiUrl', {

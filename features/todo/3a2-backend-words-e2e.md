@@ -1,6 +1,6 @@
 # Ticket 3A.2: Backend — E2E Tests for Word Persistence
 
-**Parent:** Ticket 3 in `speak-hellenic` repo — `features/todo/3-clicked-words-become-stored.md`  
+**Parent:** Ticket 3 in `speak-hellenic` repo — `work/todo/3-clicked-words-become-stored.md`  
 **Status:** 🔴 Not Started  
 **Estimated Time:** 1–2 hours  
 **Dependencies:** Ticket 3A + Ticket 3A.1 (must be deployed to dev environment)

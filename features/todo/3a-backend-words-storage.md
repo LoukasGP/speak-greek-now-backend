@@ -1,6 +1,6 @@
 # Ticket 3A: Backend — `wordsIDoNotKnow` Storage (Structured Objects)
 
-**Parent:** Ticket 3 in `speak-hellenic` repo — `features/todo/3-clicked-words-become-stored.md`  
+**Parent:** Ticket 3 in `speak-hellenic` repo — `work/todo/3-clicked-words-become-stored.md`  
 **Status:** 🔴 Not Started  
 **Estimated Time:** 3–4 hours  
 **Dependencies:** None (can be done independently)

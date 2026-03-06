@@ -34,6 +34,22 @@ export class WordNotFoundError extends DomainError {
   }
 }
 
+export class StoryProgressNotFoundError extends DomainError {
+  constructor(userId: string, storyId: string) {
+    super(
+      `Story progress not found for user ${userId} and story ${storyId}`,
+      'STORY_PROGRESS_NOT_FOUND',
+      404
+    );
+  }
+}
+
+export class InvalidCheckpointError extends DomainError {
+  constructor(checkpointId: string) {
+    super(`Invalid checkpoint: ${checkpointId}`, 'INVALID_CHECKPOINT', 400);
+  }
+}
+
 export class RepositoryError extends DomainError {
   constructor(message: string, originalError?: Error) {
     super(`Repository operation failed: ${message}`, 'REPOSITORY_ERROR', 500);

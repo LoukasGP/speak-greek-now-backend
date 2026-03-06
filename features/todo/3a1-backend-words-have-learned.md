@@ -1,6 +1,6 @@
 # Ticket 3A.1: Backend — `wordsIHaveLearned` & Move Operations
 
-**Parent:** Ticket 3 in `speak-hellenic` repo — `features/todo/3-clicked-words-become-stored.md`  
+**Parent:** Ticket 3 in `speak-hellenic` repo — `work/todo/3-clicked-words-become-stored.md`  
 **Status:** 🔴 Not Started  
 **Estimated Time:** 2–3 hours  
 **Dependencies:** Ticket 3A (backend `wordsIDoNotKnow` with `StoredWord`)

@@ -15,6 +15,8 @@ export class ActivityTableStack extends cdk.Stack {
   public readonly getWordsFunction: lambdaNodejs.NodejsFunction;
   public readonly putWordsFunction: lambdaNodejs.NodejsFunction;
   public readonly moveWordFunction: lambdaNodejs.NodejsFunction;
+  public readonly getLessonStateFunction: lambdaNodejs.NodejsFunction;
+  public readonly putLessonStateFunction: lambdaNodejs.NodejsFunction;
 
   constructor(scope: Construct, id: string, props: ActivityTableStackProps) {
     super(scope, id, props);
@@ -119,5 +121,35 @@ export class ActivityTableStack extends cdk.Stack {
     });
 
     this.table.grantReadWriteData(this.moveWordFunction);
+
+    // ─── Lesson State Lambda Functions ─────────────────────────────────
+
+    this.getLessonStateFunction = new lambdaNodejs.NodejsFunction(this, 'GetLessonStateFunction', {
+      functionName: `speak-greek-now-get-lesson-state${props.envSuffix}`,
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: 'handler',
+      entry: path.join(__dirname, 'lambda', 'handlers', 'get-lesson-state-handler.ts'),
+      environment: lambdaEnvironment,
+      timeout: cdk.Duration.seconds(10),
+      memorySize: 256,
+      description: `Gets user lesson state — ${props.environment} environment`,
+      bundling: lambdaBundling,
+    });
+
+    this.table.grantReadData(this.getLessonStateFunction);
+
+    this.putLessonStateFunction = new lambdaNodejs.NodejsFunction(this, 'PutLessonStateFunction', {
+      functionName: `speak-greek-now-put-lesson-state${props.envSuffix}`,
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: 'handler',
+      entry: path.join(__dirname, 'lambda', 'handlers', 'put-lesson-state-handler.ts'),
+      environment: lambdaEnvironment,
+      timeout: cdk.Duration.seconds(10),
+      memorySize: 256,
+      description: `Saves user lesson state — ${props.environment} environment`,
+      bundling: lambdaBundling,
+    });
+
+    this.table.grantReadWriteData(this.putLessonStateFunction);
   }
 }

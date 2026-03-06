@@ -11,7 +11,7 @@ CDK infrastructure for the Speak Greek Now application, managing AWS resources f
   - `s3-bucket-storage.ts` - S3 bucket for lesson MP3 files
   - `lambda/` - Hexagonal architecture application code (handlers, domain logic, adapters)
 - `knowledge/` - Best practices and implementation guidelines
-- `features/todo/done/` - Completed feature tickets
+- `work/todo/done/` - Completed feature tickets
 - `test/` - Unit, integration, and E2E tests
 
 ## Deployment

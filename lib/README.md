@@ -104,4 +104,4 @@ This file is a **testing implementation** that mimics the real database. It:
 
 - `../knowledge/hexagonal-architecture.md` - Detailed architecture guidelines
 - `../HEXAGONAL-ARCHITECTURE-COMPLETE.md` - Migration documentation
-- `../features/todo/done/` - Completed feature implementation details
+- `../work/todo/done/` - Completed feature implementation details

@@ -77,6 +77,7 @@ export interface UserLessonState {
   readonly comprehensionQuizResults: readonly ComprehensionQuizResult[];
   readonly englishVisible: boolean;
   readonly sentencesBrokenUp: boolean;
+  readonly followAlongEnabled: boolean;
   readonly lastAccessedAt: string;
 }
 

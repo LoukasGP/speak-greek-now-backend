@@ -6,27 +6,25 @@ import { UserLoginServiceStack } from '../lib/user-login-service';
 
 const app = new cdk.App();
 
-// Get environment from context (defaults to 'prod' to maintain existing production stack)
 const environment = app.node.tryGetContext('environment') || 'prod';
 
-// Environment-specific configuration
 const envConfig = {
   dev: {
-    stackSuffix: '-dev', // Dev gets a suffix to create new stacks
+    stackSuffix: '-dev',
     apiUsagePlanName: 'Development Usage Plan',
     apiUsagePlanDescription: 'Usage plan for development environment',
-    apiThrottleRate: 10, // 10 req/sec
-    apiThrottleBurst: 20,
-    apiQuotaLimit: 10000, // 10k requests/month for dev
+    apiThrottleRate: 50,
+    apiThrottleBurst: 100,
+    apiQuotaLimit: 50000,
     logRetentionDays: 2,
   },
   prod: {
-    stackSuffix: '', // Prod has no suffix (uses existing production stacks)
+    stackSuffix: '',
     apiUsagePlanName: 'Production Usage Plan',
     apiUsagePlanDescription: 'Usage plan for production environment',
-    apiThrottleRate: 10, // 10 req/sec (same as dev for MVP)
-    apiThrottleBurst: 20,
-    apiQuotaLimit: 50000, // 50k requests/month for production
+    apiThrottleRate: 50,
+    apiThrottleBurst: 100,
+    apiQuotaLimit: 50000,
     logRetentionDays: 14,
   },
 };
@@ -39,7 +37,6 @@ if (!config) {
   );
 }
 
-// S3 Storage Stack for MP3 lesson files
 new S3StorageStack(app, `SpeakHellenic-S3StorageStack${config.stackSuffix}`, {
   environment,
   envSuffix: config.stackSuffix,
@@ -55,7 +52,6 @@ new S3StorageStack(app, `SpeakHellenic-S3StorageStack${config.stackSuffix}`, {
   },
 });
 
-// Activity Table Stack for all user activity data (must deploy before User stack)
 const activityStack = new ActivityTableStack(
   app,
   `SpeakHellenic-ActivityTableStack${config.stackSuffix}`,
@@ -75,7 +71,6 @@ const activityStack = new ActivityTableStack(
   }
 );
 
-// User Login Service Stack for authentication (includes word routes from Activity stack)
 const userLoginStack = new UserLoginServiceStack(
   app,
   `SpeakHellenic-UserLoginServiceStack${config.stackSuffix}`,
@@ -85,6 +80,8 @@ const userLoginStack = new UserLoginServiceStack(
     getWordsFunction: activityStack.getWordsFunction,
     putWordsFunction: activityStack.putWordsFunction,
     moveWordFunction: activityStack.moveWordFunction,
+    getLessonStateFunction: activityStack.getLessonStateFunction,
+    putLessonStateFunction: activityStack.putLessonStateFunction,
     env: {
       account: process.env.CDK_DEFAULT_ACCOUNT,
       region: process.env.CDK_DEFAULT_REGION,
